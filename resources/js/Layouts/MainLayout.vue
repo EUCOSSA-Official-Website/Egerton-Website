@@ -1,8 +1,9 @@
 <template>
     <div>
         <!-- Dummy Header -->
-        <header>
-            <nav>
+        <header class="flex items-center justify-center">
+            <img src="/assets/img/EUCOSSA_LOGO.png" alt="Logo" class="h-12 w-auto">
+            <nav class="flex space-x-4 font-bold text-2xl">
                 <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#">About</a></li>
@@ -31,8 +32,8 @@
 <style scoped>
     /* Add basic styles for the layout */
     header {
-    background-color: #333;
-    color: white;
+    background-color: #FFC3E7;
+    color: black;
     padding: 10px;
     text-align: center;
     }
@@ -47,16 +48,11 @@
     margin: 0 10px;
     }
 
-    main {
-    padding: 20px;
-    }
-
     footer {
-    background-color: #333;
-    color: white;
+    background-color: #FFC3E7;
+    color: black;
     text-align: center;
     padding: 10px;
-    margin-top: 20px;
     }
 </style>
   
