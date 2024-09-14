@@ -29,6 +29,21 @@ const submit = () => {
 };
 </script>
 
+<script>
+    export default {
+        methods: {
+            redirectToGoogle() {
+            window.location.href = this.route('auth.google.redirect');  // Redirect to Google
+            }
+        },
+        computed: {
+            route() {
+            return route;  // Ziggy's route helper
+            }
+        }
+    }
+</script>
+
 <template>
     <GuestLayout>
         <Head title="Log in" />
@@ -90,5 +105,24 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
+
+        <div
+        class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg"
+        >
+            <div>Or</div>
+
+            <div>
+                <button @click="redirectToGoogle" class="bg-blue-500 rounded-md flex gap-2 hover:text-blue-600">
+                    <img 
+                        src="https://developers.google.com/identity/images/g-logo.png" 
+                        alt="Google Logo" 
+                        style="width: 20px;"
+                    >
+                    Sign in with Google
+                </button>
+            </div>
+        </div>
     </GuestLayout>
+
+    
 </template>

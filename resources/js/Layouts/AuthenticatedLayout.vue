@@ -20,10 +20,11 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('dashboard')" class="flex flex-nowrap gap-2 items-center">
                                     <ApplicationLogo
                                         class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
                                     />
+                                    <p class="text-3xl text-indigo-600 font-black">EUCOSSA</p>
                                 </Link>
                             </div>
 
@@ -31,6 +32,9 @@ const showingNavigationDropdown = ref(false);
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
+                                </NavLink>
+                                <NavLink :href="route('vue')" :active="route().current('vue')">
+                                    Payments
                                 </NavLink>
                             </div>
                         </div>
@@ -115,6 +119,11 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+
+                        <ResponsiveNavLink :href="route('vue')" :active="route().current('vue')">
+                            Payments
+                        </ResponsiveNavLink>
+                        
                     </div>
 
                     <!-- Responsive Settings Options -->
