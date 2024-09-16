@@ -15,7 +15,7 @@ const showingNavigationDropdown = ref(false);
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-1">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -34,6 +34,9 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                                 <NavLink :href="route('vue')" :active="route().current('vue')">
                                     Payments
+                                </NavLink>
+                                <NavLink :href="route('call-for-speakers')" :active="route().current('call-for-speakers')">
+                                    Call For Speakers
                                 </NavLink>
                             </div>
                         </div>
@@ -121,6 +124,10 @@ const showingNavigationDropdown = ref(false);
 
                         <ResponsiveNavLink :href="route('vue')" :active="route().current('vue')">
                             Payments
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink :href="route('call-for-speakers')" :active="route().current('call-for-speakers')">
+                            Call For Speakers
                         </ResponsiveNavLink>
                         
                     </div>

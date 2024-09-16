@@ -8,15 +8,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -61,3 +52,6 @@ Route::get('/auth/google/callback', function () {
     return redirect('/dashboard');
 })->name('auth.google.callback');
 
+Route::get('/call-for-speakers', function(){
+    return inertia('Speakers');
+})->middleware(['auth', 'verified'])->name('call-for-speakers');
