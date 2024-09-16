@@ -18,5 +18,9 @@
                 </div>
             </div>
         </div>
+
+        <div class="min-h-[100vh] bg-blue-200">
+            This is section 2
+        </div>
     </AuthenticatedLayout>
 </template>

@@ -20,11 +20,10 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')" class="flex flex-nowrap gap-2 items-center">
+                                <Link :href="route('dashboard')" class="flex items-center">
                                     <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
+                                        :height="40" :width="80" class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
                                     />
-                                    <p class="text-3xl text-indigo-600 font-black">EUCOSSA</p>
                                 </Link>
                             </div>
 
