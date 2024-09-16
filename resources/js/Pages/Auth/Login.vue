@@ -112,11 +112,12 @@ const submit = () => {
             <div>Or</div>
 
             <div>
-                <button @click="redirectToGoogle" class="bg-blue-500 rounded-md flex gap-2 hover:text-blue-600">
+                <button @click="redirectToGoogle" class="bg-blue-500 rounded-md flex items-center text-white font-bold px-2 py-1 gap-2 hover:text-blue-600">
                     <img 
                         src="https://developers.google.com/identity/images/g-logo.png" 
                         alt="Google Logo" 
                         style="width: 20px;"
+                        class="rounded-md"
                     >
                     Sign in with Google
                 </button>

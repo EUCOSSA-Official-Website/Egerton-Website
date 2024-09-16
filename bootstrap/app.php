@@ -13,12 +13,23 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
-            \App\Http\Middleware\HandleInertiaRequests::class,
+            HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
         $middleware->web(append: [
             HandleInertiaRequests::class,
+        ]);
+
+        $middleware->validateCsrfTokens(except: [
+            'auth/google/callback',  // Google is exempted from CSRF token protection. 
+            'http://localhost:8000/auth/google/callback',
+            'http://example.com/foo/*',
+            'http://localhost:8000/auth/google/callback/*',
+            'https://accounts.google.com/*',
+            '/auth/google/callback',
+            '/auth/google/redirect',
+            'accounts.google.com/*'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
