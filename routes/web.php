@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -38,19 +39,63 @@ Route::get('/auth/google/redirect', function () {
 Route::get('/auth/google/callback', function () {
     $googleUser = Socialite::driver('google')->stateless()->user();
 
-    $user = User::updateOrCreate(
-        ['email' => $googleUser->email],
-        [
-            'name' => $googleUser->name,
-            'email_verified_at' => now(),
-            'password' => null, // No password needed for Google login
-        ]
-    );
+    // Check if the user already exists in the database
+    $user = User::where('email', $googleUser->email)->first();
 
+    if ($user) {
+        // If the user exists, log them in directly
+        Auth::login($user);
+        return redirect('/dashboard');
+    }
+
+    // If the user doesn't exist, redirect to the GET route for the mobile registration form with query parameters
+    return redirect()->route('register.mobile', [
+        'name' => $googleUser->name,
+        'email' => $googleUser->email,
+    ]);
+})->name('auth.google.callback');
+
+Route::get('/register/mobile', function (Request $request) {
+    // Check if we have the name and email from Google
+    $googleName = $request->query('name');
+    $googleEmail = $request->query('email');
+
+    if (!$googleName || !$googleEmail) {
+        return redirect('/'); // Redirect if data is missing
+    }
+
+    // Pass the data to the view (Vue component or Blade view)
+    return inertia('RegisterMobile', [
+        'googleName' => $googleName,
+        'googleEmail' => $googleEmail,
+    ]);
+})->name('register.mobile');
+
+Route::post('/register/mobile/submit', function (Request $request) {
+    // Validate the mobile number
+    $request->validate([
+        'mobile' => 'required|numeric',
+    ]);
+
+    // Get the Google name and email from the request
+    $googleName = $request->input('name');
+    $googleEmail = $request->input('email');
+
+    // Create a new user with the provided Google info and mobile number
+    $user = User::create([
+        'name' => $googleName,
+        'email' => $googleEmail,
+        'email_verified_at' => now(),
+        'mobile' => $request->mobile,
+        'password' => null, // No password needed for Google login
+    ]);
+
+    // Log in the user
     Auth::login($user);
 
+    // Redirect to the dashboard
     return redirect('/dashboard');
-})->name('auth.google.callback');
+})->name('register.mobile.submit');
 
 Route::get('/call-for-speakers', function(){
     return inertia('Speakers');

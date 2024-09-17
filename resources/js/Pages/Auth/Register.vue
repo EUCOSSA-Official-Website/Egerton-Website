@@ -11,6 +11,7 @@
         email: '',
         password: '',
         password_confirmation: '',
+        mobile: ''
     });
 
     const submit = () => {
@@ -108,6 +109,21 @@
                 />
 
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="mobile" value="Mobile" />
+
+                <TextInput
+                    id="mobile"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.mobile"
+                    required
+                    autocomplete="mobile"
+                />
+
+                <InputError class="mt-2" :message="form.errors.mobile" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
