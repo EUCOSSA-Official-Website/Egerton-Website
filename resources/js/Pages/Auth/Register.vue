@@ -91,6 +91,7 @@
                     v-model="form.password"
                     required
                     autocomplete="new-password"
+                    :showToggle="true"
                 />
 
                 <InputError class="mt-2" :message="form.errors.password" />
@@ -106,6 +107,7 @@
                     v-model="form.password_confirmation"
                     required
                     autocomplete="new-password"
+                    :showToggle="true"
                 />
 
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
