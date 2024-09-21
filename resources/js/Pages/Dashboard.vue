@@ -7,20 +7,20 @@
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>
-        </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
+        <!-- Page Header -->
+        <header class="masthead bg-cover bg-center mt-1" style="background-image: url('/assets/img/home-bg.jpg')">
+            <div class="container relative mx-auto px-4 lg:px-5">
+                <div class="flex justify-center">
+                    <div class="w-full md:w-10/12 lg:w-8/12 xl:w-7/12">
+                        <div class="text-center">
+                            <h1 class="text-4xl font-bold text-white">Clean Blog</h1>
+                            <span class="text-xl text-gray-300">A Blog Theme by Start Bootstrap</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div class="min-h-[100vh] bg-blue-200">
-            This is section 2
-        </div>
     </AuthenticatedLayout>
 </template>
