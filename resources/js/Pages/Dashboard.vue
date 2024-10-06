@@ -1,6 +1,6 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { Head } from '@inertiajs/vue3';
+    import { Head, Link } from '@inertiajs/vue3';
 </script>
 
 <template>
@@ -22,7 +22,7 @@
                             </p>
 
                             <Link 
-                                href="#" 
+                                :href="route('login')" 
                                 class="inline-block bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2">
                                 Join EUCOSSA
                             </Link>
@@ -37,6 +37,6 @@
 
 <style scoped>
     span {
-        color: #3b82f6 ;
+        color: #1d4ed8 ;
     }
 </style>
