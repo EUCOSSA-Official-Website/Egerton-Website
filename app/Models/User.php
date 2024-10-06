@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Define the relationship with Event through the pivot table
+    public function reactedEvents()
+    {
+        return $this->belongsToMany(Event::class, 'event_user_reactions')
+                    ->withPivot('reaction')
+                    ->withTimestamps();
+    }
 }
