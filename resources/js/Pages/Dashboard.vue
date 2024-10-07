@@ -1,6 +1,11 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import { Head, Link } from '@inertiajs/vue3';
+    import EventCard from '@/Components/EventCard.vue';
+
+    defineProps({
+        events: Array,
+    })
 </script>
 
 <template>
@@ -31,6 +36,15 @@
                 </div>
             </div>
         </header>
+
+        <!-- Event Section -->
+        <section class="events-section">
+            <h1 class="text-2xl font-bold mb-6">Upcoming Events</h1>
+
+            <div class="flex overflow-x-auto space-x-4">
+                <EventCard v-for="event in events" :key="event.id" :event="event" class="flex-shrink-0 w-64" />
+            </div>
+        </section>
 
     </AuthenticatedLayout>
 </template>
