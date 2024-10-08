@@ -47,6 +47,8 @@
     const props = defineProps({
         googleName: String,
         googleEmail: String,
+        googleId: String,
+        googleAvatar: String,
     });
 
     // Seting up the form using useForm
@@ -54,6 +56,8 @@
         mobile: '',
         name: props.googleName,
         email: props.googleEmail,
+        google_id: props.googleId,
+        google_avatar: props.googleAvatar
     });
 
     // Posting The Form To The Post Route

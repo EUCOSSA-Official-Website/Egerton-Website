@@ -58,6 +58,8 @@ Route::get('/auth/google/callback', function () {
     return redirect()->route('register.mobile', [
         'name' => $googleUser->name,
         'email' => $googleUser->email,
+        'google_id' => $googleUser->getId(),
+        'google_avatar' => $googleUser->getAvatar(),
     ]);
 })->name('auth.google.callback');
 
@@ -65,6 +67,8 @@ Route::get('/register/mobile', function (Request $request) {
     // Check if we have the name and email from Google
     $googleName = $request->query('name');
     $googleEmail = $request->query('email');
+    $googleId = $request->query('google_id');
+    $googleAvatar = $request->query('google_avatar');
 
     if (!$googleName || !$googleEmail) {
         return redirect('/'); // Redirect if data is missing
@@ -74,6 +78,8 @@ Route::get('/register/mobile', function (Request $request) {
     return inertia('RegisterMobile', [
         'googleName' => $googleName,
         'googleEmail' => $googleEmail,
+        'googleId' => $googleId,
+        'googleAvatar' => $googleAvatar
     ]);
 })->name('register.mobile');
 
@@ -86,6 +92,8 @@ Route::post('/register/mobile/submit', function (Request $request) {
     // Get the Google name and email from the request
     $googleName = $request->input('name');
     $googleEmail = $request->input('email');
+    $googleId = $request->input('google_id');
+    $googleAvatar = $request->input('google_avatar');
 
     // Create a new user with the provided Google info and mobile number
     $user = User::create([
@@ -94,10 +102,13 @@ Route::post('/register/mobile/submit', function (Request $request) {
         'email_verified_at' => now(),
         'mobile' => $request->mobile,
         'password' => null, // No password needed for Google login
+        'google_id' => $googleId,
+        'google_avatar' => $googleAvatar,
     ]);
 
     // Log in the user
     Auth::login($user);
+    
 
     // Redirect to the dashboard
     return redirect('/dashboard');
