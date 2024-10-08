@@ -31,8 +31,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/vue', function(){
-    return inertia('App');
+Route::get('/payments', function(){
+    return inertia('Payments');
 })->middleware(['auth', 'verified'])->name('vue');
 
 
