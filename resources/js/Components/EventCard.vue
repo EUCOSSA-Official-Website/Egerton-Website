@@ -1,10 +1,10 @@
 <template>
-    <div class="card bg-white shadow-md rounded-lg p-6 relative">
+    <div class="card bg-white shadow-md rounded-lg p-2 relative">
       <img :src="event.image" alt="Event Image" class="w-full h-48 object-cover rounded-t-md mb-4" />
   
       <h2 class="text-xl font-semibold mb-2 max-h-[56px] overflow-y-auto">{{ truncatedTitle }}</h2>
-  
-        <p class="text-sm text-gray-600 mb-4">
+
+        <p class="hidden sm:block text-sm text-gray-600 mb-4">
             {{ truncatedDescription }}
         </p>
   

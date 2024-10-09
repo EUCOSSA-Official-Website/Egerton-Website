@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Event;
 use Illuminate\Foundation\Application;
@@ -14,9 +15,10 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// The Dashboard Route
 Route::get('/dashboard', function () {
 
-    // Fetch the four most recent events. 
+    // Fetch the 7 most recent events. 
     $events = Event::orderBy('created_at', 'desc')->limit(7)->get();
     
     return Inertia::render('Dashboard', ['events' => $events]);
@@ -33,7 +35,7 @@ require __DIR__.'/auth.php';
 
 Route::get('/payments', function(){
     return inertia('Payments');
-})->middleware(['auth', 'verified'])->name('vue');
+})->middleware(['auth', 'verified'])->name('payments');
 
 
 // Redirect to Google
@@ -117,3 +119,7 @@ Route::post('/register/mobile/submit', function (Request $request) {
 Route::get('/call-for-speakers', function(){
     return inertia('Speakers');
 })->middleware(['auth', 'verified'])->name('call-for-speakers');
+
+
+// The Events Controller
+Route::resource('/events', EventsController::class);

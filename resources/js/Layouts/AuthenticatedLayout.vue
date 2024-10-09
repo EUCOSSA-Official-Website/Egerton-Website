@@ -38,8 +38,11 @@
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('vue')" :active="route().current('vue')">
+                                <NavLink :href="route('payments')" :active="route().current('payments')">
                                     Payments
+                                </NavLink>
+                                <NavLink :href="route('events.index')" :active="route().current('events.index')">
+                                    Events
                                 </NavLink>
                                 <NavLink :href="route('call-for-speakers')" :active="route().current('call-for-speakers')">
                                     Call For Speakers
@@ -137,8 +140,12 @@
                             Dashboard
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('vue')" :active="route().current('vue')">
+                        <ResponsiveNavLink :href="route('payments')" :active="route().current('payments')">
                             Payments
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink :href="route('events.index')" :active="route().current('events.index')">
+                            Events
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('call-for-speakers')" :active="route().current('call-for-speakers')">
