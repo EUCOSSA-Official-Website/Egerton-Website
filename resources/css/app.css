@@ -38,3 +38,38 @@ header.speakers_call {
     background-attachment: scroll;
     border-radius: 0.375rem /* 6px */;
 }
+
+/* The Type writer effect */
+
+.typewriter{
+    display: flex;
+    justify-content: center;
+}
+
+.typewriter p {
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 1px solid;
+    display: inline-block; /* Ensures animation affects only the text */
+    animation: typing 3s steps(45) forwards, blink 1s step-end infinite;
+}
+
+/* Typing animation */
+@keyframes typing {
+    from {
+        max-width: 0;
+    }
+    to {
+        max-width: 100%;
+    }
+}
+
+/* Blinking cursor effect */
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+    100% {
+        border-color: black;
+    }
+}

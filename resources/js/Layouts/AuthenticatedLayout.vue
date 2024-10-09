@@ -64,7 +64,7 @@
 
                                                 <div v-if="user.google_avatar">
                                                     <!-- Display Google Avatar Image -->
-                                                    <img :src="user.google_avatar" alt="User Avatar" class="rounded-full w-8 h-8" />
+                                                    <img :src="user.google_avatar" alt="User Avatar" class="ms-2 -me-0.5 rounded-full w-8 h-8" />
                                                 </div>
                                                 <div v-else>
                                                     <!-- Display Username SVG (or any default avatar) -->
@@ -157,12 +157,12 @@
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
                         <div class="px-4">
-                            <div class="inline-flex font-medium text-base text-gray-800 dark:text-gray-200">
+                            <div class="inline-flex font-medium text-base text-gray-800 dark:text-gray-200 items-center">
                                 {{ $page.props.auth.user.name }}
 
                                 <div v-if="user.google_avatar">
                                     <!-- Display Google Avatar Image -->
-                                    <img :src="user.google_avatar" alt="User Avatar" class="rounded-full w-8 h-8" />
+                                    <img :src="user.google_avatar" alt="User Avatar" class="rounded-full w-8 h-8 ms-2 -me-0.5" />
                                 </div>
                                 <div v-else>
                                     <!-- Display Username SVG (or any default avatar) -->
