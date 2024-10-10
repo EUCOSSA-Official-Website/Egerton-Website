@@ -20,6 +20,14 @@ return new class extends Migration
             $table->string('mobile');
             $table->timestamp('mobile_verified_at')->nullable();
             $table->rememberToken();
+
+            // The User Role
+            $table->enum('role', ['user', 'admin', 'publisher'])->default('user');
+
+            // Google Credentials
+            $table->string('google_id')->nullable();
+            $table->string('google_avatar')->nullable();
+
             $table->timestamps();
         });
 

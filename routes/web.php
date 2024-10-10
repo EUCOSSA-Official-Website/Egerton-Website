@@ -15,15 +15,15 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// The Dashboard Route
-Route::get('/dashboard', function () {
+// The Home Route
+Route::get('/home', function () {
 
     // Fetch the 7 most recent events. 
     $events = Event::orderBy('created_at', 'desc')->limit(7)->get();
     
-    return Inertia::render('Dashboard', ['events' => $events]);
+    return Inertia::render('Home', ['events' => $events]);
 
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -53,7 +53,7 @@ Route::get('/auth/google/callback', function () {
     if ($user) {
         // If the user exists, log them in directly
         Auth::login($user);
-        return redirect('/dashboard');
+        return redirect('/home');
     }
 
     // If the user doesn't exist, redirect to the GET route for the mobile registration form with query parameters
@@ -113,7 +113,7 @@ Route::post('/register/mobile/submit', function (Request $request) {
     
 
     // Redirect to the dashboard
-    return redirect('/dashboard');
+    return redirect('/home');
 })->name('register.mobile.submit');
 
 Route::get('/call-for-speakers', function(){
@@ -123,3 +123,8 @@ Route::get('/call-for-speakers', function(){
 
 // The Events Controller
 Route::resource('/events', EventsController::class);
+
+// The Dashboard Route
+Route::get('/dashboard', function () {
+    return inertia('Dashboard/Index');
+})->middleware(['auth'])->name('dashboard');

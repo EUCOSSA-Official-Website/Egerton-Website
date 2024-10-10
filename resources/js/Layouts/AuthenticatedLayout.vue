@@ -14,6 +14,9 @@
     
     // Compute the user from the auth prop
     const user = computed(() => page.props.auth.user);
+
+    // Consoling the User Component
+    console.log(user.value);
 </script>
 
 <template>
@@ -26,7 +29,7 @@
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')" class="flex items-center">
+                                <Link :href="route('home')" class="flex items-center">
                                     <ApplicationLogo
                                         :height="40" :width="80" class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
                                     />
@@ -35,8 +38,8 @@
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                <NavLink :href="route('home')" :active="route().current('home')">
+                                    Home
                                 </NavLink>
                                 <NavLink :href="route('payments')" :active="route().current('payments')">
                                     Payments
@@ -88,6 +91,7 @@
                                     </template>
 
                                     <template #content>
+                                        <DropdownLink v-if="user.role === 'admin'" :href="route('dashboard')"> Dashboard</DropdownLink>
                                         <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
@@ -136,8 +140,8 @@
                     class="sm:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                        <ResponsiveNavLink :href="route('home')" :active="route().current('home')">
+                            Home
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('payments')" :active="route().current('payments')">
@@ -173,6 +177,7 @@
                         </div>
 
                         <div class="mt-3 space-y-1">
+                            <ResponsiveNavLink :href="route('dashboard')"> Dashboard </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Log Out
