@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Gate;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -126,5 +127,8 @@ Route::resource('/events', EventsController::class);
 
 // The Dashboard Route
 Route::get('/dashboard', function () {
+
+    Gate::allowIf(fn ($user) => $user->role === 'admin');
+
     return inertia('Dashboard/Index');
 })->middleware(['auth'])->name('dashboard');
