@@ -16,7 +16,7 @@
     const user = computed(() => page.props.auth.user);
 
     // Consoling the User Component
-    console.log(user.value);
+    // console.log(user.value);
 </script>
 
 <template>

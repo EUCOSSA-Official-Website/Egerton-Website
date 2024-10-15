@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EventReaction;
 use App\Models\User;
 use App\Models\Event;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,6 +25,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // Creating 10 Events
-        Event::factory(10)->create();
+        // Event::factory(10)->create();
+
+        EventReaction::factory()->create();
     }
 }

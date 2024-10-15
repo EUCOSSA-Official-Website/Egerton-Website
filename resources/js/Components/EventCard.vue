@@ -18,11 +18,30 @@
         <span v-if="isEventPassed" class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded absolute right-3 top-3">
             Event Passed
         </span>
+
+        <div class="actions absolute bottom-2 right-1">
+            <!-- Like Button -->
+            <button
+                :class="['like-button', { liked: isLiked }]"
+                @click="handleLike"
+            >
+                <i class="fas fa-heart mr-3"></i>
+            </button>
+
+            <!-- Dislike Button -->
+            <button
+                :class="['dislike-button', { disliked: isDisliked }]"
+                @click="handleDislike"
+            >
+                <i class="fas fa-heart-broken"></i>
+            </button>
+        </div>
     </div>
   </template>
 
 <script setup>
-    import { computed } from 'vue';
+    import { computed, ref, watchEffect } from 'vue';
+    import { router } from '@inertiajs/vue3';
 
     const props = defineProps({
         event: Object, 
@@ -58,12 +77,99 @@
         return currentDate > eventEndTime;
     });
 
+    // Reactive states for like and dislike
+    const isLiked = ref(false);
+    const isDisliked = ref(false);
+
+    // Watch for changes in user_reaction and update states accordingly
+    watchEffect(() => {
+        if (props.event.user_reaction === 'like') {
+            isLiked.value = true;
+            isDisliked.value = false;
+        } else if (props.event.user_reaction === 'dislike') {
+            isLiked.value = false;
+            isDisliked.value = true;
+        } else {
+            // If user_reaction is null or neither 'like' nor 'dislike'
+            isLiked.value = false;
+            isDisliked.value = false;
+        }
+    });
+
+    // // Handlers
+    // const handleLike = () => {
+    //     isLiked.value = !isLiked.value;
+    //     if (isLiked.value) {
+    //         isDisliked.value = false; // Remove dislike if liked
+    //     }
+    // };
+
+    // const handleDislike = () => {
+    //     isDisliked.value = !isDisliked.value;
+    //     if (isDisliked.value) {
+    //         isLiked.value = false; // Remove like if disliked
+    //     }
+    // };
+
+    // Handle like reaction
+    const handleLike = () => {
+        if (!isLiked.value) {
+            postReaction('like');  // Like the event
+        } else {
+            postReaction(null);  // Remove the like (set reaction to null)
+        }
+    };
+
+    // Handle dislike reaction
+    const handleDislike = () => {
+        if (!isDisliked.value) {
+            postReaction('dislike');  // Dislike the event
+        } else {
+            postReaction(null);  // Remove the dislike (set reaction to null)
+        }
+    };
+
+    // Post reaction to the server using Inertia router
+    const postReaction = (reaction) => {
+        router.post(`/events/${props.event.id}/reactions`, 
+            { reaction }, 
+            {
+                preserveScroll: true,  // Optional: keeps the page from reloading or scrolling
+                onSuccess: () => {
+                    // Update local states
+                    isLiked.value = (reaction === 'like');
+                    isDisliked.value = (reaction === 'dislike');
+                },
+                onError: (errors) => {
+                    console.error('Error posting reaction:', errors);
+                }
+            }
+        );
+    };
+
 </script>
   
   <style scoped>
     .card {
         border-radius: 0.5rem;
         background-color: #ffffff;
+    }
+
+    .like-button,
+    .dislike-button {
+    background: none;
+    border: none;
+    color: #1e293b;
+    cursor: pointer;
+    font-size: 16px;
+    }
+
+    .like-button.liked {
+    color: rgb(28, 236, 5);
+    }
+
+    .dislike-button.disliked {
+    color: red;
     }
   </style>
   

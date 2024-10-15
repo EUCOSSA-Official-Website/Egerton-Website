@@ -33,5 +33,11 @@ class Event extends Model
 
     public function attendees(): HasMany {
         return $this->hasMany(Attendee::class);
+    }// Define the relationship with EventReaction
+    public function eventReactions(): HasMany
+    {
+        return $this->hasMany(EventReaction::class);
     }
+
+
 }

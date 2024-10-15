@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventReactionController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Event;
@@ -132,3 +133,6 @@ Route::get('/dashboard', function () {
 
     return inertia('Dashboard/Index');
 })->middleware(['auth'])->name('dashboard');
+
+// Liking Events Routes
+Route::post('/events/{eventId}/reactions', [EventReactionController::class, 'toggleReaction'])->middleware('auth');
