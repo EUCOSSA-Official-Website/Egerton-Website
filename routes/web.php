@@ -18,10 +18,10 @@ Route::get('/', function () {
 });
 
 // The Home Route
-Route::get('/home', function () {
+Route::get('/home', function (EventsController $eventsController) {
 
-    // Fetch the 7 most recent events. 
-    $events = Event::orderBy('created_at', 'desc')->limit(7)->get();
+    // Fetch the 7 most recent events from the EventsController Class. 
+    $events = $eventsController->index(7);
     
     return Inertia::render('Home', ['events' => $events]);
 
@@ -124,7 +124,14 @@ Route::get('/call-for-speakers', function(){
 
 
 // The Events Controller
-Route::resource('/events', EventsController::class);
+Route::resource('/events', EventsController::class)->except(['index']);
+
+// The single Events page
+Route::get('/events', function(EventsController $eventsController){
+    $events = $eventsController->index();
+
+    return inertia('Events/Index', ['events' => $events]);
+})->middleware(['auth', 'verified'])->name('events.index');
 
 // The Dashboard Route
 Route::get('/dashboard', function () {

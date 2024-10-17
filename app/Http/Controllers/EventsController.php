@@ -12,22 +12,32 @@ class EventsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($limit = null)
     {
-        // Assuming you want the reaction of the currently authenticated user
+        // Passing the Reactions of the currently Authenticated user. 
         $userId = Auth::id(); // Get the authenticated user's ID
+        
+
+        // Conditionally fetching events if limit is specified. 
+        if ($limit){
+            $eventQuery = Event::with('eventReactions')->limit($limit);
+        } else {
+            $eventQuery = Event::with('eventReactions');
+        }
 
         // Get all events and include reactions for the authenticated user
-        $events = Event::with(['eventReactions' => function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        }])
+        $events = $eventQuery
         ->latest()
         ->get()
         ->map(function ($event) use ($userId) {
-            // Check if the user has reacted to this event
-            $reaction = $event->eventReactions->first();
-            // Add a custom attribute for reaction to the event
-            $event->user_reaction = $reaction ? $reaction->reaction : null;
+            // Check if the authenticated user has reacted to this event
+            $userReaction = $event->eventReactions->where('user_id', $userId)->first();
+            $event->user_reaction = $userReaction ? $userReaction->reaction : null;
+
+            // The Events Like and dislike counts:
+            $likes = $event->eventReactions->where('reaction', 'like')->count();
+            $dislikes = $event->eventReactions->where('reaction', 'dislike')->count();
+
             // Return only necessary data
             return [
                 'id' => $event->id,
@@ -41,10 +51,12 @@ class EventsController extends Controller
                 'reminder' => $event->reminder,
                 'creator_id' => $event->creator_id,
                 'user_reaction' => $event->user_reaction,  // Either 'like' or 'dislike'
+                'likes' => $likes,
+                'dislikes' => $dislikes
             ];
         });
         
-        return Inertia::render('Events/Index', ['events' => $events]);
+        return $events;
     }
 
 

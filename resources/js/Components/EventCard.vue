@@ -19,22 +19,23 @@
             Event Passed
         </span>
 
-        <div class="actions absolute bottom-2 right-1">
-            <!-- Like Button -->
-            <button
-                :class="['like-button', { liked: isLiked }]"
-                @click="handleLike"
-            >
-                <i class="fas fa-heart mr-3"></i>
-            </button>
+        <div class="absolute bottom-2 right-1 flex justify-between space-x-2">
+            <div class="text-center">
+                <p class="text-xs text-gray-500">{{ event.likes }}</p>
+                <!-- Like Button -->
+                <button :class="['like-button', { liked: isLiked }]" @click="handleLike">
+                    <i class="fas fa-heart"></i>
+                </button>
+            </div>
 
-            <!-- Dislike Button -->
-            <button
-                :class="['dislike-button', { disliked: isDisliked }]"
-                @click="handleDislike"
-            >
-                <i class="fas fa-heart-broken"></i>
-            </button>
+            <div class="text-center">
+                <p class="text-xs text-gray-500">{{ event.dislikes }}</p>
+                <!-- Dislike Button -->
+                <button :class="['dislike-button', { disliked: isDisliked }]" @click="handleDislike">
+                    <i class="fas fa-heart-broken"></i>
+                </button>
+            </div>
+
         </div>
     </div>
   </template>
@@ -95,21 +96,6 @@
             isDisliked.value = false;
         }
     });
-
-    // // Handlers
-    // const handleLike = () => {
-    //     isLiked.value = !isLiked.value;
-    //     if (isLiked.value) {
-    //         isDisliked.value = false; // Remove dislike if liked
-    //     }
-    // };
-
-    // const handleDislike = () => {
-    //     isDisliked.value = !isDisliked.value;
-    //     if (isDisliked.value) {
-    //         isLiked.value = false; // Remove like if disliked
-    //     }
-    // };
 
     // Handle like reaction
     const handleLike = () => {
