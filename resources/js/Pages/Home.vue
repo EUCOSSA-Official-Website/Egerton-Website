@@ -19,7 +19,7 @@
                 <div class="flex justify-center">
                     <div class="w-full max-w-[625px]">
                         <div class="text-center">
-                            <h1 class="text-2xl sm:text-4xl font-bold text-white">Accelerating <span>growth</span> and <span>potential</span> of tech enthusiasts</h1>
+                            <h1 class="text-2xl sm:text-4xl font-bold text-white">Accelerating <span class="bluish">growth</span> and <span class="bluish">potential</span> of tech enthusiasts</h1>
 
                             <div class="typewriter text-lg sm:text-2xl text-gray-50 my-3">
                                 <div>
@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                             <p class="text-xl sm:text-2xl text-gray-50 my-3">
-                                 <span class="font-bold bg-white bg-opacity-40 rounded-md">EUCOSSA</span> is a student-led 
+                                 <span class="font-bold text-3xl">EUCOSSA</span> is a student-led 
                                 computer science organization at Egerton University dedicated to 
                                 fostering a vibrant and growing tech community on campus.
                             </p>
@@ -56,7 +56,7 @@
 </template>
 
 <style scoped>
-    span {
+    .bluish {
         color: #1d4ed8 ;
     }
 </style>
