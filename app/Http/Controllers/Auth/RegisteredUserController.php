@@ -48,6 +48,8 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        dd('registration failed');
+
+        return redirect(route('home'))->with('success', 'Youve been Registered successfully');
     }
 }

@@ -1,11 +1,28 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { Head, Link } from '@inertiajs/vue3';
+    import { Head, Link, usePage } from '@inertiajs/vue3';
     import EventCard from '@/Components/EventCard.vue';
+    import {computed} from 'vue';
+
+    // Access the page props using usePage
+    const page = usePage();
+    
+    // Compute the user from the auth prop
+    const user = computed(() => page.props.auth.user);
 
     defineProps({
         events: Array,
     })
+
+    // Notification for when a User is already Registered
+    // Handle click event
+    const handleClick = (e) => {
+        if (user) {
+            e.preventDefault(); // Prevent the default behavior of the link
+            alert('You are already registered!🎉'); // Show notification
+        }
+    };
+
 </script>
 
 <template>
@@ -33,7 +50,8 @@
                             </p>
 
                             <Link 
-                                :href="route('login')" 
+                                :href="user ? null : route('register')" 
+                                @click="handleClick"  
                                 class="inline-block bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2">
                                 Join EUCOSSA
                             </Link>

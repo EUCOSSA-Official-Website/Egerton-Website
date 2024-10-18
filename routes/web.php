@@ -14,7 +14,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Gate;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('home');
 });
 
 // The Home Route
@@ -25,7 +25,7 @@ Route::get('/home', function (EventsController $eventsController) {
     
     return Inertia::render('Home', ['events' => $events]);
 
-})->middleware(['auth', 'verified'])->name('home');
+})->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -114,7 +114,7 @@ Route::post('/register/mobile/submit', function (Request $request) {
     Auth::login($user);
     
 
-    // Redirect to the dashboard
+    // Redirect to the The Home Page. 
     return redirect('/home');
 })->name('register.mobile.submit');
 
