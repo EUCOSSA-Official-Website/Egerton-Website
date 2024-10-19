@@ -73,3 +73,16 @@ header.speakers_call {
         border-color: black;
     }
 }
+
+.input-error {
+    font-size: 0.875rem /* 14px */;
+    line-height: 1.25rem /* 20px */;
+    --tw-text-opacity: 1;
+    color: rgb(239 68 68 / var(--tw-text-opacity)) /* #ef4444 */ ;
+}
+
+@layer components {
+    .form-input {
+        @apply mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500;
+    }
+}

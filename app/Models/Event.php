@@ -11,6 +11,8 @@ class Event extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['id', 'title', 'description', 'image', 'start_time', 'end_time', 'event_day', 'speaker', 'reminder', 'creator_id', 'created_at', 'updated_at'];
+
 
     // Define the relationship with User through the pivot table
     public function user()
