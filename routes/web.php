@@ -14,7 +14,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Gate;
 
 Route::get('/', function () {
-    return redirect()->route('home');
+    return redirect()->route('login');
 });
 
 // The Home Route
@@ -22,7 +22,7 @@ Route::get('/home', function (EventsController $eventsController) {
 
     // Fetch the 7 most recent events from the EventsController Class. 
     $events = $eventsController->index(7);
-    
+
     return Inertia::render('Home', ['events' => $events]);
 
 })->name('home');
@@ -33,9 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::get('/payments', function(){
+Route::get('/payments', function () {
     return inertia('Payments');
 })->middleware(['auth', 'verified'])->name('payments');
 
@@ -112,13 +112,13 @@ Route::post('/register/mobile/submit', function (Request $request) {
 
     // Log in the user
     Auth::login($user);
-    
+
 
     // Redirect to the The Home Page. 
     return redirect('/home');
 })->name('register.mobile.submit');
 
-Route::get('/call-for-speakers', function(){
+Route::get('/call-for-speakers', function () {
     return inertia('Speakers');
 })->middleware(['auth', 'verified'])->name('call-for-speakers');
 
@@ -127,7 +127,7 @@ Route::get('/call-for-speakers', function(){
 Route::resource('/events', EventsController::class)->except(['index']);
 
 // The single Events page
-Route::get('/events', function(EventsController $eventsController){
+Route::get('/events', function (EventsController $eventsController) {
     $events = $eventsController->index();
 
     return inertia('Events/Index', ['events' => $events]);
@@ -136,7 +136,7 @@ Route::get('/events', function(EventsController $eventsController){
 // The Dashboard Route
 Route::get('/dashboard', function () {
 
-    Gate::allowIf(fn ($user) => $user->role === 'admin');
+    Gate::allowIf(fn($user) => $user->role === 'admin');
 
     return inertia('Dashboard/Index');
 })->middleware(['auth'])->name('dashboard');

@@ -65,7 +65,7 @@ class EventsController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Events/Create');
     }
 
     /**
