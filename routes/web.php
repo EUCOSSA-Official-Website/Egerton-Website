@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EventReactionController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\Payments\Mpesa\MpesaController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Event;
 use Illuminate\Foundation\Application;
@@ -143,3 +144,7 @@ Route::get('/dashboard', function () {
 
 // Liking Events Routes
 Route::post('/events/{eventId}/reactions', [EventReactionController::class, 'toggleReaction'])->middleware('auth');
+
+
+// The Callback from fake MPESA
+Route::post('/api/confirmation', [MpesaController::class, 'handleLocalCallback']);
