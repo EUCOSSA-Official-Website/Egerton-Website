@@ -148,3 +148,11 @@ Route::post('/events/{eventId}/reactions', [EventReactionController::class, 'tog
 
 // The Callback from fake MPESA
 Route::post('/api/confirmation', [MpesaController::class, 'handleLocalCallback']);
+
+// The STK Push URL
+Route::post('/stkpush', [MpesaController::class, 'stkPush'])
+    ->name('stkpush');
+
+// The STK Push URL
+Route::post('stkpush2', [MpesaController::class, 'stkpush2'])
+    ->name('stkpush2');

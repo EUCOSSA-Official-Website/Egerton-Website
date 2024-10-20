@@ -85,4 +85,8 @@ header.speakers_call {
     .form-input {
         @apply mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500;
     }
+
+    .submit-button {
+        @apply w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow hover:bg-indigo-700 focus:outline-none;
+    }
 }
