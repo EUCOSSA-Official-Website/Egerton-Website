@@ -47,7 +47,7 @@
                                 <NavLink :href="route('events.index')" :active="route().current('events.index')">
                                     Events
                                 </NavLink>
-                                <NavLink :href="route('call-for-speakers')" :active="route().current('call-for-speakers')">
+                                <NavLink :href="route('call-for-speakers.create')" :active="route().current('call-for-speakers.create')">
                                     Call For Speakers
                                 </NavLink>
                             </div>
@@ -152,7 +152,7 @@
                             Events
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('call-for-speakers')" :active="route().current('call-for-speakers')">
+                        <ResponsiveNavLink :href="route('call-for-speakers.create')" :active="route().current('call-for-speakers.create')">
                             Call For Speakers
                         </ResponsiveNavLink>
                         

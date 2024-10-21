@@ -89,4 +89,8 @@ header.speakers_call {
     .submit-button {
         @apply w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow hover:bg-indigo-700 focus:outline-none;
     }
+
+    .form-label {
+        @apply block font-medium text-gray-700;
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CallForSpeakersController;
 use App\Http\Controllers\EventReactionController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\Payments\Mpesa\MpesaController;
@@ -119,9 +120,9 @@ Route::post('/register/mobile/submit', function (Request $request) {
     return redirect('/home');
 })->name('register.mobile.submit');
 
-Route::get('/call-for-speakers', function () {
-    return inertia('Speakers');
-})->middleware(['auth', 'verified'])->name('call-for-speakers');
+// The Call For Speakers Form
+Route::resource('/call-for-speakers', CallForSpeakersController::class)
+    ->middleware(['auth', 'verified']);
 
 
 // The Events Controller
