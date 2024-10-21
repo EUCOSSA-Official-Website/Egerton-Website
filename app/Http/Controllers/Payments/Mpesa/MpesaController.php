@@ -103,7 +103,7 @@ class MpesaController extends Controller
             "PartyA" => $request->phone,
             "PartyB" => env('MPESA_SHORTCODE'),
             "PhoneNumber" => $request->phone,
-            "CallBackURL" => "https://be27-2c0f-fe38-2100-9ab1-e843-8a54-bad7-d0be.ngrok-free.app/stkpush2",
+            "CallBackURL" => "https://489d-105-160-122-123.ngrok-free.app/stkpush2",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Semester Subscriptions"
         ];
@@ -112,7 +112,7 @@ class MpesaController extends Controller
 
         $response = $this->makeHttp($url, $data);
 
-        return $data['Timestamp'];
+        return $response;
     }
 
     public function stkpush2(Request $request)
