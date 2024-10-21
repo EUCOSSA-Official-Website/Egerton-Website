@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EventCreated;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class EventsController extends Controller
@@ -98,7 +101,16 @@ class EventsController extends Controller
         $validatedData['creator_id'] = Auth::id(); // Assuming the authenticated user is the creator
     
         // Save the event to the database using the entire validated data array
-        Event::create($validatedData);
+        $event = Event::create($validatedData);
+
+        // The Email Sending Part. 
+        // Retrieve all users from the database
+        $users = User::all();
+
+        // Send the email to each user
+        foreach ($users as $user) {
+            Mail::to($user->email)->send(new EventCreated($event));
+        }
     
         // Redirect back with a success message or redirect to the events list
         return redirect()->route('events.index')->with('success', 'Event created successfully!');
