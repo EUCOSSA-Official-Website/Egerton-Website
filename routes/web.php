@@ -164,3 +164,15 @@ Route::get('/faqs', function()
 {
     return inertia('Faqs');
 })->name('faqs');
+
+// The About Page
+Route::get('/about', function()
+{
+    return inertia('About');
+})->name('about');
+
+// The Terms and conditions
+Route::get('/terms-and-conditions', function()
+{
+    return inertia('Terms');
+})->name('terms-and-conditions');
