@@ -1,7 +1,8 @@
 <template>
 
     <AuthenticatedLayout>
-        <head title="payments"/>
+
+        <Head title="Events" />
 
         <section class="min-h-[100vh]">
             <h1 class="text-2xl font-bold ms-2"> All Events</h1>
@@ -16,6 +17,7 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import EventCard from '@/Components/EventCard.vue';
+    import { Head } from '@inertiajs/vue3';
 
     defineProps({
         'events': Array
