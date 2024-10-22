@@ -37,7 +37,7 @@
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div class="hidden space-x-4 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('home')" :active="route().current('home')">
                                     Home
                                 </NavLink>
@@ -48,7 +48,10 @@
                                     Events
                                 </NavLink>
                                 <NavLink :href="route('call-for-speakers.create')" :active="route().current('call-for-speakers.create')">
-                                    Call For Speakers
+                                    Speakers
+                                </NavLink>
+                                <NavLink :href="route('faqs')" :active="route().current('faqs')">
+                                    FAQs
                                 </NavLink>
                             </div>
                         </div>
@@ -154,6 +157,10 @@
 
                         <ResponsiveNavLink :href="route('call-for-speakers.create')" :active="route().current('call-for-speakers.create')">
                             Call For Speakers
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink :href="route('faqs')" :active="route().current('faqs')">
+                            FAQs
                         </ResponsiveNavLink>
                         
                     </div>

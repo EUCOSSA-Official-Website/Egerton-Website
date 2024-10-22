@@ -158,3 +158,9 @@ Route::post('/stkpush', [MpesaController::class, 'stkPush'])
 // The STK Push URL For Logging The Response. 
 Route::post('stkpush2', [MpesaController::class, 'stkpush2'])
     ->name('stkpush2');
+
+// The FAQ's Page
+Route::get('/faqs', function()
+{
+    return inertia('Faqs');
+})->name('faqs');
