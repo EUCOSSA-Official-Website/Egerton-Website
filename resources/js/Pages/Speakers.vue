@@ -41,30 +41,30 @@
                         </label>
                         <div class="mt-2 space-y-2">
                             <div>
-                                <input type="radio" id="year1" value="1" v-model="form.yearOfStudy" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                <input type="radio" id="year1" value="1" v-model="form.year_of_study" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
                                 <label for="year1" class="ml-2 text-sm text-gray-700">1st</label>
                             </div>
                             <div>
-                                <input type="radio" id="year2" value="2" v-model="form.yearOfStudy" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                <input type="radio" id="year2" value="2" v-model="form.year_of_study" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
                                 <label for="year2" class="ml-2 text-sm text-gray-700">2nd</label>
                             </div>
                             <div>
-                                <input type="radio" id="year3" value="3" v-model="form.yearOfStudy" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                <input type="radio" id="year3" value="3" v-model="form.year_of_study" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
                                 <label for="year3" class="ml-2 text-sm text-gray-700">3rd</label>
                             </div>
                             <div>
-                                <input type="radio" id="year4" value="4" v-model="form.yearOfStudy" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                <input type="radio" id="year4" value="4" v-model="form.year_of_study" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
                                 <label for="year4" class="ml-2 text-sm text-gray-700">4th</label>
                             </div>
                             <div class="inline my-2">
-                                <input type="radio" id="other" value="other" v-model="form.yearOfStudy" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                <input type="radio" id="other" value="other" v-model="form.year_of_study" name="year-of-study" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
                                 <label for="other" class="ml-2 text-sm text-gray-700">Other</label>
                                 <!-- Conditionally show input if "Other" is selected -->
-                                <input v-if="form.yearOfStudy === 'other'" type="text" v-model="otherYear" required placeholder="Please specify" class="mt-2 inline ml-2 min-w-[290px] sm:min-w-[375px] px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <div v-if="form.errors.otherYear" class="input-error"> {{ form.errors.otherYear }} </div>
+                                <input v-if="form.year_of_study === 'other'" type="text" v-model="form.other_year" required placeholder="Please specify" class="mt-2 inline ml-2 min-w-[290px] sm:min-w-[375px] px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <div v-if="form.errors.other_year" class="input-error"> {{ form.errors.other_year }} </div>
                             </div>
 
-                            <div v-if="form.errors.yearOfStudy" class="input-error"> {{ form.errors.yearOfStudy }} </div>
+                            <div v-if="form.errors.year_of_study" class="input-error"> {{ form.errors.year_of_study }} </div>
                         </div>
                     </div>
 
@@ -140,13 +140,12 @@
     const form = useForm({
         email: page.props.auth.user.email,
         name: page.props.auth.user.name,
-        yearOfStudy: "",
-        otherYear: "",
+        year_of_study: "",
+        other_year: "",
         topic: "",
         description: "",
         stack: "",
         skill: "",
-
         phone: page.props.auth.user.mobile
     });
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\EventReactionController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\Payments\Mpesa\MpesaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SpeakersController;
 use App\Models\Event;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -121,7 +122,7 @@ Route::post('/register/mobile/submit', function (Request $request) {
 })->name('register.mobile.submit');
 
 // The Call For Speakers Form
-Route::resource('/call-for-speakers', CallForSpeakersController::class)
+Route::resource('/call-for-speakers', SpeakersController::class)
     ->middleware(['auth', 'verified']);
 
 

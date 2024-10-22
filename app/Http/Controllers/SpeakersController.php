@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Speaker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class CallForSpeakersController extends Controller
+class SpeakersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,11 +29,24 @@ class CallForSpeakersController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
 
+        $validatedData = $request->validate([
+            'email' => 'required|email',
+            'name' => 'required|string',
+            'year_of_study' => 'required|string',
+            'other_year' => 'nullable|string',
+            'topic' => 'required|string',
+            'description' => 'required|string',
+            'stack' => 'required|string',
+            'skill' => 'required|string',
+            'phone' => 'required|min:10|max:13'
         ]);
 
-        
+        $validatedData['creator_id'] = Auth::id();
+
+        Speaker::create($validatedData);
+
+        return redirect()->route('call-for-speakers.create')->with('success', 'Your Application Has been submited Successfully. ');
     }
 
     /**
