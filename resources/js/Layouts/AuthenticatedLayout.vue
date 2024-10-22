@@ -198,6 +198,27 @@
             <main>
                 <slot />
             </main>
+
+            <!-- Page Footer -->
+            <footer class="bg-blue-700 py-4 mt-8">
+                <div class="container mx-auto px-5">
+                    <div class="flex flex-col sm:flex-row items-center justify-between">
+                        <div class="mb-2 sm:mb-0">
+                            <div class="text-white text-sm">
+                            Copyright &copy; EUCOSSA 2024
+                            </div>
+                        </div>
+                        <div class="space-x-3">
+                            <a class="text-gray-100 underline text-sm hover:text-gray-300" href="#!">About</a>
+                            <span class="text-white mx-1">&middot;</span>
+                            <a class="text-gray-100 underline text-sm hover:text-gray-300" href="#!">Terms</a>
+                            <span class="text-white mx-1">&middot;</span>
+                            <a class="text-gray-100 underline text-sm hover:text-gray-300" href="#!">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
         </div>
     </div>
 </template>
