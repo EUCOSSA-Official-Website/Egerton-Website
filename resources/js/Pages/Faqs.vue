@@ -79,7 +79,7 @@
                 <div class="border rounded-lg">
                     <h3 @click="toggleAccordion(4)" class="flex justify-between items-center cursor-pointer px-4 py-3 bg-gray-100 hover:bg-gray-200">
                     Accordion Item #4
-                    <svg class="w-5 h-5" :class="isOpen(2) ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-5 h-5" :class="isOpen(4) ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                     </h3>
@@ -124,7 +124,7 @@
 
                     <p class="text-slate-800 block">Contact us at:</p>
 
-                    <a href="mailto:contact@eucossa.com" class="text-indigo-500">contact@eucossa.com</a>
+                    <a href="mailto:eucossake@gmail.com" class="text-indigo-500">eucossake@gmail.com</a>
                 </div>
             </div>
 

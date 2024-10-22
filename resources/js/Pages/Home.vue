@@ -40,7 +40,7 @@
 
                             <div class="typewriter text-lg sm:text-2xl text-gray-50 my-3">
                                 <div>
-                                    <p>Egerton Computer Science Students Association</p>
+                                    <p>Egerton <span class="hidden sm:inline">University</span> Computer Science Students Association</p>
                                 </div>
                             </div>
                             <p class="text-xl sm:text-2xl text-gray-50 my-3">

@@ -216,11 +216,11 @@
                             </div>
                         </div>
                         <div class="space-x-3">
-                            <a class="text-gray-100 underline text-sm hover:text-gray-300" href="#!">About</a>
+                            <Link :href="route('about')" class="text-gray-100 underline text-sm hover:text-gray-300" href="#!">About</Link>
                             <span class="text-white mx-1">&middot;</span>
-                            <a class="text-gray-100 underline text-sm hover:text-gray-300" href="#!">Terms</a>
+                            <Link :href="route('terms-and-conditions')" class="text-gray-100 underline text-sm hover:text-gray-300" href="#!">Terms</Link>
                             <span class="text-white mx-1">&middot;</span>
-                            <a class="text-gray-100 underline text-sm hover:text-gray-300" href="#!">Contact</a>
+                            <Link :href="route('faqs')" class="text-gray-100 underline text-sm hover:text-gray-300" href="#!">Contact</Link>
                         </div>
                     </div>
                 </div>

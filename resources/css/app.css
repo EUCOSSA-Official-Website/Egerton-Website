@@ -94,3 +94,7 @@ header.speakers_call {
         @apply block font-medium text-gray-700;
     }
 }
+
+html {
+    scroll-behavior: smooth;
+}
