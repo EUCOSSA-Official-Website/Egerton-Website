@@ -103,9 +103,9 @@ class MpesaController extends Controller
             "PartyA" => $request->phone,
             "PartyB" => env('MPESA_SHORTCODE'),
             "PhoneNumber" => $request->phone,
-            "CallBackURL" => "https://489d-105-160-122-123.ngrok-free.app/stkpush2",
+            "CallBackURL" => "https://773b-2c0f-fe38-2217-be08-1da-30bd-ff89-a658.ngrok-free.app/stkpush2",
             "AccountReference" => "EUCOSSA",
-            "TransactionDesc" => "Semester Subscriptions"
+            "TransactionDesc" => "Registration"
         ];
 
         $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
