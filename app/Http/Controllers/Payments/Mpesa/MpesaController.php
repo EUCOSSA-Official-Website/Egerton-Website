@@ -101,7 +101,7 @@ class MpesaController extends Controller
             "TransactionType" => "CustomerBuyGoodsOnline",
             "Amount" => $request->amount,
             "PartyA" => $request->phone,
-            "PartyB" => env('MPESA_SHORTCODE'),
+            "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $request->phone,
             "CallBackURL" => "https://773b-2c0f-fe38-2217-be08-1da-30bd-ff89-a658.ngrok-free.app/stkpush2",
             "AccountReference" => "EUCOSSA",
