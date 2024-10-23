@@ -13,24 +13,28 @@
                 <p class="text-gray-800 mb-6">
                     Thanks for signing up to the site. <span class="text-xs text-red-500">(If not signed up, do so <Link :href="route('register')" class="text-indigo-500 underline">Here</Link>)!</span> EUCOSSA's activites are mostly funded by 
                     the students themselves, for this purpose, we only charge a one time fee of 
-                    <span class="px-1 font-black">50sh (Or more if you wish to be generous)</span>  to be a part of the club and support 
+                    <span class="px-1 font-black font-sans">50sh (Or more if you wish to be generous)</span>  to be a part of the club and support 
                     its activites. 
                 </p>
 
                 <h2 class="text-2xl font-semibold mb-3">To Get Started, Make The One Time Payment Below</h2>
 
                 <form @submit.prevent="submitForm" class="max-w-lg mx-auto p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
+                    <h3 class="text-2xl text-green-500 font-semibold mb-3">M-PESA</h3>
                     <!-- Phone Number -->
                     <div class="mb-4">
                         <label for="phone" class="block font-medium text-gray-700">Phone Number</label>
-                        <input type="text" id="phone" v-model="form.phone" class="form-input" placeholder="Enter Your Phone Number" />
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 mr-3">+254</span>
+                            <input type="number" id="phone" v-model="form.phone" class="form-input pl-14" placeholder="Enter Your Phone Number" />
+                        </div>
                         <div v-if="form.errors.phone" class="input-error"> {{ form.errors.phone }} </div>
                     </div>
 
                     <!-- Amount -->
                     <div class="mb-4">
                         <label for="amount" class="block font-medium text-gray-700">Enter Amount <span class="text-xs ml-3 text-red-400">(50 minimum)</span></label>
-                        <input type="text" id="amount" v-model="form.amount" class="form-input" placeholder="Enter The Amount" />
+                        <input type="number" id="amount" v-model="form.amount" class="form-input" placeholder="Enter The Amount" />
                         <div v-if="form.errors.amount" class="input-error"> {{ form.errors.amount }} </div>
                     </div>
 
@@ -50,24 +54,29 @@
                     EUCOSSA is an independent organization and with this we rely on students
                     donations to run our activities such as this sites hosting. As per our 
                     constitution members are required to subscribe with 
-                    <span class="px-1 font-black">50sh (Or more if you wish to be generous)</span> 
+                    <span class="px-1 font-black font-sans">50sh (Or more if you wish to be generous)</span> 
                     per semester to keep our clubs accounts a float.                  
                 </p>
 
                 <h2 class="text-2xl font-semibold mb-6">To Make This semester's Subscription Please Pay Below: <span class="text-xs ml-3 text-green-500">Make Sure You're Registered First</span></h2>
 
-                <form @submit.prevent="submitForm" class="max-w-lg mx-auto p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
+                <form  class="max-w-lg mx-auto p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
+
+                    <h3 class="text-2xl text-green-500 font-semibold mb-3">M-PESA</h3>
                     <!-- Phone Number -->
                     <div class="mb-4">
                         <label for="phone" class="block font-medium text-gray-700">Phone Number</label>
-                        <input type="text" id="phone" v-model="form.phone" class="form-input" placeholder="Enter Your Phone Number" />
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 mr-3">+254</span>
+                            <input type="text" id="phone" v-model="formDeleted" class="form-input pl-14" placeholder="Enter Your Phone Number" />
+                        </div>
                         <div v-if="form.errors.phone" class="input-error"> {{ form.errors.phone }} </div>
                     </div>
 
                     <!-- Amount -->
                     <div class="mb-4">
                         <label for="amount" class="block font-medium text-gray-700">Enter Amount <span class="text-xs ml-3 text-red-400">(50 minimum)</span></label>
-                        <input type="text" id="amount" v-model="form.amount" class="form-input" placeholder="Enter The Amount" />
+                        <input type="number" id="amount" v-model="form.amount" class="form-input" placeholder="Enter The Amount" />
                         <div v-if="form.errors.amount" class="input-error"> {{ form.errors.amount }} </div>
                     </div>
 
@@ -103,18 +112,21 @@
                 <div class="flex flex-col sm:flex-row justify-center sm:space-x-10">
                     <div class="sm:min-w-[450px]">
                         <h3 class="text-2xl text-green-500 font-semibold mb-5">M-PESA</h3>
-                        <form @submit.prevent="submitForm" class="max-w-lg min-w-lg p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
+                        <form  class="max-w-lg min-w-lg p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
                             <!-- Phone Number -->
                             <div class="mb-4">
                                 <label for="phone" class="block font-medium text-gray-700">Phone Number</label>
-                                <input type="text" id="phone" v-model="form.phone" class="form-input" placeholder="Enter Your Phone Number" />
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 mr-3">+254</span>
+                                    <input type="number" id="phone" v-model="formDeleted" class="form-input pl-14" placeholder="Enter Your Phone Number" />
+                                </div>
                                 <div v-if="form.errors.phone" class="input-error"> {{ form.errors.phone }} </div>
                             </div>
 
                             <!-- Amount -->
                             <div class="mb-4">
                                 <label for="amount" class="block font-medium text-gray-700">Enter Amount </label>
-                                <input type="text" id="amount" v-model="form.amount" class="form-input" placeholder="Enter The Amount" />
+                                <input type="number" id="amount" v-model="form.amount" class="form-input" placeholder="Enter The Amount" />
                                 <div v-if="form.errors.amount" class="input-error"> {{ form.errors.amount }} </div>
                             </div>
 
@@ -126,11 +138,11 @@
                     </div>
                     <div class="sm:min-w-[450px]">
                         <h3 class="text-2xl text-blue-500 font-semibold mb-5">VISA / MASTERCARD</h3>
-                        <form @submit.prevent="submitForm" class="max-w-lg p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
+                        <form  class="max-w-lg p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
                             <!-- Phone Number -->
                             <div class="mb-4">
                                 <label for="phone" class="block font-medium text-gray-700">Phone Number</label>
-                                <input type="text" id="phone" v-model="form.phone" class="form-input" placeholder="Enter Your Phone Number" />
+                                <input type="text" id="phone" v-model="formDeleted" class="form-input" placeholder="Enter Your Phone Number" />
                                 <div v-if="form.errors.phone" class="input-error"> {{ form.errors.phone }} </div>
                             </div>
 
@@ -156,6 +168,9 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import { Head, useForm, Link } from '@inertiajs/vue3';
+    import {ref} from 'vue';
+
+    const formDeleted = ref(null);
 
     const form = useForm({
         phone: '',
@@ -164,7 +179,7 @@
 
     // Submitting the Form
     const submitForm = () => {      
-      form.post(route('stkpush'));
+      form.post(route('register50'));
     };
 
 </script>

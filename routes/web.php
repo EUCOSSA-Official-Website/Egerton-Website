@@ -176,3 +176,7 @@ Route::get('/terms-and-conditions', function()
 {
     return inertia('Terms');
 })->name('terms-and-conditions');
+
+// Registering with 50sh
+Route::post('register50', [MpesaController::class, 'register'])
+    ->name('register50');

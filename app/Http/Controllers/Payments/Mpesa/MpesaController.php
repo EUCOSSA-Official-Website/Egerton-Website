@@ -89,21 +89,23 @@ class MpesaController extends Controller
     
 
     // The STK Push Logic
-    public function stkPush(Request $request)
+    public function stkPush($phone, $amount)
     {
         $timestamp = date('YmdHis');
         $password = env('MPESA_SHORTCODE').env('MPESA_PASSKEY').$timestamp;
+
+        
 
         $data = [
             "BusinessShortCode" => env('MPESA_SHORTCODE'),
             "Password" => base64_encode($password),
             "Timestamp" => $timestamp,
             "TransactionType" => "CustomerBuyGoodsOnline",
-            "Amount" => $request->amount,
-            "PartyA" => $request->phone,
+            "Amount" => $amount,
+            "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
-            "PhoneNumber" => $request->phone,
-            "CallBackURL" => "https://773b-2c0f-fe38-2217-be08-1da-30bd-ff89-a658.ngrok-free.app/stkpush2",
+            "PhoneNumber" => $phone,
+            "CallBackURL" => "https://f539-196-96-133-173.ngrok-free.app/stkpush2",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -111,6 +113,24 @@ class MpesaController extends Controller
         $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 
         $response = $this->makeHttp($url, $data);
+
+        return $response;
+    }
+
+    // Registering For the Club
+    public function register(Request $request)
+    {
+        // Validating Input From Form
+        $validatedData = $request->validate([
+            "phone" => "required|numeric|digits_between:9,10",
+            "amount" => "required|numeric|min:50",
+        ]);
+
+        //Restoring The Phone Number
+        $validatedData["phone"] = "254{$validatedData["phone"]}";
+
+        // Calling The STK Push Function
+        $response = $this->stkPush($validatedData["phone"], $validatedData["amount"]);
 
         return $response;
     }
