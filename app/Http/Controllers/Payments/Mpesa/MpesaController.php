@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Payments\Mpesa;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class MpesaController extends Controller
@@ -105,7 +107,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://f539-196-96-133-173.ngrok-free.app/stkpush2",
+            "CallBackURL" => "https://32e1-196-96-16-58.ngrok-free.app/stkpush2",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -120,19 +122,37 @@ class MpesaController extends Controller
     // Registering For the Club
     public function register(Request $request)
     {
-        // Validating Input From Form
-        $validatedData = $request->validate([
-            "phone" => "required|numeric|digits_between:9,10",
-            "amount" => "required|numeric|min:50",
-        ]);
 
-        //Restoring The Phone Number
-        $validatedData["phone"] = "254{$validatedData["phone"]}";
+        $user = Auth::user();
 
-        // Calling The STK Push Function
-        $response = $this->stkPush($validatedData["phone"], $validatedData["amount"]);
+        $userID = Auth::id();
 
-        return $response;
+        $registrationStatus = $user['registered'];
+
+        if(!$registrationStatus){
+            // Validating Input From Form
+            $validatedData = $request->validate([
+                "phone" => "required|numeric|digits_between:9,10",
+                "amount" => "required|numeric|min:50",
+            ]);
+
+            //Restoring The Phone Number
+            $validatedData["phone"] = "254{$validatedData["phone"]}";
+
+            // Calling The STK Push Function
+            $response = $this->stkPush($validatedData["phone"], $validatedData["amount"]);
+
+            // Add the if statement here to check whether the payment of ksh 50 was successful. 
+            User::where('id', $userID)->update([
+                'registered' => now(),
+            ]);
+
+            return $response;
+        } else {
+            $response = "You Are Already Registered!";
+
+            return $response;
+        }
     }
 
     public function stkpush2(Request $request)

@@ -18,11 +18,13 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('mobile');
-            $table->timestamp('mobile_verified_at')->nullable();
             $table->rememberToken();
 
             // The User Role
             $table->enum('role', ['user', 'admin', 'publisher'])->default('user');
+
+            // Adding A Registered Column to the Users Table To be filled if User registers with Money
+            $table->timestamp('registered')->nullable();
 
             // Google Credentials
             $table->string('google_id')->nullable();
