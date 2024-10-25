@@ -180,3 +180,4 @@ Route::get('/terms-and-conditions', function()
 // Registering with 50sh
 Route::post('register50', [MpesaController::class, 'register'])
     ->name('register50');
+
