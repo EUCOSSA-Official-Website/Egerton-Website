@@ -107,7 +107,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://32e1-196-96-16-58.ngrok-free.app/stkpush2",
+            "CallBackURL" => "https://380b-2c0f-fe38-2016-21b0-f509-c9b3-f047-cb0b.ngrok-free.app/stkpush2",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -125,15 +125,13 @@ class MpesaController extends Controller
 
         $user = Auth::user();
 
-        $userID = Auth::id();
-
         $registrationStatus = $user['registered'];
 
         if(!$registrationStatus){
             // Validating Input From Form
             $validatedData = $request->validate([
                 "phone" => "required|numeric|digits_between:9,10",
-                "amount" => "required|numeric|min:50",
+                "amount" => "required|numeric|min:1",
             ]);
 
             //Restoring The Phone Number
@@ -142,36 +140,75 @@ class MpesaController extends Controller
             // Calling The STK Push Function
             $response = $this->stkPush($validatedData["phone"], $validatedData["amount"]);
 
+            // Decode the JSON string to an associative array
+            $response = json_decode($response, true); // 'true' for associative array
+
+            $responseCode = $response["ResponseCode"];
+
+            // Adding Checkout ID to Users Column for registering users. 
+            if($responseCode === "0"){
+                User::where('id', $user['id'])->update([
+                    "mpesa_checkout_id" => $response["CheckoutRequestID"],
+                ]);
+            }
+            
+            return "Processing has began! ";
+        } else {
+            $response = "You Are Already Registered!";
+        }
+    }
+
+    // public function stkpush2(Request $request)
+    // {
+    //     // Get all request data
+    //     $data = $request->all();
+
+    //     // Convert the request data array to a string (JSON format)
+    //     $dataString = json_encode($data, JSON_PRETTY_PRINT);
+
+    //     // Define the file path (you can change the path as needed)
+    //     $filePath = storage_path('logs/stkpush_data.txt');
+
+    //     // Write the data to the file (append mode)
+    //     file_put_contents($filePath, $dataString . PHP_EOL, FILE_APPEND);
+
+    //     // Optional: Return a response (success message)
+    //     return response()->json(['message' => 'Data logged successfully.']);
+    // }
+
+    // The MPESA CALLBACK FORM
+    public function stkpush2(Request $request)
+    {
+        // Decode the JSON body from Safaricom
+        $callbackData = $request->json()->all();
+
+        // The Id of the currenlty authenticated USER
+        $userID = Auth::id();
+
+        // Check for a successful transaction
+        if (isset($callbackData['Body']['stkCallback']['ResultCode']) 
+            && $callbackData['Body']['stkCallback']['ResultCode'] == 0) {
+
+            // The Id of the currenlty authenticated USER
+            $userID = Auth::id();
+
             // Add the if statement here to check whether the payment of ksh 50 was successful. 
             User::where('id', $userID)->update([
                 'registered' => now(),
             ]);
 
-            return $response;
-        } else {
-            $response = "You Are Already Registered!";
+            if (isset($userID)){
 
-            return $response;
+                return response()->json(['message' => 'Callback processed successfully'], 200);
+            } else {
+                return 'User Id is not set. ';
+            }
+
         }
+
+        return response()->json(['message' => 'Payment failed'], 400);
     }
 
-    public function stkpush2(Request $request)
-    {
-        // Get all request data
-        $data = $request->all();
-
-        // Convert the request data array to a string (JSON format)
-        $dataString = json_encode($data, JSON_PRETTY_PRINT);
-
-        // Define the file path (you can change the path as needed)
-        $filePath = storage_path('logs/stkpush_data.txt');
-
-        // Write the data to the file (append mode)
-        file_put_contents($filePath, $dataString . PHP_EOL, FILE_APPEND);
-
-        // Optional: Return a response (success message)
-        return response()->json(['message' => 'Data logged successfully.']);
-    }
 
 
 
