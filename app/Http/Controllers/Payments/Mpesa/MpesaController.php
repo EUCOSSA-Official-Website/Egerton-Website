@@ -76,7 +76,7 @@ class MpesaController extends Controller
     
 
     // The STK Push Logic
-    public function stkPush($phone, $amount)
+    public function stkPush($phone, $amount, $callbackRoute)
     {
         $timestamp = date('YmdHis');
         $password = env('MPESA_SHORTCODE').env('MPESA_PASSKEY').$timestamp;
@@ -92,7 +92,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://a41b-2c0f-fe38-2016-21b0-10fc-17cd-88be-46db.ngrok-free.app/stkpush2",
+            "CallBackURL" => "https://b444-196-96-198-69.ngrok-free.app/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -104,7 +104,7 @@ class MpesaController extends Controller
         return $response;
     }
 
-    // Registering For the Club
+    // Registering For the Club (The function sending STK push to User)
     public function register(Request $request)
     {
 
@@ -123,7 +123,7 @@ class MpesaController extends Controller
             $validatedData["phone"] = "254{$validatedData["phone"]}";
 
             // Calling The STK Push Function
-            $response = $this->stkPush($validatedData["phone"], $validatedData["amount"]);
+            $response = $this->stkPush($validatedData["phone"], $validatedData["amount"], "stkpush2");
 
             // Decode the JSON string to an associative array
             $response = json_decode($response, true); // 'true' for associative array
@@ -140,11 +140,13 @@ class MpesaController extends Controller
             // return "Processing has began! ";
         } else {
             $response = "You Are Already Registered!";
+
+            return $response;
         }
     }
     
 
-    // The MPESA CALLBACK Route For Registration Only. 
+    // The MPESA CALLBACK Route For Registration Only. (The function processing callback from Safaricom. )
     public function stkpush2(Request $request)
     {
         // Decode the JSON body from Safaricom
@@ -167,5 +169,9 @@ class MpesaController extends Controller
 
         return response()->json(['message' => 'Payment failed'], 400);
     }
+
+
+    // The function To send STK Push to Safaricom For subscription
+    
 
 }

@@ -181,3 +181,5 @@ Route::get('/terms-and-conditions', function()
 Route::post('register50', [MpesaController::class, 'register'])
     ->name('register50');
 
+// The Semester Subscriptions Class
+Route::post('/subscribe', [MpesaController::class, 'subcribe']);
