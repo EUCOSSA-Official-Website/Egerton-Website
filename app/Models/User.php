@@ -24,7 +24,8 @@ class User extends Authenticatable
         'mobile',
         'google_id',
         'google_avatar',
-        'registered'
+        'registered',
+        'mpesa_checkout_id'
     ];
 
     /**

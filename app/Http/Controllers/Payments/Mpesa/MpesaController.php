@@ -10,21 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class MpesaController extends Controller
 {
-    public function handleLocalCallback(Request $request)
-    {
-        // Log the incoming request for debugging
-        Log::info('Received forwarded callback: ', $request->all());
-
-        // Extract data from the request
-        $data = $request->all();
-
-        // You can store this data in the database or process it as needed
-        // Example of storing it in the database (assuming you have a table):
-        // YourModel::create($data);
-
-        // Return a response to acknowledge receipt
-        return response()->json(['status' => 'success', 'message' => 'Data received'], 200);
-    }
 
     public function getAccessToken()
     {
@@ -107,7 +92,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://380b-2c0f-fe38-2016-21b0-f509-c9b3-f047-cb0b.ngrok-free.app/stkpush2",
+            "CallBackURL" => "https://a41b-2c0f-fe38-2016-21b0-10fc-17cd-88be-46db.ngrok-free.app/stkpush2",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -152,64 +137,35 @@ class MpesaController extends Controller
                 ]);
             }
             
-            return "Processing has began! ";
+            // return "Processing has began! ";
         } else {
             $response = "You Are Already Registered!";
         }
     }
+    
 
-    // public function stkpush2(Request $request)
-    // {
-    //     // Get all request data
-    //     $data = $request->all();
-
-    //     // Convert the request data array to a string (JSON format)
-    //     $dataString = json_encode($data, JSON_PRETTY_PRINT);
-
-    //     // Define the file path (you can change the path as needed)
-    //     $filePath = storage_path('logs/stkpush_data.txt');
-
-    //     // Write the data to the file (append mode)
-    //     file_put_contents($filePath, $dataString . PHP_EOL, FILE_APPEND);
-
-    //     // Optional: Return a response (success message)
-    //     return response()->json(['message' => 'Data logged successfully.']);
-    // }
-
-    // The MPESA CALLBACK FORM
+    // The MPESA CALLBACK Route For Registration Only. 
     public function stkpush2(Request $request)
     {
         // Decode the JSON body from Safaricom
         $callbackData = $request->json()->all();
 
-        // The Id of the currenlty authenticated USER
-        $userID = Auth::id();
+        // The Mpesa Checkout ID
+        $mpesaCheckoutID = $callbackData['Body']['stkCallback']['CheckoutRequestID'];
 
         // Check for a successful transaction
         if (isset($callbackData['Body']['stkCallback']['ResultCode']) 
             && $callbackData['Body']['stkCallback']['ResultCode'] == 0) {
 
-            // The Id of the currenlty authenticated USER
-            $userID = Auth::id();
 
             // Add the if statement here to check whether the payment of ksh 50 was successful. 
-            User::where('id', $userID)->update([
+            User::where('mpesa_checkout_id', $mpesaCheckoutID)->update([
                 'registered' => now(),
             ]);
-
-            if (isset($userID)){
-
-                return response()->json(['message' => 'Callback processed successfully'], 200);
-            } else {
-                return 'User Id is not set. ';
-            }
 
         }
 
         return response()->json(['message' => 'Payment failed'], 400);
     }
-
-
-
 
 }
