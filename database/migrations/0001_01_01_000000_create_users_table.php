@@ -21,14 +21,16 @@ return new class extends Migration
             $table->rememberToken();
 
             // The User Role
-            $table->enum('role', ['user', 'admin', 'publisher'])->default('user');
-
-            // Adding A Registered Column to the Users Table To be filled if User registers with Money
-            $table->timestamp('registered')->nullable();
+            $table->enum('role', ['user', 'admin', 'publisher'])->default('user');            
 
             // Google Credentials
             $table->string('google_id')->nullable();
             $table->string('google_avatar')->nullable();
+
+            // Mpesa Payments Details
+            // Adding A Registered Column to the Users Table To be filled if User registers with Mpesa
+            $table->timestamp('registered')->nullable();
+            $table->string('mpesa_checkout_id')->nullable();
 
             $table->timestamps();
         });
