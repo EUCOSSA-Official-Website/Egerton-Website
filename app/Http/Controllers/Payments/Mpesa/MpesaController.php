@@ -235,7 +235,7 @@ class MpesaController extends Controller
             Subscription::create([
                 'user_id' => $userId['id'],
                 'year' => date('Y'), 
-                'semester' => now(), 
+                'semester' => Subscription::getCurrentSemester()['semester'], 
                 'amount' => $amount
             ]);
 

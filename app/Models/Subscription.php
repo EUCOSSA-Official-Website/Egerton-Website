@@ -13,7 +13,7 @@ class Subscription extends Model
 
 
     // Logic To Determin the Current Semester 
-    public function getCurrentSemester() {
+    public static function getCurrentSemester() {
         $currentMonth = date('n'); // Month as a number (1-12)
         $year = date('Y');
     
