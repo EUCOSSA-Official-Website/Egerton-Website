@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Payments\Mpesa;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,7 +93,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://b444-196-96-198-69.ngrok-free.app/{$callbackRoute}",
+            "CallBackURL" => "https://4284-196-96-117-124.ngrok-free.app/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -172,6 +173,75 @@ class MpesaController extends Controller
 
 
     // The function To send STK Push to Safaricom For subscription
-    
+    public function subscribe(Request $request)
+    {
 
+        $userId = Auth::id();
+
+        $validatedData = $request->validate([
+            'phone' => 'required|numeric|digits_between:9,10',
+            'amount' => 'required|numeric|min:1'
+        ]);
+
+
+        // Restoring 254 Precursor to The Received Phone
+        $validatedData['phone'] = "254{$validatedData['phone']}";
+
+        // stkPush($phone, $amount, $callbackRoute)
+        $response = $this->stkpush($validatedData['phone'], $validatedData['amount'], "/subscribe50");
+
+        $response = json_decode($response, true);
+
+        if($response["ResponseCode"] == 0){
+            User::where('id', $userId)->update([
+                "mpesa_checkout_id" => $response["CheckoutRequestID"],
+            ]);
+
+            return $response["CustomerMessage"];
+        } else {
+            return $response["CustomerMessage"];
+        }
+    }
+
+    public function subscribe50(Request $request)
+    {
+
+        // The Response From MPESA
+        $mpesaResponse = json_decode($request->getContent(), true);
+
+        if($mpesaResponse["Body"]["stkCallback"]["ResultCode"] == 0){
+            
+            $checkoutId = $mpesaResponse["Body"]["stkCallback"]["CheckoutRequestID"];
+
+            // Getting The ID of the User who Has Just Paid
+            $userId = User::where("mpesa_checkout_id", $checkoutId)->first();
+
+            // Getting The Amount
+             // Extract amount from CallbackMetadata
+            $amount = null;
+            foreach ($mpesaResponse["Body"]["stkCallback"]["CallbackMetadata"]["Item"] as $item) {
+                if ($item["Name"] === "Amount") {
+                    $amount = $item["Value"];
+                    break;
+                }
+            }
+
+            // Check if amount was found
+            if ($amount === null) {
+                return response()->json(['message' => 'Amount not found in response.'], 400);
+            }
+            
+            // Logic to Determine if A user has contributed in the Current Semester
+            Subscription::create([
+                'user_id' => $userId['id'],
+                'year' => date('Y'), 
+                'semester' => now(), 
+                'amount' => $amount
+            ]);
+
+            return response()->json(['message' => $mpesaResponse["Body"]["stkCallback"]["ResultDesc"]], 200);
+        } else {
+            return response()->json(['message' => $mpesaResponse["Body"]["stkCallback"]["ResultDesc"]], 400);
+        }
+    }
 }

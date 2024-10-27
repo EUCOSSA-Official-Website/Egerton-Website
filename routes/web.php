@@ -181,5 +181,8 @@ Route::get('/terms-and-conditions', function()
 Route::post('register50', [MpesaController::class, 'register'])
     ->name('register50');
 
-// The Semester Subscriptions Class
-Route::post('/subscribe', [MpesaController::class, 'subcribe']);
+// The Semester Subscriptions Class For Initiating STK
+Route::post('/subscribe', [MpesaController::class, 'subscribe'])->name('subscribe');
+
+// The Semester Registrations Callback Route For Notifications From Mpesa. 
+Route::post('/subscribe50', [MpesaController::class, "subscribe50"])->name('subscribe50');
