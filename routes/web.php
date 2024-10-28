@@ -186,3 +186,7 @@ Route::post('/subscribe', [MpesaController::class, 'subscribe'])->name('subscrib
 
 // The Semester Registrations Callback Route For Notifications From Mpesa. 
 Route::post('/subscribe50', [MpesaController::class, "subscribe50"])->name('subscribe50');
+
+// The Donations Route
+Route::post('/donate', [MpesaController::class, 'donate'])->name('donate');
+Route::post('/donate1', [MpesaController::class, 'donate1'])->name('donate1');

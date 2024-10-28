@@ -109,25 +109,25 @@
                     please contact us <Link :href="route('faqs')" class="text-indigo-500 font-semibold">Here!</Link>
                 </p>
 
-                <div class="flex flex-col sm:flex-row justify-center sm:space-x-10">
+                <div class="flex flex-col lg:flex-row justify-center lg:space-x-10">
                     <div class="sm:min-w-[450px]">
                         <h3 class="text-2xl text-green-500 font-semibold mb-5">M-PESA</h3>
-                        <form  class="max-w-lg min-w-lg p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
+                        <form @submit.prevent="submitDonation" class="max-w-lg min-w-lg p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
                             <!-- Phone Number -->
                             <div class="mb-4">
                                 <label for="phone" class="block font-medium text-gray-700">Phone Number</label>
                                 <div class="relative">
                                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 mr-3">+254</span>
-                                    <input type="number" id="phone" v-model="formDeleted" class="form-input pl-14" placeholder="Enter Your Phone Number" />
+                                    <input type="number" id="phone" v-model="donateForm.phone" class="form-input pl-14" placeholder="Enter Your Phone Number" />
                                 </div>
-                                <div v-if="form.errors.phone" class="input-error"> {{ form.errors.phone }} </div>
+                                <div v-if="donateForm.errors.phone" class="input-error"> {{ donateForm.errors.phone }} </div>
                             </div>
 
                             <!-- Amount -->
                             <div class="mb-4">
                                 <label for="amount" class="block font-medium text-gray-700">Enter Amount </label>
-                                <input type="number" id="amount" v-model="form.amount" class="form-input" placeholder="Enter The Amount" />
-                                <div v-if="form.errors.amount" class="input-error"> {{ form.errors.amount }} </div>
+                                <input type="number" id="amount" v-model="donateForm.amount" class="form-input" placeholder="Enter The Amount" />
+                                <div v-if="form.errors.amount" class="input-error"> {{ donateForm.errors.amount }} </div>
                             </div>
 
                             <!-- Submit Button -->
@@ -196,6 +196,21 @@
     // Submiting The Subscription Form
     const submitForm2 = () => {
         subscribeForm.post(route('subscribe')), {
+            onSuccess: () => {
+                alert("STK Push sent! Please Check Your Phone and Enter Mpesa Pin");
+            }
+        }
+    }
+
+    // The Donations Form
+    const donateForm = useForm({
+        phone: '',
+        amount: ''
+    })
+
+    // Submitting The Donate Form
+    const submitDonation = () => {
+        donateForm.post(route('donate')), {
             onSuccess: () => {
                 alert("STK Push sent! Please Check Your Phone and Enter Mpesa Pin");
             }

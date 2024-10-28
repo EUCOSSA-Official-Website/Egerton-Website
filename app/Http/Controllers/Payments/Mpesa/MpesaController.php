@@ -93,7 +93,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://4284-196-96-117-124.ngrok-free.app/{$callbackRoute}",
+            "CallBackURL" => "https://2fd3-196-96-140-53.ngrok-free.app/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -243,5 +243,41 @@ class MpesaController extends Controller
         } else {
             return response()->json(['message' => $mpesaResponse["Body"]["stkCallback"]["ResultDesc"]], 400);
         }
+    }
+
+    // Initializing an STK push for The Donations
+    public function donate(Request $request)
+    {
+        $validatedData = $request->validate([
+            'phone' => 'required|numeric|digits_between:9,10',
+            'amount' => 'required|numeric|min:1'
+        ]);
+
+        // Restoring 254 to the Phone
+        $validatedData['phone'] = "254{$validatedData["phone"]}";
+
+        // Sending The STK push to the Phone
+        $response = $this->stkPush($validatedData['phone'], $validatedData['amount'], '/donate1');
+
+        // Decoding The JSON response
+        $response = json_decode($response, true);
+
+        // Check if Donor is Authenticated
+        $donor = Auth::user();
+
+        if($response["ResponseCode"] == 0 && isset($donor)){
+            User::where('id', $donor['id'])->update([
+                'mpesa_checkout_id' => $response["CheckoutRequestID"],
+            ]);
+        }
+
+
+        return $response;
+
+    }
+
+    public function donate1(Request $request)
+    {
+        return response()->json(['message' => "Route Hit Successfully"], 200);
     }
 }
