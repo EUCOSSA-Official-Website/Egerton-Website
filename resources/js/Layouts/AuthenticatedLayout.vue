@@ -207,7 +207,7 @@
             </main>
 
             <!-- Page Footer -->
-            <footer class="bg-blue-700 py-4 mt-8">
+            <footer class="bg-blue-700 py-4">
                 <div class="container mx-auto px-5">
                     <div class="flex flex-col sm:flex-row items-center justify-between">
                         <div class="mb-2 sm:mb-0">
