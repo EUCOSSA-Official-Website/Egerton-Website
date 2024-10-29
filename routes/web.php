@@ -129,7 +129,7 @@ Route::resource('/call-for-speakers', SpeakersController::class)
 // The Events Controller
 Route::resource('/events', EventsController::class)->except(['index']);
 
-// The single Events page
+// The Events page
 Route::get('/events', function (EventsController $eventsController) {
     $events = $eventsController->index();
 
@@ -137,11 +137,13 @@ Route::get('/events', function (EventsController $eventsController) {
 })->middleware(['auth', 'verified'])->name('events.index');
 
 // The Dashboard Route
-Route::get('/dashboard', function () {
+Route::get('/dashboard', function (SpeakersController $speakersController) {
 
     Gate::allowIf(fn($user) => $user->role === 'admin');
 
-    return inertia('Dashboard/Index');
+    $speakers = $speakersController->index();
+    
+    return inertia('Dashboard/Index', ['speakers' => $speakers]);
 })->middleware(['auth'])->name('dashboard');
 
 // Liking Events Routes

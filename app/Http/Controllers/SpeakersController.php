@@ -9,11 +9,15 @@ use Illuminate\Support\Facades\Auth;
 class SpeakersController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Returning Data For the People Who Have Applied.
      */
     public function index()
     {
-        //
+        // The Dashboards  Data
+        $speakers = Speaker::select('name', 'year_of_study', 'topic', 'email', 'id')->get();
+
+        return $speakers;
+
     }
 
     /**
