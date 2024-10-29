@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Payments\Mpesa;
 
 use App\Http\Controllers\Controller;
+use App\Models\Donation;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -93,7 +94,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://2fd3-196-96-140-53.ngrok-free.app/{$callbackRoute}",
+            "CallBackURL" => "https://af84-154-159-237-181.ngrok-free.app/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -278,6 +279,34 @@ class MpesaController extends Controller
 
     public function donate1(Request $request)
     {
+        $request = json_decode($request->getContent(), true);
+
+        $checkoutId = $request["Body"]["stkCallback"]["CheckoutRequestID"];
+
+        $userID = User::where("mpesa_checkout_id", $checkoutId)->pluck('id')->first() ?? null;
+        $userName = User::where("mpesa_checkout_id", $checkoutId)->pluck('name')->first() ?? null;
+        
+        $items = $request["Body"]["stkCallback"]["CallbackMetadata"]["Item"];
+
+        $amount = null;
+        foreach($items as $item){            
+            if($item["Name"] == "Amount"){
+                $amount = $item["Value"];
+                break;
+            }
+        }              
+
+        if($userID){
+            Donation::create([
+                'system_id' => $userID,
+                'donor' => 'member',
+                'donor-name' => $userName,
+                'amount' => $amount,
+                'source' => "mpesa"
+            ]);
+        }
+        
+
         return response()->json(['message' => "Route Hit Successfully"], 200);
     }
 }
