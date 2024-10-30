@@ -36,6 +36,7 @@
                                 <td class="py-3 px-1 border border-slate-800">{{ speaker.email }}</td>
                                 <td class="py-3 px-1 border border-slate-800 text-center text-white font-bold bg-blue-500 mx-2 my-2">
                                     <Link>View</Link>
+                                    
                                 </td>
                             </tr>
                         </tbody>
