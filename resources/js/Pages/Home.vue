@@ -48,7 +48,6 @@
                                 computer science organization at Egerton University dedicated to 
                                 fostering a vibrant and growing tech community on campus.
                             </p>
-
                             <Link 
                                 :href="user ? null : route('register')" 
                                 @click="handleClick"  
