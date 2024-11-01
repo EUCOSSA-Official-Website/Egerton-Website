@@ -1,6 +1,10 @@
 <template>
     <AuthenticatedLayout>
 
+        <div class="text-5xl my-4 text-center text-indigo-700">
+            <Link :href="(route('dashboard'))">Dashboard</Link> → <Link>Event</Link>
+        </div>
+
         <div class="max-w-lg mx-auto p-4 bg-white shadow-md rounded sm:my-5">
             <h2 class="text-2xl font-bold mb-4">Create Event</h2>
 
@@ -97,7 +101,7 @@
 
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { useForm } from '@inertiajs/vue3';
+    import { useForm, Link } from '@inertiajs/vue3';
     
 
     // Initializing the form using `useForm`
