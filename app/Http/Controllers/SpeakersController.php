@@ -14,7 +14,7 @@ class SpeakersController extends Controller
     public function index()
     {
         // The Dashboards  Data
-        $speakers = Speaker::select('name', 'year_of_study', 'topic', 'email', 'id')->get();
+        $speakers = Speaker::select('name', 'year_of_study', 'topic', 'email', 'id')->latest()->get();
 
         return $speakers;
 
@@ -25,7 +25,7 @@ class SpeakersController extends Controller
      */
     public function create()
     {
-        return Inertia('Speakers');
+        return Inertia('Speakers/Create');
     }
 
     /**
@@ -58,7 +58,13 @@ class SpeakersController extends Controller
      */
     public function show(string $id)
     {
-        //
+
+        // Will use Route Model Binding Later
+        $speaker = Speaker::where('id', $id)->first();
+
+        return Inertia('Speakers/Show', [
+            'speaker' => $speaker
+        ]);
     }
 
     /**
