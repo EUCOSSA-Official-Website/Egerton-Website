@@ -83,7 +83,7 @@ header.speakers_call {
 
 @layer components {
     .form-input {
-        @apply mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500;
+        @apply mt-1 block w-full border border-gray-700 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500;
     }
 
     .submit-button {
@@ -91,7 +91,7 @@ header.speakers_call {
     }
 
     .form-label {
-        @apply block font-medium text-gray-700;
+        @apply block font-medium text-gray-800;
     }
 }
 

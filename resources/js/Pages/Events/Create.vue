@@ -1,8 +1,8 @@
 <template>
     <AuthenticatedLayout>
 
-        <div class="text-5xl my-4 text-center text-indigo-700">
-            <Link :href="(route('dashboard'))">Dashboard</Link> → <Link>Event</Link>
+        <div class="text-3xl lg:text-4xl py-5 lg:py-8 my-4 text-center text-white bg-blue-700">
+            <Link :href="(route('dashboard'))" class="underline">Dashboard</Link> → <Link class="underline">Create Event</Link>
         </div>
 
         <div class="max-w-lg mx-auto p-4 bg-white shadow-md rounded sm:my-5">
