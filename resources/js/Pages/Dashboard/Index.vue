@@ -14,9 +14,9 @@
 
             <div class="grid grid-cols-12 min-h-[60vh] py-5">                
 
-                <div class="overflow-x-auto col-span-8 ml-2">
+                <div class="overflow-x-auto col-span-12 lg:col-span-8 ml-2">
 
-                    <h1 class="mx-auto text-2xl text-center">Speakers</h1>
+                    <h1 class="mx-auto text-2xl text-center font-bold">Speakers</h1>
                     <table class="min-w-full bg-white border border-gray-800">
                         <thead class="bg-gray-100 sticky top-0 z-10">
                             <tr class="bg-gray-100 text-left text-gray-600 font-semibold">
@@ -42,10 +42,14 @@
                     </table>
                 </div>
 
-                <div class="col-span-3 col-start-10 bg-slate-300 py-5 max-h-[50vh]">
+                <div class="ml-2 lg:ml-0 mt-4 lg:mt-0 col-span-12 lg:col-span-3 lg:col-start-10 bg-slate-300 py-5 max-h-[50vh]">
 
-                    <Link :href="route('events.create')" class="submit-button w-fit ml-4 my-3">
+                    <Link :href="route('events.create')" class="submit-button w-fit ml-4 my-3 block">
                         Post An Event
+                    </Link>
+
+                    <Link :href="route('finances')" class="submit-button w-fit ml-4 my-3 block">
+                        Club Finances
                     </Link>
                 </div>
 

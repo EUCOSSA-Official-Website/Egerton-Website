@@ -1,5 +1,5 @@
 <template>
-    <Head title="speaker" />
+    <Head title="Speaker" />
 
     <AuthenticatedLayout>
 
@@ -21,6 +21,7 @@
 
                 <ol class="space-y-2 text-gray-700 text-lg col-span-8 lg:col-span-4 px-6 py-2 lg:p-6">
                     <li><strong>Description:</strong> {{ speaker.description }}</li>
+                    <li><strong>Email:</strong> {{ speaker.email }}</li>
                 </ol>
             </div>
 
@@ -28,7 +29,7 @@
             <div class="col-span-12 lg:col-span-4 bg-blue-400 max-h-[50vh] flex flex-col py-5 lg:py-14">
 
                 <div class="py-8 px-4 text-white">
-                    <strong class="text-2xl">Created At: </strong>{{formattedDate}}
+                    <strong class="text-2xl">Applied At: </strong>{{formattedDate}}
                 </div>
 
                 <div class="flex justify-evenly pb-4 ">

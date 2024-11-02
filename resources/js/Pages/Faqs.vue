@@ -3,11 +3,10 @@
 
         <Head title="Faqs" />
 
-        <div class="text-center py-10">
-            <h1 class="text-4xl font-bold mt-5">Frequently Asked Questions</h1>
-
-            <p class="text-2xl text-slate-500 py-3">How Can We Help You?</p>
-        </div>
+        <header class="text-center pt-5 pb-2 bg-blue-700 text-white mb-16">
+            <h1 class="text-2xl lg:text-4xl font-bold mt-5">Frequently Asked Questions</h1>
+            <p class="text-xl lg:text-2xl py-3">How Can We Help You?</p>
+        </header>
         
         <div class="grid grid-cols-12">
 
