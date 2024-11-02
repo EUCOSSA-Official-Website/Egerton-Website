@@ -63,7 +63,7 @@ class SpeakersController extends Controller
         Gate::allowIf(fn($user) => $user->role === 'admin');
 
         // Will use Route Model Binding Later
-        $speaker = Speaker::where('id', $id)->first();
+        $speaker = Speaker::findOrFail($id);
 
         return Inertia('Speakers/Show', [
             'speaker' => $speaker
