@@ -5,12 +5,12 @@
 
         <section>
 
-            <div class="text-center py-5">
+            <header class="text-center py-5 bg-blue-700 text-white">
                 <h1 class="font-bold text-4xl">Dashboard</h1>
-                <p class="text-2xl font-normal text-gray-500 mb-0">
+                <p class="text-2xl font-normal mb-0">
                     All Admin Functions Are Here!
                 </p>
-            </div>
+            </header>
 
             <div class="grid grid-cols-12 min-h-[60vh] py-5">                
 
