@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Speaker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class SpeakersController extends Controller
 {
@@ -58,6 +59,8 @@ class SpeakersController extends Controller
      */
     public function show(string $id)
     {
+        // The Gate for Authorization
+        Gate::allowIf(fn($user) => $user->role === 'admin');
 
         // Will use Route Model Binding Later
         $speaker = Speaker::where('id', $id)->first();
