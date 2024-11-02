@@ -309,4 +309,33 @@ class MpesaController extends Controller
 
         return response()->json(['message' => "Route Hit Successfully"], 200);
     }
+
+    // Checking The Mpesa Balance of The account
+    public function checkMpesaBalance()
+    {
+
+        $url = 'https://api.safaricom.co.ke/mpesa/accountbalance/v1/query';
+
+        $body = [
+            "Initiator" => "Site Admin",
+            "SecurityCredential" => "",
+            "Command ID" => "",
+            "PartyA" => "",
+            "IdentifierType" => "",
+            "Remarks" => "",
+            "QueueTimeOutURL" => "",
+            "ResultURL" => ""
+        ];
+
+
+        $response = $this->makeHttp($url, $body);
+
+        return $response;
+    }
+
+    // Receive The Mpesa Balance
+    public function receiveMpesaBalance()
+    {
+
+    }
 }
