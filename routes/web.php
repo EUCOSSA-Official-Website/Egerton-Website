@@ -3,6 +3,7 @@
 use App\Http\Controllers\CallForSpeakersController;
 use App\Http\Controllers\EventReactionController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\Payments\FinancesController;
 use App\Http\Controllers\Payments\Mpesa\MpesaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpeakersController;
@@ -123,7 +124,7 @@ Route::post('/register/mobile/submit', function (Request $request) {
 
 // The Call For Speakers Form
 Route::resource('/call-for-speakers', SpeakersController::class)
-    ->middleware(['auth', 'verified']);
+    ->middleware(['auth', 'verified'])->except(['edit', 'update', 'destroy']);
 
 
 // The Events Controller
@@ -145,6 +146,9 @@ Route::get('/dashboard', function (SpeakersController $speakersController) {
     
     return inertia('Dashboard/Index', ['speakers' => $speakers]);
 })->middleware(['auth'])->name('dashboard');
+
+// The Finances Controller
+Route::get('/finances', [FinancesController::class, 'index'])->name('finances');
 
 // Liking Events Routes
 Route::post('/events/{eventId}/reactions', [EventReactionController::class, 'toggleReaction'])->middleware('auth');

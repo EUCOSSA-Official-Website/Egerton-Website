@@ -7,7 +7,7 @@
             <div class="w-full max-w-lg p-8 bg-white rounded-lg shadow-md my-3">
 
                 <!-- Form Image Header -->
-                <header class="speakers_call bg-cover bg-center my-2" style="background-image: url('/assets/img/home-bg.jpg')">
+                <header class="speakers_call bg-cover bg-center my-2" style="background-image: url('/assets/img/Speaker.png')">
                     <div class="container relative mx-auto px-4 lg:px-5">
                         <div class="flex justify-left">
                             <div class="w-full">
