@@ -3,27 +3,40 @@
 
     <AuthenticatedLayout>
 
-        <div class="text-5xl my-4 text-center text-indigo-700">
-            <Link :href="(route('dashboard'))">Dashboard</Link> → <Link>Speaker</Link>
-        </div>
+        <header class="text-3xl lg:text-4xl my-4 text-center bg-blue-700 text-white py-5 font-bold">
+            <Link :href="(route('dashboard'))" class="underline">Dashboard</Link> → <Link class="underline">Speaker</Link>
+        </header>
 
-        <div class="min-h-[80vh] grid grid-cols-12">
-            <div class="col-span-8">
-                <ol class="flex flex-col">
-                    <li>Name: {{ speaker.name }}</li>
-                    <li>Year Of Study: {{ speaker.year_of_study }}</li>
-                    <li>Other Year: {{ speaker.other_year ?? null}}</li>
-                    <li>Topic: {{ speaker.topic }}</li>
-                    <li>Description: {{ speaker.description }}</li>
-                    <li>Stack: {{ speaker.stack }}</li>
-                    <li>Skill: {{ speaker.skill }}</li>
-                    <li>Phone: {{ speaker.phone }}</li>
-                    <li>Time: {{ speaker.created_at }}</li>
+        <div class="min-h-[50vh] grid grid-cols-12 lg:mb-28">
+            <div class="col-span-12 lg:col-span-8 bg-white rounded-lg shadow-lg grid grid-cols-8">
+                <ol class="space-y-2 text-gray-700 text-lg col-span-8 px-6 pt-6 lg:col-span-3">
+                    <li><strong>Name:</strong> {{ speaker.name }}</li>
+                    <li><strong>Year Of Study:</strong> {{ speaker.year_of_study }}</li>
+                    <li><strong>Other Year:</strong> {{ speaker.other_year ?? null }}</li>
+                    <li><strong>Topic:</strong> {{ speaker.topic }}</li>                    
+                    <li><strong>Stack:</strong> {{ speaker.stack }}</li>
+                    <li><strong>Skill:</strong> {{ speaker.skill }}</li>
+                    <li><strong>Phone:</strong> {{ speaker.phone }}</li>
                 </ol>
-                
+
+                <ol class="space-y-2 text-gray-700 text-lg col-span-8 lg:col-span-4 px-6 py-2 lg:p-6">
+                    <li><strong>Description:</strong> {{ speaker.description }}</li>
+                </ol>
             </div>
 
-            <div class="col-span-12 sm:col-span-4 bg-gray-400 max-h-[50vh]"></div>
+
+            <div class="col-span-12 lg:col-span-4 bg-blue-400 max-h-[50vh] flex flex-col py-5 lg:py-14">
+
+                <div class="py-8 px-4 text-white">
+                    <strong class="text-2xl">Created At: </strong>{{formattedDate}}
+                </div>
+
+                <div class="flex justify-evenly pb-4 ">
+                    <PrimaryButton>Approve</PrimaryButton>
+                    <SecondaryButton>Dissaprove</SecondaryButton>
+                    <PrimaryButton class="bg-red-600 hover:bg-red-700">Delete</PrimaryButton>
+                </div>
+            </div>
      
         </div>
     </AuthenticatedLayout>
@@ -33,8 +46,24 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import { Head, Link } from '@inertiajs/vue3';
+    import { computed } from 'vue';
+    import PrimaryButton from '@/Components/PrimaryButton.vue';
+    import SecondaryButton from '@/Components/SecondaryButton.vue';
 
-    defineProps({
+    const props = defineProps({
         speaker: Object
+    });
+
+    const formattedDate = computed(() => {
+      const date = new Date(props.speaker.created_at);
+      return `${date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })} at ${date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      })}`;
     });
 </script>
