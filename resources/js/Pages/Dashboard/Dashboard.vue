@@ -24,24 +24,24 @@
                 <div class="ml-2 lg:ml-0 mt-4 lg:mt-0 col-span-12 lg:col-span-3 lg:col-start-10 bg-slate-300 lg:min-h-[50vh] max-h-fit lg:sticky lg:top-20 order-1 lg:order-2">
 
                     <Link 
-                        :href="route('analytics')"
-                        :class="{ 'active-class': route().current('analytics'), 'inactive-class': !route().current('analytics') }" >
+                        :href="route('dashboard.analytics')"
+                        :class="{ 'active-class': route().current('dashboard.analytics'), 'inactive-class': !route().current('dashboard.analytics') }" >
                         Analytics
                     </Link>
 
-                    <Link :href="route('speakers')" :class="{ 'active-class': route().current('speakers'), 'inactive-class': !route().current('speakers') }">
+                    <Link :href="route('dashboard.speakers')" :class="{ 'active-class': route().current('dashboard.speakers'), 'inactive-class': !route().current('dashboard.speakers') }">
                         Speakers
                     </Link>
 
-                    <Link :href="route('events.create')" :class="{ 'active-class': route().current('events.create'), 'inactive-class': !route().current('events.create') }">
+                    <Link :href="route('dashboard.events.create')" :class="{ 'active-class': route().current('dashboard.events.create'), 'inactive-class': !route().current('dashboard.events.create') }">
                         Post An Event
                     </Link>
 
-                    <Link :href="route('finances')" :class="{ 'active-class': route().current('finances'), 'inactive-class': !route().current('finances') }">
+                    <Link :href="route('dashboard.finances')" :class="{ 'active-class': route().current('dashboard.finances'), 'inactive-class': !route().current('dashboard.finances') }">
                         Club Finances
                     </Link>
 
-                    <Link :href="route('attendees')" :class="{ 'active-class': route().current('attendees'), 'inactive-class': !route().current('attendees') }">
+                    <Link :href="route('dashboard.attendees')" :class="{ 'active-class': route().current('dashboard.attendees'), 'inactive-class': !route().current('dashboard.attendees') }">
                         Event Attendees
                     </Link>
                 </div>
