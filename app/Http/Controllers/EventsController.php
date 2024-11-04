@@ -62,15 +62,6 @@ class EventsController extends Controller
         return $events;
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return inertia('Events/Create');
-    }
-
     /**
      * Store a newly created resource in storage.
      */
