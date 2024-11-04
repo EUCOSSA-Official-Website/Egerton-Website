@@ -53,6 +53,9 @@
                                 <NavLink :href="route('faqs')" :active="route().current('faqs')">
                                     FAQs
                                 </NavLink>
+                                <NavLink v-if="user.role === 'admin'" :href="route('dashboard')" :active="route().current('dashboard')">
+                                    Dashboard
+                                </NavLink>
                             </div>
                         </div>
 

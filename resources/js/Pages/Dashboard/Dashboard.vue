@@ -14,13 +14,14 @@
 
             <div class="grid grid-cols-12 min-h-[60vh] py-5">                
 
-                <div class="overflow-x-auto col-span-12 lg:col-span-8 ml-2">
+                <div class="overflow-x-auto col-span-12 lg:col-span-8 ml-2 order-2 lg:order-1">
                     <slot>
-                        Default Content if none is passed. 
+                        <div style="background-image: url('/assets/img/admin_dashboard.png'); background-size: cover; background-position: center; height: 350px; width: 800px;">
+                        </div>
                     </slot>
                 </div>
 
-                <div class="ml-2 lg:ml-0 mt-4 lg:mt-0 col-span-12 lg:col-span-3 lg:col-start-10 bg-slate-300 min-h-[50vh] max-h-fit lg:sticky lg:top-20">
+                <div class="ml-2 lg:ml-0 mt-4 lg:mt-0 col-span-12 lg:col-span-3 lg:col-start-10 bg-slate-300 lg:min-h-[50vh] max-h-fit lg:sticky lg:top-20 order-1 lg:order-2">
 
                     <Link 
                         :href="route('analytics')"
