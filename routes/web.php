@@ -145,7 +145,7 @@ Route::get('/dashboard', function (SpeakersController $speakersController) {
 
     $speakers = $speakersController->index();
     
-    return inertia('Dashboard/Index', ['speakers' => $speakers]);
+    return inertia('Dashboard/Dashboard', ['speakers' => $speakers]);
 })->middleware(['auth'])->name('dashboard');
 
 // The Finances Controller
@@ -156,6 +156,15 @@ Route::get('/attendees', [AttendeesController::class, 'index'])->name('attendees
 
 // Liking Events Routes
 Route::post('/events/{eventId}/reactions', [EventReactionController::class, 'toggleReaction'])->middleware('auth');
+
+// The Speakers for dashboard
+Route::get('/speakers', function (SpeakersController $speakersController)
+{
+
+    $speakers = $speakersController->index();
+    
+    return inertia('Dashboard/Speakers', ['speakers' => $speakers]);
+})->middleware(['auth'])->name('speakers');
 
 
 // The Callback from fake MPESA
