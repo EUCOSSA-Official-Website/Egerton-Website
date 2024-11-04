@@ -51,6 +51,10 @@
                     <Link :href="route('finances')" class="submit-button w-fit ml-4 my-3 block">
                         Club Finances
                     </Link>
+
+                    <Link :href="route('attendees')" class="submit-button w-fit ml-4 my-3 block">
+                        Event Attendees
+                    </Link>
                 </div>
 
             </div>
