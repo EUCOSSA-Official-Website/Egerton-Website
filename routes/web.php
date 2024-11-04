@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendeesController;
 use App\Http\Controllers\CallForSpeakersController;
 use App\Http\Controllers\EventReactionController;
 use App\Http\Controllers\EventsController;
@@ -149,6 +150,9 @@ Route::get('/dashboard', function (SpeakersController $speakersController) {
 
 // The Finances Controller
 Route::get('/finances', [FinancesController::class, 'index'])->name('finances');
+
+// The Event Attendees Controller
+Route::get('/attendees', [AttendeesController::class, 'index'])->name('attendees');
 
 // Liking Events Routes
 Route::post('/events/{eventId}/reactions', [EventReactionController::class, 'toggleReaction'])->middleware('auth');

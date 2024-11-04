@@ -121,7 +121,7 @@ class EventsController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return inertia("Events/Show");
     }
 
     /**

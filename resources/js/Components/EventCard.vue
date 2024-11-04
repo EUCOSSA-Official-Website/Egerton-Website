@@ -1,48 +1,50 @@
 <template>
-    <div class="card bg-white shadow-md rounded-lg p-2 relative">
-      <img :src="event.image" alt="Event Image" class="w-full h-48 object-cover rounded-t-md mb-4" />
-  
-      <h2 class="text-xl font-semibold mb-2 max-h-[56px] overflow-y-auto">{{ truncatedTitle }}</h2>
+    <Link :href="route('events.show', event=event.id)">
+        <div class="card bg-white shadow-md rounded-lg p-2 relative">
+        <img :src="event.image" alt="Event Image" class="w-full h-48 object-cover rounded-t-md mb-4" />
+    
+        <h2 class="text-xl font-semibold mb-2 max-h-[56px] overflow-y-auto">{{ truncatedTitle }}</h2>
 
-        <p class="hidden sm:block text-sm text-gray-600 mb-4">
-            {{ truncatedDescription }}
-        </p>
-  
-        <div class="text-sm text-gray-500">
-            <p><strong>Event Day:</strong> {{ event.event_day }}</p>
-            <p><strong>Time:</strong> {{ event.start_time }} - {{ event.end_time }}</p>
-            <p><strong>Speaker:</strong> {{ event.speaker }}</p>
-        </div>
-
-        <!-- Badge for past events -->
-        <span v-if="isEventPassed" class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded absolute right-3 top-3">
-            Event Passed
-        </span>
-
-        <div class="absolute bottom-2 right-1 flex justify-between space-x-2">
-            <div class="text-center">
-                <p class="text-xs text-gray-500">{{ event.likes }}</p>
-                <!-- Like Button -->
-                <button :class="['like-button', { liked: isLiked }]" @click="handleLike">
-                    <i class="fas fa-heart"></i>
-                </button>
+            <p class="hidden sm:block text-sm text-gray-600 mb-4">
+                {{ truncatedDescription }}
+            </p>
+    
+            <div class="text-sm text-gray-500">
+                <p><strong>Event Day:</strong> {{ event.event_day }}</p>
+                <p><strong>Time:</strong> {{ event.start_time }} - {{ event.end_time }}</p>
+                <p><strong>Speaker:</strong> {{ event.speaker }}</p>
             </div>
 
-            <div class="text-center">
-                <p class="text-xs text-gray-500">{{ event.dislikes }}</p>
-                <!-- Dislike Button -->
-                <button :class="['dislike-button', { disliked: isDisliked }]" @click="handleDislike">
-                    <i class="fas fa-heart-broken"></i>
-                </button>
-            </div>
+            <!-- Badge for past events -->
+            <span v-if="isEventPassed" class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded absolute right-3 top-3">
+                Event Passed
+            </span>
 
+            <div class="absolute bottom-2 right-1 flex justify-between space-x-2">
+                <div class="text-center">
+                    <p class="text-xs text-gray-500">{{ event.likes }}</p>
+                    <!-- Like Button -->
+                    <button :class="['like-button', { liked: isLiked }]" @click="handleLike">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-xs text-gray-500">{{ event.dislikes }}</p>
+                    <!-- Dislike Button -->
+                    <button :class="['dislike-button', { disliked: isDisliked }]" @click="handleDislike">
+                        <i class="fas fa-heart-broken"></i>
+                    </button>
+                </div>
+
+            </div>
         </div>
-    </div>
+    </Link>
   </template>
 
 <script setup>
     import { computed, ref, watchEffect } from 'vue';
-    import { router } from '@inertiajs/vue3';
+    import { router, Link } from '@inertiajs/vue3';
 
     const props = defineProps({
         event: Object, 
