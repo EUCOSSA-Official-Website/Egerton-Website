@@ -96,7 +96,7 @@
 </template>
 
 <script setup>
-    import { useForm, Link } from '@inertiajs/vue3';
+    import { useForm } from '@inertiajs/vue3';
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
     
 

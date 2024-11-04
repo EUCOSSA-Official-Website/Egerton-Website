@@ -129,7 +129,7 @@ Route::resource('/call-for-speakers', SpeakersController::class)
 
 
 // The Events Controller
-Route::resource('/events', EventsController::class)->except(['index']);
+Route::resource('/events', EventsController::class)->except(['index', 'create']);
 
 // The Events page
 Route::get('/events', function (EventsController $eventsController) {
@@ -139,13 +139,11 @@ Route::get('/events', function (EventsController $eventsController) {
 })->middleware(['auth', 'verified'])->name('events.index');
 
 // The Dashboard Route
-Route::get('/dashboard', function (SpeakersController $speakersController) {
+Route::get('/dashboard', function () {
 
     Gate::allowIf(fn($user) => $user->role === 'admin');
-
-    $speakers = $speakersController->index();
     
-    return inertia('Dashboard/Dashboard', ['speakers' => $speakers]);
+    return inertia('Dashboard/Dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 // The Finances Controller
@@ -165,6 +163,16 @@ Route::get('/speakers', function (SpeakersController $speakersController)
     
     return inertia('Dashboard/Speakers', ['speakers' => $speakers]);
 })->middleware(['auth'])->name('speakers');
+
+// The Creating An Event Route
+Route::get('/event/create', function (){
+    return inertia('Dashboard/EventCreation');
+})->name('events.create');
+
+// Analytics Route
+Route::get('/analytics', function (){
+    return inertia('Dashboard/Analytics');
+})->name('analytics');
 
 
 // The Callback from fake MPESA
