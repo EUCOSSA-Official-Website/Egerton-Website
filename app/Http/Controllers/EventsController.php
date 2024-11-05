@@ -112,7 +112,12 @@ class EventsController extends Controller
      */
     public function show(Event $event)
     {
-        return inertia("Events/Show");
+        // Passing the Reactions of the currently Authenticated user. 
+        $userId = Auth::id(); // Get the authenticated user's ID
+
+        return inertia("Events/Show", [
+            'event' => $event
+        ]);
     }
 
     /**
