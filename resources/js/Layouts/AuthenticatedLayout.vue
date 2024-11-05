@@ -44,7 +44,7 @@
                                 <NavLink :href="route('payments')" :active="route().current('payments')">
                                     Payments
                                 </NavLink>
-                                <NavLink :href="route('events.index')" :active="route().current('events.index')">
+                                <NavLink :href="route('events.index')" :active="route().current().startsWith('events')">
                                     Events
                                 </NavLink>
                                 <NavLink :href="route('call-for-speakers.create')" :active="route().current('call-for-speakers.create')">
@@ -154,7 +154,7 @@
                             Payments
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('events.index')" :active="route().current('events.index')">
+                        <ResponsiveNavLink :href="route('events.index')" :active="route().current().startsWith('events')">
                             Events
                         </ResponsiveNavLink>
 
