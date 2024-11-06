@@ -9,6 +9,7 @@ use App\Http\Controllers\Payments\FinancesController;
 use App\Http\Controllers\Payments\Mpesa\MpesaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpeakersController;
+use App\Models\ContactForm;
 use App\Models\Event;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -176,9 +177,22 @@ Route::prefix('dashboard')
         })->name('.events.create');
 
         // Analytics Route
-        Route::get('/analytics', function (){
-            return inertia('Dashboard/Analytics');
+        Route::get('/analytics', function ()
+        {
+            $feedback = ContactForm::orderBy('created_at', 'desc')->get();
+
+            return inertia('Dashboard/Analytics', [
+                'feedback' => $feedback,
+            ]);
         })->name('.analytics');
+
+        // Marking the User Feedback As Read
+        Route::put('/analytics/{id}', function($id)
+        {
+            ContactForm::where('id', $id)->update([
+                'read_at' => now(),
+            ]);
+        })->name('.analytics.seen');
 });
 
 // The Callback from fake MPESA
