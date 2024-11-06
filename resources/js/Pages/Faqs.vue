@@ -124,11 +124,11 @@
                         <h2 class="text-3xl font-extrabold text-center text-gray-900 dark:text-white mb-8">Get in Touch</h2>
                         <p class="text-center text-gray-600 dark:text-gray-300 mb-8">We'd love to hear from you. Please fill out the
                             form below.</p>
-                        <form class="space-y-6">
+                        <form @submit.prevent="submitForm" class="space-y-6">
                             <!-- Name Field -->
                             <div class="relative">
                                 <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Your Name</label>
-                                <input type="text" id="name"
+                                <input v-model="form.name" type="text" id="name"
                                     class="block w-full mt-1 p-3 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-2 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="John Doe" required>
                             </div>
@@ -136,7 +136,7 @@
                             <!-- Email Field -->
                             <div class="relative">
                                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Your Email</label>
-                                <input type="email" id="email"
+                                <input v-model="form.email" type="email" id="email"
                                     class="block w-full mt-1 p-3 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-2 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="john@example.com" required>
                             </div>
@@ -144,9 +144,9 @@
                             <!-- Message Field -->
                             <div class="relative">
                                 <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
-                                <textarea id="message"
+                                <textarea v-model="form.message" id="message"
                                     class="block w-full mt-1 p-3 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-2 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"
-                                    rows="6" placeholder="Your message here..." required></textarea>
+                                    rows="3" placeholder="Your message here..." required></textarea>
                             </div>
 
                             <!-- Submit Button -->
@@ -174,7 +174,7 @@
 
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { Head } from '@inertiajs/vue3';
+    import { Head, useForm } from '@inertiajs/vue3';
     import { ref } from 'vue';
 
     const openAccordion = ref(null);
@@ -185,6 +185,22 @@
 
     const isOpen = (index) => {
       return openAccordion.value === index;
+    };
+
+    const form = useForm({
+        name: '',
+        email: '',
+        message: ''
+    });
+
+    // Submitting the Registration Form
+    const submitForm = () => {      
+        form.post(route('faqs-send-email'), {
+            onSuccess: () => {
+                // Show a message that STK Push has been sent
+                alert("Your Message Is sent Successfully. 🎉");
+            }
+        });
     };
 </script>
 

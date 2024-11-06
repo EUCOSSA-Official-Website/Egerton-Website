@@ -4,6 +4,7 @@ use App\Http\Controllers\AttendeesController;
 use App\Http\Controllers\CallForSpeakersController;
 use App\Http\Controllers\EventReactionController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\FaqsEmailController;
 use App\Http\Controllers\Payments\FinancesController;
 use App\Http\Controllers\Payments\Mpesa\MpesaController;
 use App\Http\Controllers\ProfileController;
@@ -196,6 +197,10 @@ Route::get('/faqs', function()
 {
     return inertia('Faqs');
 })->name('faqs');
+
+// The Message from the FAQS page
+Route::post('/faqs-send-email', [FaqsEmailController::class, 'sendEmail'])
+    ->name('faqs-send-email');
 
 // The About Page
 Route::get('/about', function()
