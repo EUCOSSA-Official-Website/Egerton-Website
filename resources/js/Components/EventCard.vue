@@ -1,6 +1,7 @@
 <template>
-    <Link :href="route('events.show', event=event.id)">
-        <div class="card bg-white shadow-md rounded-lg p-2 relative">
+    
+    <div class="card bg-white shadow-md rounded-lg p-2 relative">
+            <Link :href="route('events.show', event=event.id)">
         <img :src="event.image" alt="Event Image" class="w-full h-48 object-cover rounded-t-md mb-4" />
     
         <h2 class="text-xl font-semibold mb-2 max-h-[56px] overflow-y-auto">{{ truncatedTitle }}</h2>
@@ -20,6 +21,8 @@
                 Event Passed
             </span>
 
+            </Link>
+
             <div class="absolute bottom-2 right-1 flex justify-between space-x-2">
                 <div class="text-center">
                     <p class="text-xs text-gray-500">{{ event.likes }}</p>
@@ -28,6 +31,8 @@
                         <i class="fas fa-heart"></i>
                     </button>
                 </div>
+
+                
 
                 <div class="text-center">
                     <p class="text-xs text-gray-500">{{ event.dislikes }}</p>
@@ -39,7 +44,7 @@
 
             </div>
         </div>
-    </Link>
+    
   </template>
 
 <script setup>
