@@ -14,6 +14,12 @@
     
     // Compute the user from the auth prop
     const user = computed(() => page.props.auth.user);
+    
+    
+    // Passing the unread messages count to the view!
+    const unreadMessages = computed(
+        () => Math.min(page.props.messages.unreadMessages, 99)
+    )
 
     // Consoling the User Component
     // console.log(user.value);
@@ -53,9 +59,14 @@
                                 <NavLink :href="route('faqs')" :active="route().current('faqs')">
                                     FAQs
                                 </NavLink>
-                                <NavLink v-if="user.role === 'admin'" :href="route('dashboard')" :active="route().current().startsWith('dashboard')">
-                                    Dashboard
-                                </NavLink>
+                                <div class="relative inline-flex">
+                                    <NavLink v-if="user.role === 'admin'" :href="route('dashboard')" :active="route().current().startsWith('dashboard')">
+                                        Dashboard
+                                    </NavLink>
+                                    <div v-if="unreadMessages" class="absolute flex items-center justify-center rounded-full bg-red-500 text-white w-6 h-6 text-xs font-semibold left-0 top-2">
+                                        {{ unreadMessages }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -96,8 +107,7 @@
                                         </span>
                                     </template>
 
-                                    <template #content>
-                                        <DropdownLink v-if="user.role === 'admin'" :href="route('dashboard')"> Dashboard</DropdownLink>
+                                    <template #content>                                        
                                         <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
@@ -165,6 +175,15 @@
                         <ResponsiveNavLink :href="route('faqs')" :active="route().current('faqs')">
                             FAQs
                         </ResponsiveNavLink>
+
+                        <div class="relative inline-flex w-full">
+                            <ResponsiveNavLink :href="route('dashboard')" :active="route().current().startsWith('dashboard')">
+                                Dashboard
+                            </ResponsiveNavLink>
+                            <div v-if="unreadMessages" class="absolute flex items-center justify-center rounded-full bg-red-500 text-white w-6 h-6 text-xs font-semibold left-0 top-0">
+                                {{ unreadMessages }}
+                            </div>
+                        </div>
                         
                     </div>
 
@@ -186,8 +205,7 @@
                             <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
                         </div>
 
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('dashboard')"> Dashboard </ResponsiveNavLink>
+                        <div class="mt-3 space-y-1">                            
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Log Out
