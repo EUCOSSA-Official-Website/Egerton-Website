@@ -23,11 +23,16 @@
 
                 <div class="ml-2 lg:ml-0 mt-4 lg:mt-0 col-span-12 lg:col-span-3 lg:col-start-10 bg-slate-300 lg:min-h-[50vh] max-h-fit lg:sticky lg:top-20 order-1 lg:order-2">
 
-                    <Link 
-                        :href="route('dashboard.analytics')"
-                        :class="{ 'active-class': route().current('dashboard.analytics'), 'inactive-class': !route().current('dashboard.analytics') }" >
-                        Analytics
-                    </Link>
+                    <div class="relative">
+                        <Link 
+                            :href="route('dashboard.analytics')"
+                            :class="{ 'active-class': route().current('dashboard.analytics'), 'inactive-class': !route().current('dashboard.analytics') }" >
+                            Analytics
+                        </Link>
+                        <div v-if="unreadMessages" class="absolute flex items-center justify-center rounded-full bg-red-500 text-white w-6 h-6 text-xs font-semibold left-2 top-1">
+                            {{ unreadMessages }}
+                        </div>
+                    </div>
 
                     <Link :href="route('dashboard.speakers')" :class="{ 'active-class': route().current('dashboard.speakers'), 'inactive-class': !route().current('dashboard.speakers') }">
                         Speakers
@@ -54,5 +59,14 @@
 
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { Link, Head } from '@inertiajs/vue3';
+    import { Link, Head, usePage } from '@inertiajs/vue3';
+    import { computed } from 'vue';
+
+    const page = usePage()
+    
+    // Passing the unread messages count to the view!
+    const unreadMessages = computed(
+        () => Math.min(page.props.messages.unreadMessages, 99)
+    )
+    
 </script>

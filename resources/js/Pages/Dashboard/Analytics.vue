@@ -33,7 +33,7 @@
                 <tbody class="max-h-[20vh]">
                     <tr v-for="(feedback, index) in feedback" :key="index" class="hover:bg-gray-50"
                         :class="index % 2 === 0 ? 'bg-gray-100' : 'bg-white'">
-                        <td class="py-3 px-1 whitespace-nowrap border border-slate-800">{{ feedback.name }}</td>
+                        <td class="py-3 px-1 border border-slate-800">{{ feedback.name }}</td>
                         <td class="py-3 px-1 border border-slate-800">{{ feedback.email }}</td>
                         <td class="py-3 px-1 border border-slate-800 w-64 ">
                             <div class="max-h-[8rem] overflow-y-auto">
