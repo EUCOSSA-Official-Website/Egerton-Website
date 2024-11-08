@@ -27,7 +27,14 @@
                         <td class="py-3 px-1 whitespace-nowrap border border-slate-800">{{ speaker.name }}</td>
                         <td class="py-3 px-1 border border-slate-800">{{ speaker.year_of_study }}</td>
                         <td class="py-3 px-1 border border-slate-800">{{ speaker.topic }}</td>
-                        <td class="py-3 px-1 border border-slate-800">{{ speaker.email }}</td>
+                        <td class="border border-slate-800">
+                            <div class="relative py-3 px-1">
+                                {{ speaker.email }}
+                                <div v-if="speaker.approved === null && speaker.disapproved === null" class="absolute top-0 right-0 text-white bg-red-700 rounded text-xs px-2">
+                                    Pending Approval!
+                                </div>
+                            </div>
+                        </td>
                         <td class="py-3 px-1 border border-slate-800 text-center text-white font-bold bg-blue-500 mx-2 my-2">
                             <Link :href="route('call-for-speakers.show', {call_for_speaker: speaker.id})">View</Link>                                    
                         </td>

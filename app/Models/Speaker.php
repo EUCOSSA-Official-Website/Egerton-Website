@@ -16,4 +16,9 @@ class Speaker extends Model
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeSpeakerApproval($query)
+    {
+        return $query->whereNull('approved')->whereNull('disapproved');
+    }
 }

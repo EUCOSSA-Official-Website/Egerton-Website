@@ -21,6 +21,11 @@
         () => Math.min(page.props.messages.unreadMessages, 99)
     )
 
+    // Passing the Un Approved Speakers Count
+    const pendingApproval = computed(
+        () => Math.min(page.props.messages.pendingSpeakerApproval, 99)
+    )
+
     // Consoling the User Component
     // console.log(user.value);
 </script>
@@ -65,6 +70,9 @@
                                     </NavLink>
                                     <div v-if="unreadMessages" class="absolute flex items-center justify-center rounded-full bg-red-500 text-white w-6 h-6 text-xs font-semibold left-0 top-2">
                                         {{ unreadMessages }}
+                                    </div>
+                                    <div v-if="pendingApproval" class="absolute flex items-center justify-center rounded-full bg-blue-500 text-white w-6 h-6 text-xs font-semibold left-5 top-2">
+                                        {{ pendingApproval }}
                                     </div>
                                 </div>
                             </div>

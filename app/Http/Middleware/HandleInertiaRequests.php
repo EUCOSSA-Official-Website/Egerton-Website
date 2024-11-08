@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\ContactForm;
+use App\Models\Speaker;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -30,13 +31,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        // return array_merge(parent::share($request), [
-        //     'auth' => [
-        //         'user' => $request->user(),
-        //     ],
-        //     'unreadMessages' => ContactForm::unreadNotifications()->get(),  // Fetch unread messages globally
-        //     'randomNumber' => 9
-        // ]);
 
         return array_merge(parent::share($request), [
             'auth' => [
@@ -45,7 +39,7 @@ class HandleInertiaRequests extends Middleware
             'messages' => [
                 'unreadMessages' => ContactForm::unreadNotifications()->count(),
                 'allMessages' => ContactForm::all()->count(),
-                'number' => 9
+                'pendingSpeakerApproval' => Speaker::speakerApproval()->count(),
             ]
         ]);
 

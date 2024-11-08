@@ -15,7 +15,7 @@ class SpeakersController extends Controller
     public function index()
     {
         // The Dashboards  Data
-        $speakers = Speaker::select('name', 'year_of_study', 'topic', 'email', 'id')->latest()->get();
+        $speakers = Speaker::select('name', 'year_of_study', 'topic', 'email', 'id', 'approved', 'disapproved')->latest()->get();
 
         return $speakers;
 

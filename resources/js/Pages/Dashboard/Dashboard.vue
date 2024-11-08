@@ -34,9 +34,16 @@
                         </div>
                     </div>
 
-                    <Link :href="route('dashboard.speakers')" :class="{ 'active-class': route().current('dashboard.speakers'), 'inactive-class': !route().current('dashboard.speakers') }">
-                        Speakers
-                    </Link>
+                    <div class="relative">
+                        <Link 
+                            :href="route('dashboard.speakers')"
+                            :class="{ 'active-class': route().current('dashboard.speakers'), 'inactive-class': !route().current('dashboard.speakers') }" >
+                            Speakers
+                        </Link>
+                        <div v-if="pendingApproval" class="absolute flex items-center justify-center rounded-full bg-red-500 text-white w-6 h-6 text-xs font-semibold left-2 top-1">
+                            {{ pendingApproval }}
+                        </div>
+                    </div>
 
                     <Link :href="route('dashboard.events.create')" :class="{ 'active-class': route().current('dashboard.events.create'), 'inactive-class': !route().current('dashboard.events.create') }">
                         Post An Event
@@ -67,6 +74,11 @@
     // Passing the unread messages count to the view!
     const unreadMessages = computed(
         () => Math.min(page.props.messages.unreadMessages, 99)
+    )
+
+    // Passing the Un Approved Speakers Count
+    const pendingApproval = computed(
+        () => Math.min(page.props.messages.pendingSpeakerApproval, 99)
     )
     
 </script>
