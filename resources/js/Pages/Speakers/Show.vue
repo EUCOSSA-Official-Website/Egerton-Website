@@ -3,8 +3,8 @@
 
     <AuthenticatedLayout>
 
-        <header class="text-3xl lg:text-4xl my-4 text-center bg-blue-700 text-white py-5 font-bold">
-            <Link :href="(route('dashboard'))" class="underline">Dashboard</Link> -> <Link :href="route('dashboard.speakers')" class="underline">Speakers</Link>→ <Link class="underline">Speaker</Link>
+        <header class="text-2xl lg:text-4xl my-4 text-center bg-blue-700 text-white py-5 font-bold">
+            <Link :href="(route('dashboard'))" class="underline">Dashboard</Link> → <Link :href="route('dashboard.speakers')" class="underline">Speakers</Link>→ <Link class="underline">Speaker</Link>
         </header>
 
         <div class="min-h-[50vh] grid grid-cols-12 lg:mb-28">
