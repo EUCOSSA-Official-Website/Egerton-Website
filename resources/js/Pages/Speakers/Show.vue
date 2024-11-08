@@ -4,7 +4,7 @@
     <AuthenticatedLayout>
 
         <header class="text-3xl lg:text-4xl my-4 text-center bg-blue-700 text-white py-5 font-bold">
-            <Link :href="(route('dashboard'))" class="underline">Dashboard</Link> → <Link class="underline">Speaker</Link>
+            <Link :href="(route('dashboard'))" class="underline">Dashboard</Link> -> <Link :href="route('dashboard.speakers')" class="underline">Speakers</Link>→ <Link class="underline">Speaker</Link>
         </header>
 
         <div class="min-h-[50vh] grid grid-cols-12 lg:mb-28">
@@ -35,7 +35,7 @@
                 <div class="flex justify-evenly pb-4 ">
                     <Link :href="route('call-for-speakers.update', {call_for_speaker: speaker.id})" as="button" method="put" :data="{ approval_status: 'approved' }"><PrimaryButton>Approve</PrimaryButton></Link>
                     <Link :href="route('call-for-speakers.update', {call_for_speaker: speaker.id})" as="button" method="put" :data="{ approval_status: 'disapproved' }"><SecondaryButton>Dissaprove</SecondaryButton></Link>
-                    <Link><PrimaryButton class="bg-red-600 hover:bg-red-700">Delete</PrimaryButton></Link>
+                    <Link :href="route('call-for-speakers.destroy', {call_for_speaker: speaker.id})" as="button" method="delete"><PrimaryButton class="bg-red-600 hover:bg-red-700">Delete</PrimaryButton></Link>
                 </div>
             </div>
      

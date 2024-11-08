@@ -109,6 +109,8 @@ class SpeakersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Speaker::where('id', $id)->delete();
+
+        return redirect()->route('dashboard.speakers')->with('success', 'Speaker deleted Successfully!');
     }
 }
