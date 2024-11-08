@@ -27,6 +27,10 @@ return new class extends Migration
 
             $table->timestamps();
 
+            // If the speaker has been approved/disapproved by Admin
+            $table->timestamp("approved")->nullable();
+            $table->timestamp("disapproved")->nullable();
+
             // Optional: Add foreign key for creator_id if needed
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
         });

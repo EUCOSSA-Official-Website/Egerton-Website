@@ -10,7 +10,7 @@ class Speaker extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['email', 'name', 'year_of_study', 'other_year', 'topic', 'description', 'stack', 'skill', 'phone', 'creator_id'];
+    protected $fillable = ['email', 'name', 'year_of_study', 'other_year', 'topic', 'description', 'stack', 'skill', 'phone', 'creator_id', 'approved', 'disapproved'];
 
     // Its relationship with User Class
     public function user(): BelongsTo {

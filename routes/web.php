@@ -127,7 +127,7 @@ Route::post('/register/mobile/submit', function (Request $request) {
 
 // The Call For Speakers Form
 Route::resource('/call-for-speakers', SpeakersController::class)
-    ->middleware(['auth', 'verified'])->except(['edit', 'update', 'destroy']);
+    ->middleware(['auth', 'verified'])->except(['edit', 'destroy']);
 
 
 // The Events Controller

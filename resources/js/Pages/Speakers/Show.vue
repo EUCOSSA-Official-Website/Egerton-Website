@@ -33,9 +33,9 @@
                 </div>
 
                 <div class="flex justify-evenly pb-4 ">
-                    <PrimaryButton>Approve</PrimaryButton>
-                    <SecondaryButton>Dissaprove</SecondaryButton>
-                    <PrimaryButton class="bg-red-600 hover:bg-red-700">Delete</PrimaryButton>
+                    <Link :href="route('call-for-speakers.update', {call_for_speaker: speaker.id})" as="button" method="put" :data="{ approval_status: 'approved' }"><PrimaryButton>Approve</PrimaryButton></Link>
+                    <Link :href="route('call-for-speakers.update', {call_for_speaker: speaker.id})" as="button" method="put" :data="{ approval_status: 'disapproved' }"><SecondaryButton>Dissaprove</SecondaryButton></Link>
+                    <Link><PrimaryButton class="bg-red-600 hover:bg-red-700">Delete</PrimaryButton></Link>
                 </div>
             </div>
      

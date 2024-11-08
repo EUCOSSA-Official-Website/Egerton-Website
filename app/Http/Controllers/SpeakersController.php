@@ -83,7 +83,25 @@ class SpeakersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        // Getting Data From The Request
+        $approvalStatus = $request->input('approval_status');
+
+        if($approvalStatus == 'approved')
+        {
+            Speaker::where('id', $id)->update([
+                    'approved' => now(),
+                    'disapproved' => null
+                ]
+            );  
+        } else{
+            Speaker::where('id', $id)->update([
+                    'disapproved' => now(),
+                    'approved' => null
+                ]
+            ); 
+        }
+        
     }
 
     /**
