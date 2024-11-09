@@ -191,6 +191,9 @@
                             <div v-if="unreadMessages" class="absolute flex items-center justify-center rounded-full bg-red-500 text-white w-6 h-6 text-xs font-semibold left-0 top-0">
                                 {{ unreadMessages }}
                             </div>
+                            <div v-if="pendingApproval" class="absolute flex items-center justify-center rounded-full bg-blue-500 text-white w-6 h-6 text-xs font-semibold left-5 top-0">
+                                {{ pendingApproval }}
+                            </div>
                         </div>
                         
                     </div>

@@ -40,7 +40,7 @@
                             :class="{ 'active-class': route().current('dashboard.speakers'), 'inactive-class': !route().current('dashboard.speakers') }" >
                             Speakers
                         </Link>
-                        <div v-if="pendingApproval" class="absolute flex items-center justify-center rounded-full bg-red-500 text-white w-6 h-6 text-xs font-semibold left-2 top-1">
+                        <div v-if="pendingApproval" class="absolute flex items-center justify-center rounded-full bg-blue-500 text-white w-6 h-6 text-xs font-semibold left-2 top-1">
                             {{ pendingApproval }}
                         </div>
                     </div>
