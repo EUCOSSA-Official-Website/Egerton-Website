@@ -40,7 +40,7 @@ class EventCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.event_created',
+            markdown: 'emails.event_created',
         );
     }
 
