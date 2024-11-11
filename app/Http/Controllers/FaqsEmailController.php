@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactFormMail;
 use App\Models\ContactForm;
 use App\Models\User;
 use App\Notifications\ContactFormNotification;
@@ -25,11 +26,12 @@ class FaqsEmailController extends Controller
        // Store the message in the database
        ContactForm::create($validated);
 
-       // Send an email to the specified address
-        Mail::raw("Name: {$validated['name']}\nEmail: {$validated['email']}\nMessage: {$validated['message']}", function ($message) {
-           $message->to('eucossake@gmail.com')
-                   ->subject('New Contact Form Submission');
-       });
+       // Send the Markdown email using ContactFormMail
+       Mail::to('eucossake@gmail.com')->send(new ContactFormMail(
+            $validated['name'],
+            $validated['email'],
+            $validated['message']
+        ));
 
         return response()->json(['message' => 'Email sent successfully.']);
     }
