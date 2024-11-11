@@ -94,7 +94,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://af84-154-159-237-181.ngrok-free.app/{$callbackRoute}",
+            "CallBackURL" => "https://28a3-154-159-237-45.ngrok-free.app/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -310,28 +310,41 @@ class MpesaController extends Controller
         return response()->json(['message' => "Route Hit Successfully"], 200);
     }
 
-    // Checking The Mpesa Balance of The account
     public function checkMpesaBalance()
     {
-
         $url = 'https://api.safaricom.co.ke/mpesa/accountbalance/v1/query';
 
+        // Load the public key for encryption
+        $publicKeyPath = base_path('public/assets/ProductionCertificate.cer');
+        $publicKey = file_get_contents($publicKeyPath);
+
+        // Concatenate shortcode and password
+        $password = env('MPESA_SHORTCODE') . env('MPESA_PASSWORD');
+
+        // Encrypt the concatenated password with the M-Pesa public key
+        openssl_public_encrypt($password, $encrypted, $publicKey, OPENSSL_PKCS1_PADDING);
+
+        // Base64 encode the encrypted result to create the SecurityCredential
+        $securityCredential = base64_encode($encrypted);
+
+        // Set up the body for the API request
         $body = [
-            "Initiator" => "Site Admin",
-            "SecurityCredential" => "",
-            "Command ID" => "",
-            "PartyA" => "",
-            "IdentifierType" => "",
-            "Remarks" => "",
-            "QueueTimeOutURL" => "",
-            "ResultURL" => ""
+            "Initiator" => env('MPESA_USERNAME'),
+            "SecurityCredential" => $securityCredential,
+            "CommandID" => "AccountBalance",
+            "PartyA" => env('MPESA_SHORTCODE'),
+            "IdentifierType" => 4,
+            "Remarks" => "Tests",
+            "QueueTimeOutURL" => "https://28a3-154-159-237-45.ngrok-free.app/balance-result",
+            "ResultURL" => "https://28a3-154-159-237-45.ngrok-free.app/balance-result"
         ];
 
-
+        // Make the API request
         $response = $this->makeHttp($url, $body);
 
         return $response;
     }
+
 
     // Receive The Mpesa Balance
     public function receiveMpesaBalance()

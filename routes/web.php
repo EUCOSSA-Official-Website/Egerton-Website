@@ -222,6 +222,8 @@ Route::get('/about', function()
     return inertia('About');
 })->name('about');
 
+
+// ALL MPESA EXTRA ROUTES
 // The Terms and conditions
 Route::get('/terms-and-conditions', function()
 {
@@ -241,3 +243,7 @@ Route::post('/subscribe50', [MpesaController::class, "subscribe50"])->name('subs
 // The Donations Route
 Route::post('/donate', [MpesaController::class, 'donate'])->name('donate');
 Route::post('/donate1', [MpesaController::class, 'donate1'])->name('donate1');
+
+// The Check Balance API
+Route::post('/balance', [MpesaController::class, 'checkMpesaBalance'])->name('balance');
+Route::post('/balance-result', [MpesaController::class, 'receiveMpesaBalance'])->name('balance-result');

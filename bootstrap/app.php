@@ -36,7 +36,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'register50',
             'http://127.0.0.1:8000/register50', 
             '/subscribe50',
-            '/donate1'
+            '/donate1',
+            '/balance', //For the balance api
+            '/balance-result', // For the result of the balance accrued. 
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
