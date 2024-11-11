@@ -14,6 +14,7 @@ class EventCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $url;
 
     /**
      * Create a new message instance.
@@ -21,6 +22,9 @@ class EventCreated extends Mailable
     public function __construct(public Event $event)
     {
         $this->event = $event;
+
+         // Setting the event URL
+         $this->url = route('events.show', $event->id);
     }
 
     /**
@@ -41,6 +45,9 @@ class EventCreated extends Mailable
     {
         return new Content(
             markdown: 'emails.event_created',
+            with: [
+                'url' => $this->url,
+            ],
         );
     }
 

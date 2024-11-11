@@ -1,12 +1,18 @@
 <x-mail::message>
-# {{ $event->title }}
+# Hello!
 
-{{ $event->description }}
+New event Alert! Titled: **{{ $event->title }}**
+
+**Description:** {{ $event->description }}
 
 **Start Time:** {{ $event->start_time }}
 
-Thank you for your interest in our event!
+**Event Date:** {{$event->event_day}}
 
-Thanks,<br>
+<x-mail::button :url="$url">
+    View Event!
+</x-mail::button>
+
+Regards,<br>
 {{ config('app.name') }}
 </x-mail::message>
