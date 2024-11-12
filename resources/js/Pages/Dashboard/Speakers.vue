@@ -26,7 +26,13 @@
                         :class="index % 2 === 0 ? 'bg-gray-100' : 'bg-white'">
                         <td class="py-3 px-1 whitespace-nowrap border border-slate-800">{{ speaker.name }}</td>
                         <td class="py-3 px-1 border border-slate-800">{{ speaker.year_of_study }}</td>
-                        <td class="py-3 px-1 border border-slate-800">{{ speaker.topic }}</td>
+                        <td class="py-3 px-1 border border-slate-800">
+                            <div class="relative pt-2">
+                                {{ speaker.topic }}
+                                <div v-if="speaker.approved" class="absolute top-0 right-0 text-white bg-yellow-500 text-xs rounded px-2">Approved</div>
+                                <div v-if="speaker.disapproved" class="absolute top-0 right-0 text-white bg-black text-xs rounded px-2">Disapproved</div>
+                            </div>
+                        </td>
                         <td class="border border-slate-800">
                             <div class="relative py-3 px-1">
                                 {{ speaker.email }}

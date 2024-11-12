@@ -42,6 +42,12 @@
             position: "Gucci",
             image: "https://dummyimage.com/40x40/ced4da/6c757d",
         },
+        {
+            text: "Quality is remembered long after the price is forgotten.",
+            author: "Gucci Family Slogan",
+            position: "Gucci",
+            image: "https://dummyimage.com/40x40/ced4da/6c757d",
+        },
     ]);
 
     // Carousel logic
@@ -147,7 +153,7 @@
                     <!-- Navigation Controls -->
                     <button
                         @click="prevQuote"
-                        class="absolute top-1/2 left-0 transform -translate-y-1/2 p-2 text-gray-500 hover:text-gray-900">
+                        class="absolute top-1/2 left-0 lg:left-40 transform -translate-y-1/2 p-2 text-gray-500 hover:text-gray-900">
                         <span class="sr-only">Previous</span>
                         <!-- Left Arrow Icon -->
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -156,7 +162,7 @@
                     </button>
                     <button
                         @click="nextQuote"
-                        class="absolute top-1/2 right-0 transform -translate-y-1/2 p-2 text-gray-500 hover:text-gray-900">
+                        class="absolute top-1/2 right-0 lg:right-40 transform -translate-y-1/2 p-2 text-gray-500 hover:text-gray-900">
                         <span class="sr-only">Next</span>
                         <!-- Right Arrow Icon -->
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
