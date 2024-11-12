@@ -26,7 +26,7 @@
             </div>
 
 
-            <div class="col-span-12 lg:col-span-4 bg-blue-400 max-h-[50vh] flex flex-col py-5 lg:py-14">
+            <div class="relative col-span-12 lg:col-span-4 bg-blue-400 max-h-[50vh] flex flex-col py-5 lg:py-14">
 
                 <div class="py-8 px-4 text-white">
                     <strong class="text-2xl">Applied At: </strong>{{formattedDate}}
@@ -37,6 +37,10 @@
                     <Link :href="route('call-for-speakers.update', {call_for_speaker: speaker.id})" as="button" method="put" :data="{ approval_status: 'disapproved' }"><SecondaryButton>Dissaprove</SecondaryButton></Link>
                     <Link :href="route('call-for-speakers.destroy', {call_for_speaker: speaker.id})" as="button" method="delete"><PrimaryButton class="bg-red-600 hover:bg-red-700">Delete</PrimaryButton></Link>
                 </div>
+
+                <div v-if="speaker.approved" class="absolute top-2 left-2 text-white bg-yellow-500 text-xs rounded px-2 py-1">Approved</div>
+                <div v-if="speaker.disapproved" class="absolute top-2 left-2 text-white bg-red-500 text-xs rounded px-2 py-1">Disapproved</div>
+                <div v-if="speaker.approved == null && speaker.disapproved == null" class="absolute top-2 left-2 text-white bg-red-500 text-xs rounded px-2 py-1">Pending Approval</div>
             </div>
      
         </div>
