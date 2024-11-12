@@ -94,7 +94,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://28a3-154-159-237-45.ngrok-free.app/{$callbackRoute}",
+            "CallBackURL" => "https://069e-154-159-237-45.ngrok-free.app/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -314,29 +314,16 @@ class MpesaController extends Controller
     {
         $url = 'https://api.safaricom.co.ke/mpesa/accountbalance/v1/query';
 
-        // Load the public key for encryption
-        $publicKeyPath = base_path('public/assets/ProductionCertificate.cer');
-        $publicKey = file_get_contents($publicKeyPath);
-
-        // Concatenate shortcode and password
-        $password = env('MPESA_SHORTCODE') . env('MPESA_PASSWORD');
-
-        // Encrypt the concatenated password with the M-Pesa public key
-        openssl_public_encrypt($password, $encrypted, $publicKey, OPENSSL_PKCS1_PADDING);
-
-        // Base64 encode the encrypted result to create the SecurityCredential
-        $securityCredential = base64_encode($encrypted);
-
         // Set up the body for the API request
         $body = [
             "Initiator" => env('MPESA_USERNAME'),
-            "SecurityCredential" => $securityCredential,
+            "SecurityCredential" => "MZi9cWjh77NUrXC9AL7qmFaNse4IUolTpmlxzcHjq50CV7OuBM97ZXVBrq9HT6QxzpRXv1eX3cGAzB4UBI0NysAKhsWbRfjC/GmHdZv3SqYkfRNxsza+d74wXr/GF/zeFiMs6qFqNt8n7nMFhtI8fLSbk8SLjoUJyV2RjYP8ie2gZ0LpdOBuLdEwDe30eGZbG0n9vauUGTN4SrPgmM3wsUexZ8Q3gknE9UVDjJ41GQgouUkUXAAlhFMQ3uT/DXVvhXWuOG0UIDS27diJNHosEI68ijmMASzqxnJJMLYyb4MjCuv/LJ7AmncynHmddTReiGS+ZH829+2ZBUasfG5gfQ==",
             "CommandID" => "AccountBalance",
             "PartyA" => env('MPESA_SHORTCODE'),
             "IdentifierType" => 4,
             "Remarks" => "Tests",
-            "QueueTimeOutURL" => "https://28a3-154-159-237-45.ngrok-free.app/balance-result",
-            "ResultURL" => "https://28a3-154-159-237-45.ngrok-free.app/balance-result"
+            "QueueTimeOutURL" => "https://069e-154-159-237-45.ngrok-free.app/balance-result",
+            "ResultURL" => "https://069e-154-159-237-45.ngrok-free.app/balance-result"
         ];
 
         // Make the API request
