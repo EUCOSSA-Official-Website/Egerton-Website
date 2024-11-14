@@ -250,4 +250,5 @@ Route::post('/balance', [MpesaController::class, 'checkMpesaBalance'])->name('ba
 Route::post('/balance-result', [MpesaController::class, 'receiveMpesaBalance'])->name('balance-result');
 
 // The Registering for Events Route
-Route::post('/mpesa/events/register', [PaidEventRegistration::class, 'initiateEventPayment'])->name('event-payment');
+Route::post('/mpesa/events/register/{event}', [PaidEventRegistration::class, 'initiateEventPayment'])->name('event-payment')->middleware(['auth']);
+Route::post('/mpesa/events/register', [PaidEventRegistration::class, 'processEventPayment'])->name('event-payment-process')->middleware(['auth']);

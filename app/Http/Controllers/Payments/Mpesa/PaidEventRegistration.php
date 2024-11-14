@@ -3,23 +3,45 @@
 namespace App\Http\Controllers\Payments\Mpesa;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaidEventRegistration extends Controller
 {
 
-    public function initiateEventPayment()
+    public function initiateEventPayment(Request $request, Event $event)
     {
         // Manually instantiate MpesaController Class
         $mpesaController = new MpesaController();
 
+        // Variables for the push
         $phone = 254794559089;
-        $amount = 1;
-        $callbackroute = '/event/register';
+        $amount = $event->event_charge;
+        $callbackroute = 'mpesa/events/register';
+        $user = Auth::user();
 
         $response  = $mpesaController->stkPush($phone, $amount, $callbackroute);
 
+        // // Decode the JSON string to an associative array
+        // $response = json_decode($response, true); // 'true' for associative array
+
+        // $responseCode = $response["ResponseCode"];
+
+        // // Adding Checkout ID to Users Column for registering users. 
+        // if($responseCode === "0"){
+        //     User::where('id', $user['id'])->update([
+        //         "mpesa_checkout_id" => $response["CheckoutRequestID"],
+        //     ]);
+        // }
+
         return $response;
+    }
+
+    public function processEventPayment()
+    {
+        
     }
 
 }

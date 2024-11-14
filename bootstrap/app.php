@@ -39,6 +39,7 @@ return Application::configure(basePath: dirname(__DIR__))
             '/donate1',
             '/balance', //For the balance api
             '/balance-result', // For the result of the balance accrued. 
+            'mpesa/events/register',  //Processing a paid event
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
