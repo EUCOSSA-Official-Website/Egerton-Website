@@ -1,8 +1,17 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { Head } from '@inertiajs/vue3';
+    import { Head, Link, usePage } from '@inertiajs/vue3';
     import { computed } from 'vue';
+    import PrimaryButton from '@/Components/PrimaryButton.vue';
 
+
+    // Access the page props using usePage
+    const page = usePage();
+    
+    // Compute the user from the auth prop
+    const user = computed(() => page.props.auth.user);
+
+    // Getting the Events
     const props = defineProps({
         'event': Array
     })
@@ -71,6 +80,10 @@
                 <span v-if="isEventPassed" class="bg-red-500 text-white text-xl font-bold px-3 py-2 rounded absolute right-3 top-3">
                     Event Passed
                 </span>
+                <div class="flex justify-between mt-5">
+                    <Link class="text-3xl" :href="route('event-payment')" as="button" method="post"><PrimaryButton>Register</PrimaryButton></Link>
+                    <Link v-if="user.role === 'admin'" :href="route('events.destroy', {event: props.event.id})" as="button" method="delete"><PrimaryButton class="bg-red-600 hover:bg-red-700">Delete Event</PrimaryButton></Link>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>

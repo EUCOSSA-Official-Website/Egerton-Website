@@ -7,8 +7,9 @@ use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 class EventsController extends Controller
 {
@@ -141,6 +142,26 @@ class EventsController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        // Authorize using Gate
+        Gate::allowIf(fn($user) => $user->role === 'admin');
+
+        // Delete the image from storage if it exists
+        if ($event->image) {
+            // Parse the image path (if it's a URL, strip the domain part)
+            $imagePath = str_replace(asset('storage') . '/', '', $event->image);
+            
+            // Check if the file exists in storage and delete it
+            if (Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        }
+
+        // Delete the event record from the database
+        $event->delete();
+
+        // Redirect back to events index with a success message
+        return redirect()->route('events.index')->with('success', 'Event and associated image deleted successfully!');
     }
+
+
 }
