@@ -3,6 +3,8 @@
     import { Head, Link, usePage } from '@inertiajs/vue3';
     import { computed } from 'vue';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
+    import { ref } from 'vue';
+    import SecondaryButton from '@/Components/SecondaryButton.vue';
 
 
     // Access the page props using usePage
@@ -13,7 +15,7 @@
 
     // Getting the Events
     const props = defineProps({
-        'event': Array
+        'event': Object
     })
 
     // Computed Property to check if the event has passed
@@ -47,6 +49,26 @@
         window.history.back(); // Uses browser's history API to navigate back
     };
 
+    // Sending a notification to frontend for copied to clipboard
+    // Notification state
+    const notification = ref(false);
+
+    // Method to copy the current page URL to the clipboard and show notification
+    function copyLinkToClipboard() {
+        navigator.clipboard.writeText(window.location.href)
+            .then(() => {
+                // Display an alert to notify the user
+                alert("Event Link copied to Clipboard!");
+
+                notification.value = true;
+                setTimeout(() => {
+                    notification.value = false;
+                }, 2000);
+            })
+            .catch(err => {
+                console.error("Failed to copy: ", err);
+            });
+    }
 
 </script>
 
@@ -80,10 +102,17 @@
                 <span v-if="isEventPassed" class="bg-red-500 text-white text-xl font-bold px-3 py-2 rounded absolute right-3 top-3">
                     Event Passed
                 </span>
-                <div class="flex justify-between mt-5">
-                    <Link class="text-3xl" :href="route('event-payment')" as="button" method="post"><PrimaryButton>Register</PrimaryButton></Link>
-                    <Link v-if="user.role === 'admin'" :href="route('events.destroy', {event: props.event.id})" as="button" method="delete"><PrimaryButton class="bg-red-600 hover:bg-red-700">Delete Event</PrimaryButton></Link>
+
+                <div v-if="user.role === 'admin'" class="flex justify-between sm:text-xl mt-5 items-center">
+                    <Link v-if="props.event.event_charge" class="text-3xl" :href="route('event-payment')" as="button" method="post"><PrimaryButton>Get Ticket</PrimaryButton></Link>
+                    <Link href="#" ><PrimaryButton  @click="copyLinkToClipboard" class="bg-white hover:bg-slate-200 text-black" as="button">Share Event</PrimaryButton></Link>
+                    <Link :href="route('events.destroy', {event: props.event.id})" as="button" method="delete"><PrimaryButton class="bg-red-600 hover:bg-red-700">Delete Event</PrimaryButton></Link>
                 </div>
+                <div v-else class="flex justify-between mt-5">
+                    <Link v-if="props.event.event_charge" class="text-3xl" :href="route('event-payment')" as="button" method="post"><PrimaryButton>Get Ticket</PrimaryButton></Link>
+                    <SecondaryButton  @click="copyLinkToClipboard" class="text-3xl">Share Event</SecondaryButton>
+                </div>
+
             </div>
         </div>
     </AuthenticatedLayout>
