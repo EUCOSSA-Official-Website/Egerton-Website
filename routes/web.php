@@ -7,6 +7,7 @@ use App\Http\Controllers\EventsController;
 use App\Http\Controllers\FaqsEmailController;
 use App\Http\Controllers\Payments\FinancesController;
 use App\Http\Controllers\Payments\Mpesa\MpesaController;
+use App\Http\Controllers\Payments\Mpesa\PaidEventRegistration;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpeakersController;
 use App\Models\ContactForm;
@@ -247,3 +248,6 @@ Route::post('/donate1', [MpesaController::class, 'donate1'])->name('donate1');
 // The Check Balance API
 Route::post('/balance', [MpesaController::class, 'checkMpesaBalance'])->name('balance');
 Route::post('/balance-result', [MpesaController::class, 'receiveMpesaBalance'])->name('balance-result');
+
+// The Registering for Events Route
+Route::post('/mpesa/events/register', [PaidEventRegistration::class, 'initiateEventPayment'])->name('event-payment');
