@@ -94,7 +94,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://069e-154-159-237-45.ngrok-free.app/{$callbackRoute}",
+            "CallBackURL" => "https://b713-154-159-237-114.ngrok-free.app/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];

@@ -104,7 +104,7 @@
                 </span>
 
                 <div v-if="user.role === 'admin'" class="flex justify-between sm:text-xl mt-5 items-center">
-                    <Link v-if="props.event.event_charge" class="text-3xl" :href="route('event-payment')" as="button" method="post"><PrimaryButton>Get Ticket</PrimaryButton></Link>
+                    <Link v-if="props.event.event_charge" class="text-3xl" :href="route('event-payment', {event: props.event.id})" as="button" method="post"><PrimaryButton>Get Ticket</PrimaryButton></Link>
                     <Link href="#" ><PrimaryButton  @click="copyLinkToClipboard" class="bg-white hover:bg-slate-200 text-black" as="button">Share Event</PrimaryButton></Link>
                     <Link :href="route('events.destroy', {event: props.event.id})" as="button" method="delete"><PrimaryButton class="bg-red-600 hover:bg-red-700">Delete Event</PrimaryButton></Link>
                 </div>
