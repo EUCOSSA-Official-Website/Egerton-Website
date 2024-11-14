@@ -70,6 +70,7 @@ class EventsController extends Controller
     {
         // Validate the incoming request
         $validatedData = $request->validate([
+            'category' => 'required|string',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'required|mimes:jpeg,png,jpg,gif|mimetypes:image/jpeg,image/png,image/jpg,image/gif|max:8192', // Enforce strict MIME type check            'event_day' => 'required|date|after_or_equal:today', // Ensure the event day is today or in the future

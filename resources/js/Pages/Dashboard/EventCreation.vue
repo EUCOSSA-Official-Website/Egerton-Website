@@ -4,17 +4,33 @@
         <div class="max-w-lg mx-auto p-4 bg-white shadow-md rounded sm:my-5">
             <h2 class="text-2xl font-bold mb-4">Create Event</h2>
 
+            <div class="mb-4">
+                <label for="category" class="form-label text-black">
+                    Event Type <span class="text-red-500">*</span>
+                </label>
+                <div class="mt-2 space-y-2 space-x-5">
+                    <div class="inline">
+                        <input type="radio" id="techfriday" value="eucossa_tech_friday" v-model="form.category" name="category" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                        <label for="techfriday" class="ml-2 text-sm text-black">Tech Friday Event</label>
+                    </div>
+                    <div class="inline">
+                        <input type="radio" id="hackathon" value="hackathon" v-model="form.category" name="category" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                        <label for="hackathon" class="ml-2 text-sm text-black">Hackathon</label>
+                    </div>
+                </div>
+            </div>
+
             <form @submit.prevent="submitForm">
             <!-- Event Title -->
             <div class="mb-4">
-                <label for="title" class="block font-medium text-gray-700">Event Title</label>
+                <label for="title" class="block font-medium text-black">Event Title</label>
                 <input type="text" id="title" v-model="form.title" class="form-input" placeholder="Enter event title" />
                 <div v-if="form.errors.title" class="input-error"> {{ form.errors.title }} </div>
             </div>
 
             <!-- Event Description -->
             <div class="mb-4">
-                <label for="description" class="block font-medium text-gray-700">Description</label>
+                <label for="description" class="block font-medium text-black">Description</label>
                 <textarea id="description" v-model="form.description"
                 class="form-input"
                 placeholder="Enter event description"
@@ -25,7 +41,7 @@
 
             <!-- Event Image -->
             <div class="mb-4">
-                <label for="image" class="block font-medium text-gray-700">Upload Image</label>
+                <label for="image" class="block font-medium text-black">Upload Image</label>
                 <input type="file" id="image" @change="handleImageUpload"
                     class="form-input"
                     required
@@ -35,45 +51,47 @@
 
             <!-- Event Day (Calendar) -->
             <div class="mb-4">
-                <label for="event_day" class="block font-medium text-gray-700">Event Day</label>
+                <label for="event_day" class="block font-medium text-black">Event Day</label>
                 <input type="date" id="event_day" v-model="form.event_day" class="form-input"required/>
                 <div v-if="form.errors.event_day" class="input-error"> {{ form.errors.event_day }} </div>
             </div>
 
-            <!-- Start Time -->
-            <div class="mb-4">
-                <label for="start-time" class="block font-medium text-gray-700">Start Time</label>
-                <input type="time" id="start-time"
-                class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2"
-                min="09:00"
-                max="19:00"
-                v-model="form.start_time"
-                required
-                />
-            </div>
-
-            <!-- End Time -->
-            <div class="mb-4">
-                <label for="end-time" class="block font-medium text-gray-700">End Time</label>
-                <input type="time" id="end-time"
-                class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2"
-                min="09:00"
-                max="19:00"
-                v-model="form.end_time"
-                required
-                />
+            <div class="grid grid-cols-2 space-x-4">
+                <!-- Start Time -->
+                <div class="mb-4 col-span-1">
+                    <label for="start-time" class="block font-medium text-black">Start Time</label>
+                    <input type="time" id="start-time"
+                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2"
+                    min="09:00"
+                    max="19:00"
+                    v-model="form.start_time"
+                    required
+                    />
+                </div>
+    
+                <!-- End Time -->
+                <div class="mb-4 col-span-1">
+                    <label for="end-time" class="block font-medium text-black">End Time</label>
+                    <input type="time" id="end-time"
+                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2"
+                    min="09:00"
+                    max="19:00"
+                    v-model="form.end_time"
+                    required
+                    />
+                </div>
             </div>
 
             <!-- Speaker -->
             <div class="mb-4">
-                <label for="speaker" class="block font-medium text-gray-700">Speaker</label>
+                <label for="speaker" class="block font-medium text-black">Speaker</label>
                 <input type="text" id="speaker" v-model="form.speaker" class="form-input" placeholder="Enter speaker's name" required />
                 <div v-if="form.errors.speaker" class="input-error"> {{ form.errors.speaker }} </div>
             </div>
 
             <!-- Reminder Checkbox -->
             <div class="mb-4">
-                <label class="block font-medium text-gray-700">
+                <label class="block font-medium text-black">
                 <input
                     type="checkbox"
                     v-model="eventPaid"
@@ -109,6 +127,7 @@
 
     // Initializing the form using `useForm`
     const form = useForm({
+        category: 'eucossa_tech_friday',
         title: '',
         description: '',
         image: null, // Placeholder for image file

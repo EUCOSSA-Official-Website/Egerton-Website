@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             
+            // Is the event a Hackathon?
+            $table->enum('category', ['eucossa_tech_friday', 'hackathon']);
+            
             $table->string('title');
             $table->text('description');
             $table->string('image');
