@@ -64,8 +64,8 @@
                                 <NavLink :href="route('faqs')" :active="route().current('faqs')">
                                     FAQs
                                 </NavLink>
-                                <div class="relative inline-flex">
-                                    <NavLink v-if="user.role === 'admin'" :href="route('dashboard')" :active="route().current().startsWith('dashboard')">
+                                <div v-if="user.role === 'admin'" class="relative inline-flex">
+                                    <NavLink :href="route('dashboard')" :active="route().current().startsWith('dashboard')">
                                         Dashboard
                                     </NavLink>
                                     <div v-if="unreadMessages" class="absolute flex items-center justify-center rounded-full bg-red-500 text-white w-6 h-6 text-xs font-semibold left-0 top-2">
