@@ -21,8 +21,13 @@ return new class extends Migration
             $table->string('end_time');
             $table->string('event_day');
             $table->string('speaker');
-            $table->boolean('reminder')->default(false);
             $table->foreignId('creator_id')->constrained('users')->onDelete('cascade'); // Event creator
+
+            //If the event is a paid event. 
+            $table->string('event_charge')->nullable();
+            $table->string('mpesa_callback') ->nullable();
+            $table->string('receipt_number')->nullable();
+            $table->string('amount_paid')->nullable();
 
             $table->timestamps();
         });

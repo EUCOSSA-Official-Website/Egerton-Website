@@ -76,11 +76,15 @@
                 <label class="block font-medium text-gray-700">
                 <input
                     type="checkbox"
-                    v-model="form.reminder"
+                    v-model="eventPaid"
                     class="mr-2 leading-tight"
                 />
-                Set Reminder
+                Paid Event?
                 </label>
+                <div v-if="eventPaid" class="mt-5">
+                    <input type="number" id="amount" v-model="form.event_charge" class="form-input" placeholder="Enter Event Charges" required />
+                </div>
+                <div v-if="form.errors.speaker" class="input-error"> {{ form.errors.speaker }} </div>
             </div>
 
             <!-- Submit Button -->
@@ -98,6 +102,9 @@
 <script setup>
     import { useForm } from '@inertiajs/vue3';
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
+    import { ref } from 'vue';
+
+    const eventPaid = ref(false);
     
 
     // Initializing the form using `useForm`
@@ -109,7 +116,7 @@
         start_time: '14:00', // Default start time
         end_time: '16:00',   // Default end time
         speaker: '',
-        reminder: false,
+        event_charge: '',
     });
 
     // Method to handle image upload

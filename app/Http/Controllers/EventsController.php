@@ -76,7 +76,7 @@ class EventsController extends Controller
             'start_time' => 'required',
             'end_time' => 'required',
             'speaker' => 'required|string|max:255',
-            'reminder' => 'boolean',
+            'event_charge' => 'numeric'
         ]);
     
         // Handle file upload
