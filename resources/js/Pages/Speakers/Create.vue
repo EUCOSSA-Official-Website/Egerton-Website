@@ -138,18 +138,25 @@
     const page = usePage();
 
     const form = useForm({
-        email: page.props.auth.user.email,
-        name: page.props.auth.user.name,
+        email: page.props.auth.user?.email,
+        name: page.props.auth.user?.name,
         year_of_study: "",
         other_year: "",
         topic: "",
         description: "",
         stack: "",
         skill: "",
-        phone: page.props.auth.user.mobile
+        phone: page.props.auth.user?.mobile
     });
 
     const submitForm = () => {
+
+        // Checking To See if the user is authenticated to be able to send out the form. 
+        if (!page.props.auth.user) {
+            alert('Login to Submit Your Speaker Application!');
+            return; // Stop further execution if the user is not logged in
+        }
+
         form.post(route('call-for-speakers.store'));
     };
 </script>

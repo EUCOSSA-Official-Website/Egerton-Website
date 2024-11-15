@@ -22,7 +22,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Gate;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('home');
 });
 
 // The Home Route
@@ -45,7 +45,7 @@ require __DIR__ . '/auth.php';
 
 Route::get('/payments', function () {
     return inertia('Payments');
-})->middleware(['auth', 'verified'])->name('payments');
+})->name('payments');
 
 
 // Redirect to Google
@@ -128,7 +128,11 @@ Route::post('/register/mobile/submit', function (Request $request) {
 
 // The Call For Speakers Form
 Route::resource('/call-for-speakers', SpeakersController::class)
-    ->middleware(['auth', 'verified'])->except(['edit']);
+    ->middleware(['auth', 'verified'])->except(['edit', 'create']);
+
+// Public Access to the 'create' Method
+Route::get('/call-4-speakers/create', [SpeakersController::class, 'create'])
+    ->name('call-for-speakers.create');
 
 
 // The Events Controller
@@ -139,7 +143,7 @@ Route::get('/events', function (EventsController $eventsController) {
     $events = $eventsController->index();
 
     return inertia('Events/Index', ['events' => $events]);
-})->middleware(['auth', 'verified'])->name('events.index');
+})->name('events.index');
 
 // Liking Events Routes
 Route::post('/events/{eventId}/reactions', [EventReactionController::class, 'toggleReaction'])->middleware('auth');
@@ -223,20 +227,21 @@ Route::get('/about', function()
     return inertia('About');
 })->name('about');
 
-
-// ALL MPESA EXTRA ROUTES
 // The Terms and conditions
 Route::get('/terms-and-conditions', function()
 {
     return inertia('Terms');
 })->name('terms-and-conditions');
 
+
+// ALL MPESA EXTRA ROUTES
 // Registering with 50sh
 Route::post('register50', [MpesaController::class, 'register'])
-    ->name('register50');
+    ->middleware(['auth'])->name('register50');
 
 // The Semester Subscriptions Class For Initiating STK
-Route::post('/subscribe', [MpesaController::class, 'subscribe'])->name('subscribe');
+Route::post('/subscribe', [MpesaController::class, 'subscribe'])
+    ->middleware(['auth'])->name('subscribe');
 
 // The Semester Registrations Callback Route For Notifications From Mpesa. 
 Route::post('/subscribe50', [MpesaController::class, "subscribe50"])->name('subscribe50');

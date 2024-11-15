@@ -15,7 +15,7 @@
 
     // Notification for when a User is already Registered
     const handleClick = (e) => {
-        if (user) {
+        if (user.value) {
             e.preventDefault();
             alert('You are already registered!🎉');
         }
