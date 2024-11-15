@@ -28,9 +28,6 @@ return new class extends Migration
 
             //If the event is a paid event. 
             $table->string('event_charge')->nullable();
-            $table->string('mpesa_callback') ->nullable();
-            $table->string('receipt_number')->nullable();
-            $table->string('amount_paid')->nullable();
 
             $table->timestamps();
         });

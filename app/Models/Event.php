@@ -41,5 +41,11 @@ class Event extends Model
         return $this->hasMany(EventReaction::class);
     }
 
-
+    /**
+     * Relationship: An Event can have many registrations.
+     */
+    public function registrations()
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
 }
