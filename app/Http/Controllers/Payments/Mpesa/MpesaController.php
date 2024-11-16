@@ -94,7 +94,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://3844-154-159-237-60.ngrok-free.app/{$callbackRoute}",
+            "CallBackURL" => "https://d1b9-154-159-237-60.ngrok-free.app/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -316,14 +316,14 @@ class MpesaController extends Controller
 
         // Set up the body for the API request
         $body = [
-            "Initiator" => env('MPESA_USERNAME'),
+            "Initiator" => env('MPESA_API_USERNAME'),
             "SecurityCredential" => "MZi9cWjh77NUrXC9AL7qmFaNse4IUolTpmlxzcHjq50CV7OuBM97ZXVBrq9HT6QxzpRXv1eX3cGAzB4UBI0NysAKhsWbRfjC/GmHdZv3SqYkfRNxsza+d74wXr/GF/zeFiMs6qFqNt8n7nMFhtI8fLSbk8SLjoUJyV2RjYP8ie2gZ0LpdOBuLdEwDe30eGZbG0n9vauUGTN4SrPgmM3wsUexZ8Q3gknE9UVDjJ41GQgouUkUXAAlhFMQ3uT/DXVvhXWuOG0UIDS27diJNHosEI68ijmMASzqxnJJMLYyb4MjCuv/LJ7AmncynHmddTReiGS+ZH829+2ZBUasfG5gfQ==",
             "CommandID" => "AccountBalance",
             "PartyA" => env('MPESA_SHORTCODE'),
-            "IdentifierType" => 4,
+            "IdentifierType" => 2,
             "Remarks" => "Tests",
-            "QueueTimeOutURL" => "https://069e-154-159-237-45.ngrok-free.app/balance-result",
-            "ResultURL" => "https://069e-154-159-237-45.ngrok-free.app/balance-result"
+            "QueueTimeOutURL" => "https://d1b9-154-159-237-60.ngrok-free.app/balance-result",
+            "ResultURL" => "https://d1b9-154-159-237-60.ngrok-free.app/balance-result"
         ];
 
         // Make the API request
