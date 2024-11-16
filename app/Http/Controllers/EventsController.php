@@ -52,11 +52,12 @@ class EventsController extends Controller
                 'end_time' => $event->end_time,
                 'event_day' => $event->event_day,
                 'speaker' => $event->speaker,
+                'category' => $event->category,
                 'reminder' => $event->reminder,
                 'creator_id' => $event->creator_id,
                 'user_reaction' => $event->user_reaction,  // Either 'like' or 'dislike'
                 'likes' => $likes,
-                'dislikes' => $dislikes
+                'dislikes' => $dislikes,
             ];
         });
         

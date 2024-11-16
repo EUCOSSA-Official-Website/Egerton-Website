@@ -102,6 +102,11 @@
                 <span v-if="isEventPassed" class="bg-red-500 text-white text-xl font-bold px-3 py-2 rounded absolute right-3 top-3">
                     Event Passed
                 </span>
+                
+                <!-- Badge Hackathons -->
+                <span v-if="props.event.category === 'hackathon'" class="bg-blue-500 text-white text-xl font-bold px-3 py-2 rounded absolute left-3 top-3">
+                    Hackathon
+                </span>
 
                 <div v-if="user.role === 'admin'" class="flex justify-between sm:text-xl mt-5 items-center">
                     <Link v-if="props.event.event_charge" class="text-3xl" :href="route('event-payment', {event: props.event.id})" as="button" method="post"><PrimaryButton>Get Ticket</PrimaryButton></Link>

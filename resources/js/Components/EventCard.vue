@@ -20,6 +20,12 @@
             <span v-if="isEventPassed" class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded absolute right-3 top-3">
                 Event Passed
             </span>
+            
+            
+            <!-- Badge for Hackathons -->
+            <span v-if="event.category === 'hackathon'" class="bg-blue-500 text-white text-lg font-bold px-2 py-1 rounded absolute left-3 top-3">
+                Hackathon
+            </span>
 
             </Link>
 
