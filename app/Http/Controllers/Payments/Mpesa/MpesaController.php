@@ -305,37 +305,6 @@ class MpesaController extends Controller
                 'source' => "mpesa"
             ]);
         }
-        
-
         return response()->json(['message' => "Route Hit Successfully"], 200);
-    }
-
-    public function checkMpesaBalance()
-    {
-        $url = 'https://api.safaricom.co.ke/mpesa/accountbalance/v1/query';
-
-        // Set up the body for the API request
-        $body = [
-            "Initiator" => env('MPESA_API_USERNAME'),
-            "SecurityCredential" => "MZi9cWjh77NUrXC9AL7qmFaNse4IUolTpmlxzcHjq50CV7OuBM97ZXVBrq9HT6QxzpRXv1eX3cGAzB4UBI0NysAKhsWbRfjC/GmHdZv3SqYkfRNxsza+d74wXr/GF/zeFiMs6qFqNt8n7nMFhtI8fLSbk8SLjoUJyV2RjYP8ie2gZ0LpdOBuLdEwDe30eGZbG0n9vauUGTN4SrPgmM3wsUexZ8Q3gknE9UVDjJ41GQgouUkUXAAlhFMQ3uT/DXVvhXWuOG0UIDS27diJNHosEI68ijmMASzqxnJJMLYyb4MjCuv/LJ7AmncynHmddTReiGS+ZH829+2ZBUasfG5gfQ==",
-            "CommandID" => "AccountBalance",
-            "PartyA" => env('MPESA_SHORTCODE'),
-            "IdentifierType" => 2,
-            "Remarks" => "Tests",
-            "QueueTimeOutURL" => "https://d1b9-154-159-237-60.ngrok-free.app/balance-result",
-            "ResultURL" => "https://d1b9-154-159-237-60.ngrok-free.app/balance-result"
-        ];
-
-        // Make the API request
-        $response = $this->makeHttp($url, $body);
-
-        return $response;
-    }
-
-
-    // Receive The Mpesa Balance
-    public function receiveMpesaBalance()
-    {
-
-    }
+    }    
 }
