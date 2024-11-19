@@ -23,8 +23,8 @@ class MpesaBalanceController extends Controller
             "PartyA" => env('MPESA_BALANCE_API_SHORTCODE'),
             "IdentifierType" => 4,
             "Remarks" => "Tests",
-            "QueueTimeOutURL" => "https://b52f-154-159-237-172.ngrok-free.app/balance-result",
-            "ResultURL" => "https://b52f-154-159-237-172.ngrok-free.app/balance-result"
+            "QueueTimeOutURL" => "https://d9e5-154-159-237-66.ngrok-free.app/balance-result",
+            "ResultURL" => "https://d9e5-154-159-237-66.ngrok-free.app/balance-result"
         ];
 
         $response = $mpesaController->makeHttp($url, $body);

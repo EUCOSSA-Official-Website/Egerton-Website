@@ -2,7 +2,7 @@
     <Dashboard>
         <div>
             <h1 class="mx-auto text-2xl text-center font-bold">Balances</h1>
-            <Link :href="route('balance')" method='post' as='button' class="block bg-blue-700 text-white rounded">Refresh</Link>
+            <Link  @click="fetchLatestBalance" :href="route('balance')" method='post' as='button' class="block bg-blue-700 text-white rounded-sm px-3 py-1 my-4">Check Latest Balance</Link>
             <table class="min-w-full bg-white border border-gray-800">
                 <thead class="bg-gray-100 sticky top-0 z-10">
                     <tr class="bg-gray-100 text-left text-gray-600 font-semibold">
@@ -15,7 +15,7 @@
                     <tr v-for="(balance, index) in balances" :key="index" class="hover:bg-gray-50"
                         :class="index % 2 === 0 ? 'bg-gray-100' : 'bg-white'">
                         <td class="py-3 px-1 border border-slate-800">{{ balance.gateway }}</td>
-                        <td class="py-3 px-1 border border-slate-800">{{ formatDate(balance.retrieved_at) }}</td>
+                        <td class="py-3 px-1 border border-slate-800">{{ formattedDate(balance.retrieved_at) }}</td>
                         <td class="py-3 px-1 border border-slate-800">{{ balance.balance }}</td>
                     </tr>
                 </tbody>
@@ -27,7 +27,13 @@
 <script setup>
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
     import { Link } from '@inertiajs/vue3';
-    import {computed} from 'vue';
+    import { router } from '@inertiajs/vue3';
+
+    function fetchLatestBalance() {
+        setTimeout(() => {
+            router.visit(route('dashboard.finances'), { method: 'get', preserveState: true });
+        }, 4000);
+    }
 
     // Receiving The Balances Object
     defineProps({
@@ -35,8 +41,8 @@
     })
 
     // Formatted Date
-    const formattedDate = computed(() => {
-      const date = new Date(props.speaker.created_at);
+    const formattedDate = (transactionDate) => {
+      const date = new Date(transactionDate);
       return `${date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -46,15 +52,6 @@
         minute: '2-digit',
         hour12: true
       })}`;
-    });
-
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const day = String(date.getDate()).padStart(2, '0');
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const month = months[date.getMonth()]; // Get the 3-letter month abbreviation        
-        const year = date.getFullYear();
-        return `${day}-${month}-${year}`;
-    }
+    };
 
 </script>
