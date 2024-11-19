@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Payments;
 
 use App\Http\Controllers\Controller;
+use App\Models\FinanceBalance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,6 +15,10 @@ class FinancesController extends Controller
 
         Gate::allowIf(fn($user) => $user->role === 'admin');
 
-        return Inertia('Dashboard/Finances');
+        $balances = FinanceBalance::latest()->get();
+
+        return Inertia('Dashboard/Finances', [
+            'balances' => $balances
+        ]);
     }
 }
