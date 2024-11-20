@@ -119,8 +119,9 @@ Route::post('/register/mobile/submit', function (Request $request) {
         'google_avatar' => $googleAvatar,
     ]);
 
+    $remember = true;
     // Log in the user
-    Auth::login($user);
+    Auth::login($user, $remember);
 
 
     // Redirect to the The Home Page. 
