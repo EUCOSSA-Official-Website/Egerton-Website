@@ -5,10 +5,10 @@
         <Head title="Mobile" />
 
         <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg border border-slate-100"
+            class="w-full sm:max-w-md mt-6 px-6 py-4  shadow-md overflow-hidden sm:rounded-lg border border-slate-100"
         >        
             
-            <h2 class="text-2xl sm:text-3xl text-nowrap mt-2 mb-4 text-gray-900 dark:text-gray-300">Complete Your Registration</h2>
+            <h2 class="text-2xl sm:text-3xl text-nowrap mt-2 mb-4 text-gray-900 ">Complete Your Registration</h2>
 
                 <form @submit.prevent="submitForm">
                     
