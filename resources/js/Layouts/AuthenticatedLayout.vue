@@ -33,7 +33,30 @@
 <template>
     <div>
         <div class="min-h-screen bg-gray-100 ">
-            <nav class="bg-white  border-b border-gray-100 ">
+
+             <!-- Ribbon -->
+            <div class="hidden bg-gradient-to-r from-white via-blue-500 to-blue-600 text-white py-2 px-4 sm:flex justify-evenly items-center">
+                <div class="flex items-center">
+                    <!-- Logo -->
+                    <Link :href="route('home')" class="flex items-center">
+                        <ApplicationLogo
+                            :height="40" :width="80" class="block h-12 w-auto fill-current text-gray-800 "
+                        />
+                    </Link>
+                </div>
+                <div class="text-center">
+                    <span class="text-sm font-semibold">Together We Learn, Together We Grow.</span>
+                </div>
+                <div class="text-right">
+                    <!-- Logo (You can replace with your logo image) -->
+                     <a href="#register">
+                        <img src="/assets/img/register.png" alt="Site Logo" href="#register" class="h-10">
+                    </a>
+                </div>
+            </div>
+
+
+            <nav class="bg-white  border-b border-gray-100 sticky top-0 z-10">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto pl-4 sm:px-6 lg:pl-6">
                     <div class="flex justify-between h-16">
@@ -88,7 +111,7 @@
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500  bg-white  hover:text-gray-700  focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {{ user?.name || 'Guest' }}
+                                                {{ user?.name || 'Login / Register?' }}
 
                                                 <div v-if="user?.google_avatar">
                                                     <!-- Display Google Avatar Image -->
@@ -117,8 +140,8 @@
 
                                     <template #content>                                        
                                         <DropdownLink v-if="user?.name" :href="route('profile.edit')"> Profile </DropdownLink>
-                                        <DropdownLink v-if="!user?.name" :href="route('login')"> Login </DropdownLink>
-                                        <DropdownLink v-if="!user?.name" :href="route('register')"> Register </DropdownLink>
+                                        <DropdownLink v-if="!user?.name" :href="route('login')" class="text-blue-500"> Login </DropdownLink>
+                                        <DropdownLink v-if="!user?.name" :href="route('register')" class="text-blue-500"> Register </DropdownLink>
 
                                         <DropdownLink v-if="user?.name" :href="route('logout')" method="post" as="button">
                                             Log Out
@@ -205,7 +228,7 @@
                     <div class="pt-4 pb-1 border-t border-gray-200 ">
                         <div class="px-4">
                             <div class="inline-flex font-medium text-base text-gray-800  items-center">
-                                {{ user?.name || 'Guest' }}
+                                {{ user?.name || 'Login / Register?' }}
 
                                 <div v-if="user?.google_avatar">
                                     <!-- Display Google Avatar Image -->
@@ -220,8 +243,10 @@
                         </div>
 
                         <div class="mt-3 space-y-1">                            
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('logout')" method="post" as="button">
+                            <ResponsiveNavLink v-if="user?.name" :href="route('profile.edit')"> Profile </ResponsiveNavLink>
+                            <ResponsiveNavLink v-if="!user?.name" :href="route('login')"> Login </ResponsiveNavLink>
+                            <ResponsiveNavLink v-if="!user?.name" :href="route('register')"> Register </ResponsiveNavLink>
+                            <ResponsiveNavLink v-if="user?.name" :href="route('logout')" method="post" as="button">
                                 Log Out
                             </ResponsiveNavLink>
                         </div>
