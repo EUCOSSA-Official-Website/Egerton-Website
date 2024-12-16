@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // Creating 10 Events
-        // Event::factory(10)->create();
+        Event::factory(10)->create();
 
-        EventReaction::factory()->create();
+        //EventReaction::factory()->create();
     }
 }

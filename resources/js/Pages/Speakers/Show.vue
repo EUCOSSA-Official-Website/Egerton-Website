@@ -35,7 +35,9 @@
                 <div class="flex justify-evenly pb-4 ">
                     <Link :href="route('call-for-speakers.update', {call_for_speaker: speaker.id})" as="button" method="put" :data="{ approval_status: 'approved' }"><PrimaryButton>Approve</PrimaryButton></Link>
                     <Link :href="route('call-for-speakers.update', {call_for_speaker: speaker.id})" as="button" method="put" :data="{ approval_status: 'disapproved' }"><SecondaryButton>Dissaprove</SecondaryButton></Link>
-                    <Link :href="route('call-for-speakers.destroy', {call_for_speaker: speaker.id})" as="button" method="delete"><PrimaryButton class="bg-red-600 hover:bg-red-700">Delete</PrimaryButton></Link>
+                    <button @click="confirmDelete">
+                        <PrimaryButton class="bg-red-600 hover:bg-red-700 focus:bg-red-700 active:bg-red-900">Delete</PrimaryButton>
+                    </button>
                 </div>
 
                 <div v-if="speaker.approved" class="absolute top-2 left-2 text-white bg-yellow-500 text-xs rounded px-2 py-1">Approved</div>
@@ -54,6 +56,7 @@
     import { computed } from 'vue';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
     import SecondaryButton from '@/Components/SecondaryButton.vue';
+    import { router } from '@inertiajs/vue3'; // Use Inertia's router for programmatic navigation
 
     const props = defineProps({
         speaker: Object
@@ -71,4 +74,12 @@
         hour12: true
       })}`;
     });
+
+    // Method to confirm and handle deletion
+    function confirmDelete() {
+    if (confirm('Are you sure you want to delete this speaker application?')) {
+        // If confirmed, send the DELETE request via Inertia
+        router.delete(route('call-for-speakers.destroy', {call_for_speaker: props.speaker.id}));
+    }
+}
 </script>

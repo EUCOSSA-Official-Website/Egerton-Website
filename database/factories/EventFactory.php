@@ -30,7 +30,6 @@ class EventFactory extends Factory
             'end_time' => $endTime->format('H:i'),
             'event_day' => $startTime->format('Y-m-d'),
             'speaker' => $this->faker->name,
-            'reminder' => $this->faker->boolean,
             'creator_id' => 2,
         ];
     }
