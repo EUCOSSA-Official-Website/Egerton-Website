@@ -210,8 +210,8 @@ Route::post('/stkpush', [MpesaController::class, 'stkPush'])
     ->name('stkpush');
 
 // The STK Push URL For Logging The Response. 
-Route::post('stkpush2', [MpesaController::class, 'stkpush2'])
-    ->name('stkpush2');
+Route::post('register2', [MpesaController::class, 'register2'])
+    ->name('register2');
 
 // The FAQ's Page
 Route::get('/faqs', function()

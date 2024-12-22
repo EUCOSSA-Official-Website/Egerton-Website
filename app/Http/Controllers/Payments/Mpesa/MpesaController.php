@@ -94,7 +94,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://e316-197-232-62-140.ngrok-free.app/{$callbackRoute}",
+            "CallBackURL" => env('APP_ENV') == 'local' ? env('MPESA_TEST_URL') . "/{$callbackRoute}" : env('MPESA_PRODUCTION_URL') . "/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -125,7 +125,7 @@ class MpesaController extends Controller
             $validatedData["phone"] = "254{$validatedData["phone"]}";
 
             // Calling The STK Push Function
-            $response = $this->stkPush($validatedData["phone"], $validatedData["amount"], "stkpush2");
+            $response = $this->stkPush($validatedData["phone"], $validatedData["amount"], "register2");
 
             // Decode the JSON string to an associative array
             $response = json_decode($response, true); // 'true' for associative array
@@ -150,7 +150,7 @@ class MpesaController extends Controller
     
 
     // The MPESA CALLBACK Route For Registration Only. (The function processing callback from Safaricom. )
-    public function stkpush2(Request $request)
+    public function register2(Request $request)
     {
         // Decode the JSON body from Safaricom
         $callbackData = $request->json()->all();
