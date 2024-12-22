@@ -118,7 +118,7 @@ class MpesaController extends Controller
             // Validating Input From Form
             $validatedData = $request->validate([
                 "phone" => "required|numeric|digits_between:9,10",
-                "amount" => "required|numeric|min:1",
+                "amount" => "required|numeric|min:" . (env('APP_ENV') == 'local' ? 1 : 50),
             ]);
 
             //Restoring The Phone Number
@@ -185,9 +185,10 @@ class MpesaController extends Controller
 
         $userId = Auth::id();
 
+        // Validating the forms data. 
         $validatedData = $request->validate([
-            'phone' => 'required|numeric|digits_between:9,10',
-            'amount' => 'required|numeric|min:1'
+            "phone" => "required|numeric|digits_between:9,10",
+            "amount" => "required|numeric|min:" . (env('APP_ENV') == 'local' ? 1 : 50),
         ]);
 
 

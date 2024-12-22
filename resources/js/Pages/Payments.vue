@@ -70,14 +70,14 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3 mr-3">+254</span>
                             <input type="text" id="phone" v-model="subscribeForm.phone" class="form-input pl-14" placeholder="Enter Your Phone Number" />
                         </div>
-                        <div v-if="form.errors.phone" class="input-error"> {{ subscribeForm.errors.phone }} </div>
+                        <div v-if="subscribeForm.errors.phone" class="input-error"> {{ subscribeForm.errors.phone }} </div>
                     </div>
 
                     <!-- Amount -->
                     <div class="mb-4">
                         <label for="amount" class="block font-medium text-gray-700">Enter Amount <span class="text-xs ml-3 text-red-400">(50 minimum)</span></label>
                         <input type="number" id="amount" v-model="subscribeForm.amount" class="form-input" placeholder="Enter The Amount" />
-                        <div v-if="form.errors.amount" class="input-error"> {{ subscribeForm.errors.amount }} </div>
+                        <div v-if="subscribeForm.errors.amount" class="input-error"> {{ subscribeForm.errors.amount }} </div>
                     </div>
 
                     <!-- Submit Button -->
@@ -127,7 +127,7 @@
                             <div class="mb-4">
                                 <label for="amount" class="block font-medium text-gray-700">Enter Amount </label>
                                 <input type="number" id="amount" v-model="donateForm.amount" class="form-input" placeholder="Enter The Amount" />
-                                <div v-if="form.errors.amount" class="input-error"> {{ donateForm.errors.amount }} </div>
+                                <div v-if="donateForm.errors.amount" class="input-error"> {{ donateForm.errors.amount }} </div>
                             </div>
 
                             <!-- Submit Button -->
