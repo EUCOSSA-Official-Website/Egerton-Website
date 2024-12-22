@@ -94,7 +94,7 @@ class MpesaController extends Controller
             "PartyA" => $phone,
             "PartyB" => env('MPESA_TILL'),
             "PhoneNumber" => $phone,
-            "CallBackURL" => "https://d1b9-154-159-237-60.ngrok-free.app/{$callbackRoute}",
+            "CallBackURL" => "https://e316-197-232-62-140.ngrok-free.app/{$callbackRoute}",
             "AccountReference" => "EUCOSSA",
             "TransactionDesc" => "Registration"
         ];
@@ -136,14 +136,15 @@ class MpesaController extends Controller
             if($responseCode === "0"){
                 User::where('id', $user['id'])->update([
                     "mpesa_checkout_id" => $response["CheckoutRequestID"],
-                ]);
+                ]);                
             }
             
-            // return "Processing has began! ";
+            // THE RESPONSE FROM MPESA (SERVICE REQUEST IS PROCESSED SUCCESSFULLY)
+            return redirect()->route('payments')->with('success', $response["CustomerMessage"]);
         } else {
-            $response = "You Are Already Registered!";
+            $response = "FAILED!! You Are Already Registered!";
 
-            return $response;
+            return redirect()->route('payments')->with('success', $response);
         }
     }
     
@@ -167,10 +168,15 @@ class MpesaController extends Controller
                 'registered' => now(),
             ]);
 
+            // Respond with a success acknowledgment for Safaricom
+            return response()->json(['message' => 'Payment processed successfully'], 200);
+
         }
 
-        return response()->json(['message' => 'Payment failed'], 400);
+        return response()->json(['message' => 'Processing The Payment Failed'], 400);
     }
+
+
 
 
     // The function To send STK Push to Safaricom For subscription
@@ -198,9 +204,12 @@ class MpesaController extends Controller
                 "mpesa_checkout_id" => $response["CheckoutRequestID"],
             ]);
 
-            return $response["CustomerMessage"];
+            // return $response["CustomerMessage"];
+            return redirect()->route('payments')->with('success', $response["CustomerMessage"]);
+
+        // return session()->flash('success', 'STK Push initiated successfully.');
         } else {
-            return $response["CustomerMessage"];
+            return redirect()->route('payments')->with('success', $response["CustomerMessage"]);
         }
     }
 
@@ -273,7 +282,10 @@ class MpesaController extends Controller
         }
 
 
-        return $response;
+        // return $response;
+
+        return redirect()->route('payments')->with('success', $response["CustomerMessage"]);
+
 
     }
 

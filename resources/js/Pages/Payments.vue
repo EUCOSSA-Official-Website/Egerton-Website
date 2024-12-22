@@ -179,12 +179,7 @@
 
     // Submitting the Registration Form
     const submitForm = () => {      
-        form.post(route('register50'), {
-            onSuccess: () => {
-                // Show a message that STK Push has been sent
-                alert("STK Push sent. Please check your phone to enter the PIN.");
-            }
-        });
+        form.post(route('register50'));
     };
 
     // The Subscriptions Form
