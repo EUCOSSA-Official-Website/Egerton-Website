@@ -35,14 +35,14 @@ class MpesaController extends Controller
         if (curl_errno($curl)) {
             $error_msg = curl_error($curl);
             curl_close($curl);
-            dd("cURL Error #: " . curl_errno($curl) . " - " . $error_msg);
+            dump("cURL Error #: " . curl_errno($curl) . " - " . $error_msg);
         }
 
         curl_close($curl);
 
         // Check if the response is empty
         if (empty($response)) {
-            dd("Empty response received from the API.");
+            dump("Empty response received from the API.");
         }
 
         $responseData = json_decode($response, true); // Decode the JSON response into an array
