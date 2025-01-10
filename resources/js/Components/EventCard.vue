@@ -1,7 +1,7 @@
 <template>
     
     <div class="card bg-white shadow-md rounded-lg p-2 relative">
-            <Link :href="route('events.show', event=event.id)">
+        <Link :href="event?.id ? route('events.show', { event: event.id }) : '#'">
         <img :src="event.image" alt="Event Image" class="w-full h-48 object-cover rounded-t-md mb-4" />
     
         <h2 class="text-xl font-semibold mb-2 max-h-[56px] overflow-y-auto">{{ truncatedTitle }}</h2>
@@ -64,9 +64,9 @@
     // Computed property to truncate the description
     const maxLength = 85;
     const truncatedDescription = computed(() => {
-      return props.event.description.length > maxLength
-        ? props.event.description.substring(0, maxLength) + '...'
-        : props.event.description;
+        return props.event?.description?.length > maxLength
+            ? props.event.description.substring(0, maxLength) + '...'
+            : props.event?.description;
     });
 
     // Computed Property to truncate the Title:
