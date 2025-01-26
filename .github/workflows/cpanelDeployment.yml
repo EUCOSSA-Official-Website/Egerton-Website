@@ -12,51 +12,39 @@ jobs:
     steps:
       # Step 1: Checkout repository
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.1.0
         with:
           fetch-depth: 2
 
-      # Step 2: Setup Node.js environment
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: '21' # Ensure Node.js v21 is installed
-
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: npm install
-
-      # Step 4: Build the project
-      - name: Build the project
-        run: npm run build
-
-      # Step 5: Set up PHP and Composer
+      # Step 2: Set up PHP and Composer first (backend dependencies)
       - name: Set up PHP and Composer
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2' # Match your app's PHP version
           tools: composer
 
-      # Step 6: Install Composer dependencies
+      # Step 3: Install PHP dependencies (including tightenco/ziggy)
       - name: Install Composer Dependencies
         run: |
           composer install --no-dev --optimize-autoloader
           composer require tightenco/ziggy # Ensure Ziggy is installed
 
-      # Step 7: Verify Ziggy path
-      - name: Verify Ziggy Path
-        run: |
-          if [ ! -f ./vendor/tightenco/ziggy ]; then
-            echo "Ziggy not found. Ensure it is installed correctly.";
-            exit 1;
-          fi
+      # Step 4: Set up Node.js and build assets (frontend)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21' # Match the required Node.js version
+          
+      - name: Install Node.js dependencies
+        run: npm install
 
-      # Step 8: Deploy to cPanel using FTP
+      - name: Build Assets
+        run: npm run build
+
+      # Step 5: Deploy to cPanel using FTP
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
           server: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          remote-dir: /path/to/EUCOSSA # Point to the correct folder
-          local-dir: ./ # Deploy project root
