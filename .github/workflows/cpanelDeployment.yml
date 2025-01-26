@@ -12,35 +12,38 @@ jobs:
     steps:
       # Step 1: Checkout repository
       - name: Checkout Code
-        uses: actions/checkout@v2.1.0
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 2 
+          fetch-depth: 2
 
-      # Step 2: Set up Node.js and build assets
-      - name: Set up Node.js
+      # Step 2: Setup Node.js environment
+      - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: '21' # Updated to match dependency requirements
-      - name: Build Assets
-        run: |
-          npm install
-          npm audit fix # Optional: Fix vulnerabilities
-          npm run build
+          node-version: '21' # Ensure Node.js v21 is installed
 
-      # Step 3: Set up PHP and Composer
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Build the project
+      - name: Build the project
+        run: npm run build
+
+      # Step 5: Set up PHP and Composer
       - name: Set up PHP and Composer
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2' # Match your app's PHP version
           tools: composer
 
-      # Step 4: Install PHP dependencies
+      # Step 6: Install Composer dependencies
       - name: Install Composer Dependencies
         run: |
           composer install --no-dev --optimize-autoloader
           composer require tightenco/ziggy # Ensure Ziggy is installed
 
-      # Step 5: Verify Ziggy path
+      # Step 7: Verify Ziggy path
       - name: Verify Ziggy Path
         run: |
           if [ ! -f ./vendor/tightenco/ziggy ]; then
@@ -48,7 +51,7 @@ jobs:
             exit 1;
           fi
 
-      # Step 6: Deploy to cPanel using FTP
+      # Step 8: Deploy to cPanel using FTP
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
