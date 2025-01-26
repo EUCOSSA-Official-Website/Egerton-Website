@@ -1,0 +1,48 @@
+name: Deploy Inertia App to cPanel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to cPanel
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v2.1.0
+        with:
+          fetch-depth: 2 
+
+      # Step 2: Set up Node.js and build assets
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Match your project's Node.js version
+      - name: Build Assets
+        run: |
+          npm install
+          npm run build
+
+      # Step 3: Set up PHP and Composer
+      - name: Set up PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' # Match your app's PHP version
+          tools: composer
+
+      # Step 4: Install PHP dependencies
+      - name: Install Composer Dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      # Step 5: Deploy to cPanel using FTP
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.SERVER }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+
+      
