@@ -20,10 +20,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # Match your project's Node.js version
+          node-version: '18' # Updated to match dependency requirements
       - name: Build Assets
         run: |
           npm install
+          npm audit fix # Optional: Fix vulnerabilities
           npm run build
 
       # Step 3: Set up PHP and Composer
@@ -35,14 +36,24 @@ jobs:
 
       # Step 4: Install PHP dependencies
       - name: Install Composer Dependencies
-        run: composer install --no-dev --optimize-autoloader
+        run: |
+          composer install --no-dev --optimize-autoloader
+          composer require tightenco/ziggy # Ensure Ziggy is installed
 
-      # Step 5: Deploy to cPanel using FTP
+      # Step 5: Verify Ziggy path
+      - name: Verify Ziggy Path
+        run: |
+          if [ ! -f ./vendor/tightenco/ziggy ]; then
+            echo "Ziggy not found. Ensure it is installed correctly.";
+            exit 1;
+          fi
+
+      # Step 6: Deploy to cPanel using FTP
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
           server: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-
-      
+          remote-dir: /path/to/EUCOSSA # Point to the correct folder
+          local-dir: ./ # Deploy project root
