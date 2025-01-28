@@ -16,8 +16,13 @@ class PaidEventRegistration extends Controller
         // Manually instantiate MpesaController Class
         $mpesaController = new MpesaController();
 
+        $request->validate([
+            'phoneNumber' => 'required|numeric|digits_between:9,10',
+            'preferedName' => 'required',
+        ]);
+
         // Variables for the push
-        $phone = 254794559089;
+        $phone = "254".substr($request->phoneNumber, -9);
         $amount = $event->event_charge;
         $callbackroute = 'mpesa/events/register';
         $user = Auth::user();

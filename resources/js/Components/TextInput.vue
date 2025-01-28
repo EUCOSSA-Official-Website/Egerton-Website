@@ -27,6 +27,10 @@
             type: String,
             default: 'text', // Default input type
         },
+        readonly: {
+            type: Boolean,
+            default: false, // `readonly` is optional and defaults to false
+        },
     });
 
     const showPassword = ref(false); // Control password visibility through the toggle props
@@ -45,6 +49,7 @@
             v-model="model"
             ref="input"
             :type="showToggle && props.type === 'password' ? (showPassword ? 'text' : 'password') : props.type"
+            :readonly="props.readonly" 
         />
 
         <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-500" 
