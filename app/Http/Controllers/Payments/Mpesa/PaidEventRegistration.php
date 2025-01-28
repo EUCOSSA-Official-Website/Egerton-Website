@@ -38,6 +38,7 @@ class PaidEventRegistration extends Controller
         if($responseCode === "0"){
             EventRegistration::create([
                 'user_id' => $user->id,
+                'prefered_name' => $request->preferedName,
                 'event_id' => $event->id,
                 'mpesa_callback' => $response["CheckoutRequestID"],
             ]);
@@ -51,30 +52,30 @@ class PaidEventRegistration extends Controller
         // Decode the JSON body from Safaricom
         $callbackData = $request->json()->all();
 
-        // Extract CallbackMetadata Items
-        $items = $callbackData['Body']['stkCallback']['CallbackMetadata']['Item'];
+        // Extract necessary fields
+        $stkCallback = $callbackData['Body']['stkCallback'];
+        $resultCode = $stkCallback['ResultCode'];
+        $resultDesc = $stkCallback['ResultDesc'];
+        $mpesaCheckoutID = $stkCallback['CheckoutRequestID'];
 
-        $amount = null;
-        $receiptNumber = null;
+        // Check if the transaction was successful
+        if ($resultCode == 0) {
+            // Extract CallbackMetadata Items
+            $items = $stkCallback['CallbackMetadata']['Item'];
+            $amount = null;
+            $receiptNumber = null;
 
-        // Loop through the items to find Amount and MpesaReceiptNumber
-        foreach ($items as $item) {
-            if ($item['Name'] === 'Amount') {
-                $amount = $item['Value'];
+            // Loop through the items to find Amount and MpesaReceiptNumber
+            foreach ($items as $item) {
+                if ($item['Name'] === 'Amount') {
+                    $amount = $item['Value'];
+                }
+                if ($item['Name'] === 'MpesaReceiptNumber') {
+                    $receiptNumber = $item['Value'];
+                }
             }
-            if ($item['Name'] === 'MpesaReceiptNumber') {
-                $receiptNumber = $item['Value'];
-            }
-        }
 
-        // The Mpesa Checkout ID
-        $mpesaCheckoutID = $callbackData['Body']['stkCallback']['CheckoutRequestID'];
-
-        // Check for a successful transaction
-        if (isset($callbackData['Body']['stkCallback']['ResultCode']) 
-            && $callbackData['Body']['stkCallback']['ResultCode'] == 0) {
-
-            //Registering The User
+            // Update the registration record
             EventRegistration::where('mpesa_callback', $mpesaCheckoutID)->update([
                 'receipt_number' => $receiptNumber,
                 'amount_paid' => $amount
@@ -83,7 +84,19 @@ class PaidEventRegistration extends Controller
             return response()->json(['message' => 'Payment Processed'], 200);
         }
 
-        return response()->json(['message' => 'Payment failed'], 400);
+        // Handle cases where payment failed or was canceled
+        if ($resultCode == 1032) {
+            // Payment was canceled by the user
+            return response()->json([
+                'message' => 'Payment canceled by the user',
+                'description' => $resultDesc,
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => 'Payment failed',
+            'description' => $resultDesc,
+        ], 400);
     }
 
 }

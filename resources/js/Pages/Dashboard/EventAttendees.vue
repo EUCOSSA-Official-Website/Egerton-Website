@@ -16,8 +16,8 @@
             data: null, // We don't bind it to any data, this will be handled by render
             render: (data, type, row, meta) => meta.row + 1, // Row numbering (starts from 1)
         },
-        { title: "ID", data: "id" },
         { title: "User ID", data: "user_id" },
+        { title: "Prefered Name", data: "prefered_name" },
         { title: "Event ID", data: "event_id" },
         { title: "Receipt Number", data: "receipt_number" },
         { title: "Amount Paid", data: "amount_paid" },
