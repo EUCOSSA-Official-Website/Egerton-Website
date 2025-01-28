@@ -3,7 +3,6 @@
     import DataTable from 'datatables.net-vue3';
     import DataTablesLib from 'datatables.net';
     import 'datatables.net-dt'; // Optional styling for DataTables
-    import { onMounted } from 'vue';
 
     DataTable.use(DataTablesLib);
 
@@ -38,21 +37,6 @@
         return `${day}-${month}-${year}`;
     };
 
-    onMounted(() => {
-        const dataTableLength = document.querySelector('.dataTables_length');
-        const dataTableFilter = document.querySelector('.dataTables_filter');
-        
-        // Create a wrapper div for entries per page and search box
-        const wrapperDiv = document.createElement('div');
-        wrapperDiv.classList.add('flex', 'justify-between', 'items-center', 'w-full', 'mb-4');
-    
-        // Append entries per page and search box to wrapper
-        wrapperDiv.appendChild(dataTableFilter); // Search box first
-        wrapperDiv.appendChild(dataTableLength); // Entries per page next
-    
-        const dataTableControlsContainer = document.querySelector('.dataTables_wrapper');
-        dataTableControlsContainer.insertBefore(wrapperDiv, dataTableControlsContainer.firstChild);
-    });
 </script>
 
 <template>
