@@ -1,9 +1,33 @@
 <script setup>
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
+    import DataTable from 'datatables.net-vue3';
+    import DataTablesLib from 'datatables.net';
+    import 'datatables.net-dt'; // Optional styling for DataTables
+    import { onMounted } from 'vue';
+
+    DataTable.use(DataTablesLib);
 
     defineProps({
-        events: Object
-    })
+        events: Array, // Ensure events are passed as an array
+    });
+
+    const columns = [
+        {
+            title: "#", // Number column title
+            data: null, // We don't bind it to any data, this will be handled by render
+            render: (data, type, row, meta) => meta.row + 1, // Row numbering (starts from 1)
+        },
+        { title: "ID", data: "id" },
+        { title: "User ID", data: "user_id" },
+        { title: "Event ID", data: "event_id" },
+        { title: "Receipt Number", data: "receipt_number" },
+        { title: "Amount Paid", data: "amount_paid" },
+        { 
+            title: "Paid At",
+            data: "updated_at",
+            render: (data) => formatDate(data), // Format date
+        },
+    ];
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -12,40 +36,41 @@
         const month = months[date.getMonth()]; // Get the 3-letter month abbreviation        
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
-    }
+    };
 
+    onMounted(() => {
+        const dataTableLength = document.querySelector('.dataTables_length');
+        const dataTableFilter = document.querySelector('.dataTables_filter');
+        
+        // Create a wrapper div for entries per page and search box
+        const wrapperDiv = document.createElement('div');
+        wrapperDiv.classList.add('flex', 'justify-between', 'items-center', 'w-full', 'mb-4');
+    
+        // Append entries per page and search box to wrapper
+        wrapperDiv.appendChild(dataTableFilter); // Search box first
+        wrapperDiv.appendChild(dataTableLength); // Entries per page next
+    
+        const dataTableControlsContainer = document.querySelector('.dataTables_wrapper');
+        dataTableControlsContainer.insertBefore(wrapperDiv, dataTableControlsContainer.firstChild);
+    });
 </script>
 
 <template>
-
-    <Dashboard>       
-        <!-- <div class="min-h-[80vh] flex justify-center items-center text-pink-600 text-3xl">
-            Event Attendees Page. 
-        </div> -->
-
+    <Dashboard>
         <div>
-            <table class="table-auto border-collapse border border-gray-300 w-full text-left">
-            <thead>
-                <tr>
-                <th class="border border-gray-300 px-2 py-2">ID</th>
-                <th class="border border-gray-300 px-2 py-2">User ID</th>
-                <th class="border border-gray-300 px-2 py-2">Event ID</th>
-                <th class="border border-gray-300 px-2 py-2">Receipt Number</th>
-                <th class="border border-gray-300 px-2 py-2">Amount Paid</th>
-                <th class="border border-gray-300 px-2 py-2">Paid At</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="event in events" :key="event.id">
-                <td class="border border-gray-300 px-2 py-2">{{ event.id }}</td>
-                <td class="border border-gray-300 px-2 py-2">{{ event.user_id }}</td>
-                <td class="border border-gray-300 px-2 py-2">{{ event.event_id }}</td>
-                <td class="border border-gray-300 px-2 py-2">{{ event.receipt_number }}</td>
-                <td class="border border-gray-300 px-2 py-2">{{ event.amount_paid }}</td>
-                <td class="border border-gray-300 px-2 py-2">{{ formatDate(event.updated_at) }}</td>
-                </tr>
-            </tbody>
-            </table>
+            <DataTable
+                :data="events"
+                :columns="columns"
+                :options="{
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    pageLength: 10, // Set default page length (entries per page)
+                    lengthChange: true, // Allow changing entries per page
+                    dom: 'lfrtip', // Customize the DOM layout
+                }"
+                class="table-auto border-collapse border border-gray-300 w-full text-left"
+            />
         </div>
     </Dashboard>
 </template>

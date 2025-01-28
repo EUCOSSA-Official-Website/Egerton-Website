@@ -103,6 +103,93 @@ header.speakers_call {
     }
 }
 
+/* Entries per page and search box in one row, justified end to end */
+.dataTables_filter,
+.dataTables_length {
+  @apply flex justify-between items-center w-full mb-4;
+}
+
+.dataTables_filter input,
+.dataTables_length select {
+  @apply border border-gray-300 p-2 rounded-xl text-sm;
+}
+
+/* Pagination buttons: centered active page and styled arrows */
+.dataTables_paginate .paginate_button {
+  @apply px-4 py-2 mx-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white;
+}
+
+/* Active page centered with blue background */
+.dataTables_paginate .paginate_button.current {
+  @apply bg-blue-500 text-white;
+}
+
+/* Disabled pagination button */
+.dataTables_paginate .paginate_button.disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Pagination arrows (<< and >> buttons) styled as buttons */
+.dataTables_paginate .paginate_button.previous,
+.dataTables_paginate .paginate_button.next {
+  @apply text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white;
+}
+
+/* Table rows banded for easier visibility */
+table.dataTable tbody tr {
+  @apply border-b border-gray-300;
+}
+
+table.dataTable tbody tr:nth-child(odd) {
+  @apply bg-gray-100; /* Banded rows */
+}
+
+table.dataTable tbody tr:nth-child(even) {
+  @apply bg-white; /* Banded rows */
+}
+
+table.dataTable thead th {
+  @apply px-4 py-3 bg-blue-300 text-left font-semibold text-sm text-black;
+}
+
+table.dataTable tbody td {
+  @apply px-4 py-2 text-sm text-gray-700;
+}
+
+table.dataTable tbody tr:hover {
+  @apply bg-blue-50; /* Row hover effect */
+}
+
+/* DataTable length (records per page) */
+.dataTables_length select {
+  @apply border border-gray-300 p-2 rounded-md text-sm;
+}
+
+/* Optional styling for the search input */
+.dataTables_filter input {
+  @apply border border-gray-300 p-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+/* Make pagination buttons look like actual buttons */
+.paginate_button {
+    @apply bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer;
+}
+
+.paginate_button.active {
+    @apply bg-blue-700; /* Active page button with a darker blue */
+}
+
+.paginate_button:hover {
+    @apply bg-blue-600;
+}
+
+.dataTables_info {
+    @apply text-sm text-gray-600; /* Style the table information */
+}
+
+
+
+
 html {
     scroll-behavior: smooth;
 }
