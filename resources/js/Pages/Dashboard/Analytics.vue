@@ -1,6 +1,11 @@
 <script setup>
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
-    import { Link } from '@inertiajs/vue3';
+    import { Link, useForm } from '@inertiajs/vue3';
+    import DataTable from 'datatables.net-vue3';
+    import DataTablesLib from 'datatables.net';
+    import 'datatables.net-dt';
+
+    DataTable.use(DataTablesLib);
 
     const props = defineProps({
         feedback: Array
@@ -10,43 +15,68 @@
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, '0');
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const month = months[date.getMonth()]; // Get the 3-letter month abbreviation        
+        const month = months[date.getMonth()];
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
-    }
+    };
+
+    const markAsRead = (id) => {
+        const form = useForm({});
+        form.put(route('dashboard.analytics.seen', { id }), {
+            preserveScroll: true,
+            onSuccess: () => {
+                // Optional: Add a success callback if needed
+            }
+        });
+    };
+
+    const columns = [
+        { title: "Name", data: "name" },
+        { title: "Email", data: "email" },
+        {
+            title: "Message",
+            data: "message",
+            render: (data) => `<div class="max-h-[8rem] overflow-y-auto">${data}</div>`
+        },
+        {
+            title: "Time",
+            data: "created_at",
+            render: (data) => formatDate(data)
+        },
+        {
+            title: "Status",
+            data: "read_at",
+            orderable: false,
+            render: (data, type, row) => {
+                return `
+                    <button @click.prevent="() => markAsRead(${row.id})" 
+                            class="text-white font-bold bg-blue-500 px-2 py-1 rounded hover:bg-blue-700">
+                        ${!data ? "Mark as Read" : "Read"}
+                    </button>`;
+            }
+        }
+    ];
+
+    const tableOptions = {
+        paging: true,
+        searching: true,
+        ordering: true,
+        pageLength: 10,
+        lengthChange: true,
+        dom: "lfrtip",
+    };
 </script>
 
 <template>
     <Dashboard>
         <div>
             <h1 class="mx-auto text-3xl text-start mb-4">User Feedback</h1>
-            <table class="min-w-full bg-white border border-gray-800">
-                <thead class="bg-gray-100 sticky top-0 z-10">
-                    <tr class="bg-gray-100 text-left text-gray-600 font-semibold">
-                        <th class="py-1 px-2 border-b border-slate-800">Name</th>
-                        <th class="py-1 px-2 border-b border-slate-800">Email</th>
-                        <th class="py-1 px-2 border-b border-slate-800">Year</th>
-                        <th class="py-1 px-2 border-b border-slate-800">Time</th>
-                        <th class="py-1 px-2 border-b border-slate-800">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="max-h-[20vh]">
-                    <tr v-for="(feedback, index) in feedback" :key="index" class="hover:bg-gray-50"
-                        :class="index % 2 === 0 ? 'bg-gray-100' : 'bg-white'">
-                        <td class="py-3 px-1 border border-slate-800">{{ feedback.name }}</td>
-                        <td class="py-3 px-1 border border-slate-800">{{ feedback.email }}</td>
-                        <td class="py-3 px-1 border border-slate-800 w-64 ">
-                            <div class="max-h-[8rem] overflow-y-auto">
-                                {{ feedback.message }}
-                            </div>
-                        </td>
-                        <td class="py-3 px-1 border border-slate-800">{{ formatDate(feedback.created_at) }}</td>
-                        <td class="py-3 px-1 border border-slate-800 text-center text-white font-bold bg-blue-500 mx-2 my-2">
-                            <Link :href="route('dashboard.analytics.seen', {id: feedback.id})" as="button" method="put">{{ !feedback.read_at ? "Mark as Read" : "Read"}}</Link>                                    
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <DataTable
+                :data="feedback"
+                :columns="columns"
+                :options="tableOptions"
+                class="table-auto border-collapse border border-gray-300 w-full text-left"
+            />
         </div>
     </Dashboard>
 </template>

@@ -317,7 +317,7 @@
                     <div class="flex flex-col sm:flex-row items-center justify-between">
                         <div class="mb-2 sm:mb-0">
                             <div class="text-white text-sm">
-                            Copyright &copy; EUCOSSA 2024
+                            Copyright &copy; EUCOSSA 2025
                             </div>
                         </div>
                         <div class="space-x-3">
