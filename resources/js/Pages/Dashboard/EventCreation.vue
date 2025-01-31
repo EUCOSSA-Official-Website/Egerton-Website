@@ -62,7 +62,7 @@
                     <label for="start-time" class="block font-medium text-black">Start Time</label>
                     <input type="time" id="start-time"
                     class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2"
-                    min="09:00"
+                    min="06:00"
                     max="19:00"
                     v-model="form.start_time"
                     required
@@ -74,7 +74,7 @@
                     <label for="end-time" class="block font-medium text-black">End Time</label>
                     <input type="time" id="end-time"
                     class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2"
-                    min="09:00"
+                    min="06:00"
                     max="19:00"
                     v-model="form.end_time"
                     required
@@ -100,9 +100,9 @@
                 Paid Event?
                 </label>
                 <div v-if="eventPaid" class="mt-5">
-                    <input type="number" id="amount" v-model="form.event_charge" class="form-input" placeholder="Enter Event Charges" required />
+                    <input type="number" id="amount" v-model="form.event_charge" class="form-input" placeholder="Enter Event Charges" />
                 </div>
-                <div v-if="form.errors.speaker" class="input-error"> {{ form.errors.speaker }} </div>
+                <div v-if="form.errors.event_charge" class="input-error"> {{ form.errors.event_charge }} </div>
             </div>
 
             <!-- Submit Button -->
@@ -135,7 +135,7 @@
         start_time: '14:00', // Default start time
         end_time: '16:00',   // Default end time
         speaker: '',
-        event_charge: '',
+        event_charge: null,
     });
 
     // Method to handle image upload
