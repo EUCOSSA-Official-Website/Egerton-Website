@@ -37,6 +37,18 @@
     });
 
     const formattedDate = computed(() => {
+      const date = new Date(props.event.event_day);
+      return `${date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })} at ${date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      })}`;
+    });
+    const formattedCreatedDate = computed(() => {
       const date = new Date(props.event.created_at);
       return `${date.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -230,9 +242,9 @@
                     <li><strong>Description: </strong> {{ props.event.description }}</li>
                     <li><strong>Start Time: </strong> {{ props.event.start_time }}</li>
                     <li><strong>End Time: </strong> {{ props.event.end_time }}</li>
-                    <li><strong>Event Day: </strong> {{ props.event.event_day }}</li>
+                    <li><strong>Event Day: </strong> {{ formattedDate }}</li>
                     <li><strong>Speaker: </strong> {{ props.event.speaker }}</li>
-                    <li><strong>Created Day: </strong> {{ formattedDate }}</li>
+                    <li><strong>Created Day: </strong> {{ formattedCreatedDate }}</li>
                 </ul>
             </div>
 
