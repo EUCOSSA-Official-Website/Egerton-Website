@@ -94,7 +94,7 @@
                 </div>
                 <div class="text-right">
                     <!-- Logo (You can replace with your logo image) -->
-                     <a href="#register">
+                     <a href="/payments#register">
                         <img src="/assets/img/register.png" alt="Site Logo" href="#register" class="h-10">
                     </a>
                 </div>
