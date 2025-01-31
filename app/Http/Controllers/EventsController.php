@@ -31,7 +31,7 @@ class EventsController extends Controller
 
         // Get all events and include reactions for the authenticated user
         $events = $eventQuery
-        ->latest()
+        ->orderBy('event_day', 'desc')
         ->get()
         ->map(function ($event) use ($userId) {
             // Check if the authenticated user has reacted to this event
