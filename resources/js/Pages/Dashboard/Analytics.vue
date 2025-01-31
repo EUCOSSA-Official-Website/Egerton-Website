@@ -60,7 +60,7 @@
     const tableOptions = {
         paging: true,
         searching: true,
-        ordering: true,
+        ordering: false,
         pageLength: 10,
         lengthChange: true,
         dom: "lfrtip",
