@@ -279,6 +279,9 @@
                     <button @click="confirmDelete" class="bg-red-600 hover:bg-red-700">
                         <PrimaryButton class="bg-red-600 hover:bg-red-700 focus:bg-red-700 active:bg-red-900">Delete Event</PrimaryButton>
                     </button>
+
+                    <SecondaryButton> <Link :href="route('events.edit', {event: props.event.id})"> Edit Event </Link></SecondaryButton>
+
                 </div>
                 <div v-else class="flex justify-between mt-5">
                     <!-- <Link v-if="props.event.event_charge" class="text-3xl" :href="route('event-payment', {event: props.event.id})" as="button" method="post"><PrimaryButton>Get Ticket</PrimaryButton></Link> -->
