@@ -188,8 +188,11 @@ Route::prefix('dashboard')
         {
             $feedback = ContactForm::orderBy('created_at', 'desc')->get();
 
+            $users = User::get();
+
             return inertia('Dashboard/Analytics', [
                 'feedback' => $feedback,
+                'users' => $users,
             ]);
         })->name('.analytics');
 

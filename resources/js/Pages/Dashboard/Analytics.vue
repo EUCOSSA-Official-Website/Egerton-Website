@@ -8,10 +8,14 @@
     DataTable.use(DataTablesLib);
 
     const props = defineProps({
-        feedback: Array
+        feedback: Array,
+        users: Array
     });
 
     const formatDate = (dateString) => {
+        if(dateString === null){
+            return `<div class="text-red-500 text-bold">unregistered</div>`;
+        }
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, '0');
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -30,6 +34,17 @@
         });
     };
 
+    const columns2 = [
+        {
+            title: "#", // Number column title
+            data: null, // We don't bind it to any data, this will be handled by render
+            render: (data, type, row, meta) => meta.row + 1, // Row numbering (starts from 1)
+        },
+        { title: "Name", data: "name" },
+        { title: "Email", data: "email" },
+        { title: "mobile", data: "mobile" },
+        { title: "Registration Status", data: "registered", render: (data) => formatDate(data) },
+    ];
     const columns = [
         { title: "Name", data: "name" },
         { title: "Email", data: "email" },
@@ -74,6 +89,16 @@
             <DataTable
                 :data="feedback"
                 :columns="columns"
+                :options="tableOptions"
+                class="table-auto border-collapse border border-gray-300 w-full text-left"
+            />
+        </div>
+
+        <div>
+            <h1 class="mx-auto text-3xl text-start mb-4">Sites Users</h1>
+            <DataTable
+                :data="users"
+                :columns="columns2"
                 :options="tableOptions"
                 class="table-auto border-collapse border border-gray-300 w-full text-left"
             />
