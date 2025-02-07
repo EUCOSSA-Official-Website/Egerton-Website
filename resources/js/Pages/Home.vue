@@ -3,6 +3,7 @@
     import { Head, Link, usePage } from '@inertiajs/vue3';
     import EventCard from '@/Components/EventCard.vue';
     import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+    import ImageCarousel from '@/Pages/Home-Page-Items/ImageCarousel.vue'
 
     // Access the page props using usePage
     const page = usePage();
@@ -121,6 +122,8 @@
             </div>
         </section>
 
+        <ImageCarousel />
+        
         <!-- The Quotes Carousel Section -->
         <div class="py-5 bg-gray-100">
             <div class="container mx-auto px-5 py-40">
