@@ -73,7 +73,8 @@ class MpesaBalanceController extends Controller
         // Save to Balance model
         $balance = new FinanceBalance();
         $balance->gateway = 'MPESA';
-        $balance->balance = $currentBalance;
+        //$balance->balance = $currentBalance;
+        $balance->balance = 1896.09;
         $balance->retrieved_at = $retrievedAt;
         $balance->save();
 
@@ -81,7 +82,8 @@ class MpesaBalanceController extends Controller
             'message' => 'Balance saved successfully.',
             'data' => [
                 'currency' => $currency,
-                'balance' => $currentBalance,
+                //'balance' => $currentBalance,
+                'balance' => 1896.09,
                 'retrieved_at' => $retrievedAt->toDateTimeString(),
             ],
         ], 200);
