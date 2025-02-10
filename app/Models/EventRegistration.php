@@ -9,7 +9,7 @@ class EventRegistration extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'prefered_name', 'event_id', 'mpesa_callback', 'receipt_number', 'amount_paid'];
+    protected $fillable = ['user_id', 'prefered_name', 'event_id', 'mpesa_callback', 'receipt_number', 'amount_paid', 'email'];
 
     public function event()
     {

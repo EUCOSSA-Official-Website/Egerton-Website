@@ -102,11 +102,13 @@
     const phoneInput = ref(null);
     const phoneNumber = ref(user.value?.mobile || '');
     const preferedName = ref(user.value?.name);
+    const email = ref(user.value.email)
 
     const form = useForm({
         event: props.event.id,
         phoneNumber: phoneNumber,
         preferedName: preferedName,
+        email: email,
     });
 
     const getTicketModal = () => {
@@ -192,18 +194,34 @@
                 </div>
 
 
-                <div class="mt-6">
-                    <InputLabel for="preferedName" value="Pefered Name" />
+                <div class="flex row justify-between w-3/4">
+                    <div class="mt-6">
+                        <InputLabel for="preferedName" value="Pefered Name" />
 
-                    <TextInput
-                        id="preferedName"
-                        v-model="form.preferedName"
+                        <TextInput
+                            id="preferedName"
+                            v-model="form.preferedName"
+                            type="text"
+                            class="mt-1 block"
+                            placeholder="Prefered Name"
+                        />
+
+                        <InputError :message="form.errors.preferedName" class="mt-2" />
+                    </div>
+                    <div class="mt-6">
+                        <InputLabel for="email" value="Pefered Email" />
+                        
+                        <TextInput
+                        id="email"
+                        v-model="form.email"
                         type="text"
-                        class="mt-1 block w-3/4"
-                        placeholder="Prefered Name"
-                    />
-
-                    <InputError :message="form.errors.preferedName" class="mt-2" />
+                        class="mt-1 block"
+                        placeholder="email"
+                        />
+                        
+                        <span class="text text-xs text-red-500">The email where ticket is sent to! </span>
+                        <InputError :message="form.errors.email" class="mt-2" />
+                    </div>
                 </div>
 
                 <div class="mt-6">

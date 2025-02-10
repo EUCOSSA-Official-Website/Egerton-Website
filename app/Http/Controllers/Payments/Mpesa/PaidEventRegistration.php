@@ -19,6 +19,7 @@ class PaidEventRegistration extends Controller
         $request->validate([
             'phoneNumber' => 'required|numeric|digits_between:9,10',
             'preferedName' => 'required',
+            'email' => 'required|string|lowercase|email'
         ]);
 
         // Variables for the push
@@ -41,6 +42,7 @@ class PaidEventRegistration extends Controller
                 'prefered_name' => $request->preferedName,
                 'event_id' => $event->id,
                 'mpesa_callback' => $response["CheckoutRequestID"],
+                'email' => $request->email,
             ]);
         }
 
