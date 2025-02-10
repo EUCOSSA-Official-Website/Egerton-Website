@@ -33,7 +33,11 @@ class PaidEventRegistration extends Controller
         // Decode the JSON string to an associative array
         $response = json_decode($response, true); // 'true' for associative array
 
-        $responseCode = $response["ResponseCode"];
+        $responseCode = $response["ResponseCode"] ?? null;
+
+        if (!isset($response["ResponseCode"])) {
+            return back()->with('error', 'Invalid response from Mpesa. Please try again.');
+        }
 
         // Adding Checkout ID to Users Column for registering users. 
         if($responseCode === "0"){
@@ -44,9 +48,12 @@ class PaidEventRegistration extends Controller
                 'mpesa_callback' => $response["CheckoutRequestID"],
                 'email' => $request->email,
             ]);
+
+            return back()->with('success', "{$response["CustomerMessage"]} - Enter Your Mpesa Pin To Receive Ticket");
         }
 
-        return $response;
+        // If ResponseCode is not "0", return error message
+        return back()->with('error', $response["ResponseDescription"]);
     }
 
     public function processEventPayment(Request $request)

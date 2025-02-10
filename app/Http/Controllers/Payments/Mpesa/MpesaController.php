@@ -140,7 +140,7 @@ class MpesaController extends Controller
             }
             
             // THE RESPONSE FROM MPESA (SERVICE REQUEST IS PROCESSED SUCCESSFULLY)
-            return redirect()->route('payments')->with('success', $response["CustomerMessage"]);
+            return redirect()->route('payments')->with('success', "{$response["CustomerMessage"]} - Enter Mpesa Pin To Pay Registration!");
         } else {
             $response = "FAILED!! You Are Already Registered!";
 

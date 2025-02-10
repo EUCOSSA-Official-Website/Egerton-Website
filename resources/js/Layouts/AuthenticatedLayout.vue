@@ -32,22 +32,6 @@
     // console.log(user.value);
 
     // PASSING THE TOAST MESSAGES
-    const alerts = ref([]);
-
-    // Add and remove toasts
-    function addToast(message, type = 'info') {
-        const id = Date.now();
-        alerts.value.push({ id, message, type });
-
-        // Remove toast after 8 seconds
-        setTimeout(() => {
-            removeToast(id);
-        }, 8000);
-    }
-
-    function removeToast(id) {
-        alerts.value = alerts.value.filter(toast => toast.id !== id);
-    }
 
     // A ref to hold the flash message
     const flashMessage = ref(null);
@@ -59,12 +43,29 @@
             // Only update if there is a new message
             if (newMessage && newMessage !== flashMessage.value) {
                 flashMessage.value = newMessage; // Set new message
-                addToast(newMessage, 'success'); // Display the toast
 
                 Swal.fire({
                     title: "Success!",
                     text: newMessage,
                     icon: "success",
+                    confirmButtonText: "OK",
+                });
+            }
+        },
+        { immediate: true }
+    );
+
+    // Watch for error messages
+    watch(
+        () => page.props.flash.error,
+        (newMessage) => {
+            if (newMessage && newMessage !== flashMessage.value) {
+                flashMessage.value = newMessage; // Set new message
+
+                Swal.fire({
+                    title: "Error!",
+                    text: newMessage,
+                    icon: "error",
                     confirmButtonText: "OK",
                 });
             }
