@@ -34,7 +34,11 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'mobile' => ''
+            'mobile' => ['required', 'regex:/^07\d{8}$/'], // Ensures the number starts with '07' and has 10 digits
+            'reg_number' => ['required', 'regex:/^[A-Za-z0-9]{1,5}\/\d{5}\/\d{2}$/'], // Matches the required format
+        ], [
+            'mobile.regex' => 'The mobile number must be exactly 10 digits and start with 07.',
+            'reg_number.regex' => 'The registration number format should be like S13/11101/30.',
         ]);
 
         $user = User::create([
@@ -42,6 +46,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'mobile' => $request->mobile,
+            'reg_number' => $request->reg_number,
         ]);
 
         event(new Registered($user));

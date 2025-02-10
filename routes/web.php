@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rules;
 
 Route::get('/', function () {
     return redirect()->route('home');
@@ -99,7 +100,12 @@ Route::get('/register/mobile', function (Request $request) {
 Route::post('/register/mobile/submit', function (Request $request) {
     // Validate the mobile number
     $request->validate([
-        'mobile' => 'required|numeric',
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        'mobile' => ['required', 'regex:/^07\d{8}$/'], // Ensures the number starts with '07' and has 10 digits
+        'reg_number' => ['required', 'regex:/^[A-Za-z0-9]{1,5}\/\d{5}\/\d{2}$/'], // Matches the required format
+    ], [
+        'mobile.regex' => 'The mobile number must be exactly 10 digits and start with 07.',
+        'reg_number.regex' => 'The registration number format should be like S13/11101/30.',
     ]);
 
     // Get the Google name and email from the request
@@ -114,7 +120,8 @@ Route::post('/register/mobile/submit', function (Request $request) {
         'email' => $googleEmail,
         'email_verified_at' => now(),
         'mobile' => $request->mobile,
-        'password' => null, // No password needed for Google login
+        'password' => $request->password,
+        'reg_number' => $request->reg_number,
         'google_id' => $googleId,
         'google_avatar' => $googleAvatar,
     ]);

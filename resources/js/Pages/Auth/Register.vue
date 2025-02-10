@@ -11,7 +11,8 @@
         email: '',
         password: '',
         password_confirmation: '',
-        mobile: ''
+        mobile: '',
+        reg_number: '',
     });
 
     const submit = () => {
@@ -140,6 +141,20 @@
                 />
 
                 <InputError class="mt-2" :message="form.errors.mobile" />
+            </div>
+            <div class="mt-4">
+                <InputLabel for="reg_number" value="Registration Number" />
+
+                <TextInput
+                    id="reg_number"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.reg_number"
+                    required
+                    autocomplete="reg_number"
+                />
+
+                <InputError class="mt-2" :message="form.errors.reg_number" />
             </div>
 
             <div class="flex items-center justify-end mt-4">

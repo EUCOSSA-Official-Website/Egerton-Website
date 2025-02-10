@@ -12,24 +12,72 @@
 
                 <form @submit.prevent="submitForm">
                     
-                    <InputLabel for="number" value="Phone Number:" />
+                    <div class="mt-4">
+                        <InputLabel for="number" value="Phone Number:" />
 
-                    <TextInput
-                        id="number"
-                        type="text"
-                        class="mt-1 block w-full"
-                        v-model="form.mobile"
-                        placeholder="0722 000 000"
-                        required
-                        autofocus
-                    />
+                        <TextInput
+                            id="number"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.mobile"
+                            placeholder="0722 000 000"
+                            required
+                            autofocus
+                        />
+
+                        <!-- Display the error message for mobile number -->
+                        <InputError class="mt-2" :message="form.errors.mobile" />
+                    </div>
+                    <div class="mt-4">
+                        <InputLabel for="reg_number" value="Registration Number:" />
+
+                        <TextInput
+                            id="reg_number"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.reg_number"
+                            placeholder="S13/04319/21"
+                            required
+                            autofocus
+                        />
+                        <InputError class="mt-2" :message="form.errors.reg_number" />
+                    </div>
+                    <div class="mt-4">
+                        <InputLabel for="password" value="Password" />
+
+                        <TextInput
+                            id="password"
+                            type="password"
+                            class="mt-1 block w-full"
+                            v-model="form.password"
+                            required
+                            autocomplete="new-password"
+                            :showToggle="true"
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.password" />
+                    </div>
+
+                    <div class="mt-4">
+                        <InputLabel for="password_confirmation" value="Confirm Password" />
+
+                        <TextInput
+                            id="password_confirmation"
+                            type="password"
+                            class="mt-1 block w-full"
+                            v-model="form.password_confirmation"
+                            required
+                            autocomplete="new-password"
+                            :showToggle="true"
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.password_confirmation" />
+                    </div>
 
                     <PrimaryButton class="mt-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Submit
                     </PrimaryButton>
-
-                    <!-- Display the error message for mobile number -->
-                    <InputError class="mt-2" :message="form.errors.mobile" />
+                    
                 </form>
         </div>
     </GuestLayout>
@@ -57,7 +105,10 @@
         name: props.googleName,
         email: props.googleEmail,
         google_id: props.googleId,
-        google_avatar: props.googleAvatar
+        google_avatar: props.googleAvatar,
+        reg_number: '',
+        password: '',
+        password_confirmation: '',
     });
 
     // Posting The Form To The Post Route
