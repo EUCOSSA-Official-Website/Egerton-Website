@@ -34,10 +34,10 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'mobile' => ['required', 'regex:/^07\d{8}$/'], // Ensures the number starts with '07' and has 10 digits
+            'mobile' => ['required', 'regex:/^(07|01)\d{8}$/'], // Ensures the number starts with '07' and has 10 digits
             'reg_number' => ['required', 'regex:/^[A-Za-z0-9]{1,5}\/\d{5}\/\d{2}$/'], // Matches the required format
         ], [
-            'mobile.regex' => 'The mobile number must be exactly 10 digits and start with 07.',
+            'mobile.regex' => 'The mobile number must be exactly 10 digits and start with 07. or 01.',
             'reg_number.regex' => 'The registration number format should be like S13/11101/30.',
         ]);
 
