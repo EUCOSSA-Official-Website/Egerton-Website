@@ -5,6 +5,7 @@ use App\Http\Controllers\CallForSpeakersController;
 use App\Http\Controllers\EventReactionController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\FaqsEmailController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Payments\FinancesController;
 use App\Http\Controllers\Payments\Mpesa\MpesaBalanceController;
 use App\Http\Controllers\Payments\Mpesa\MpesaController;
@@ -269,3 +270,6 @@ Route::post('/balance-result', [MpesaBalanceController::class, 'receiveMpesaBala
 // The Registering for Events Route
 Route::post('/mpesa/events/register/{event}', [PaidEventRegistration::class, 'initiateEventPayment'])->name('event-payment')->middleware(['auth']);
 Route::post('/mpesa/events/register', [PaidEventRegistration::class, 'processEventPayment'])->name('event-payment-process');
+
+Route::resource('/notifications', NotificationsController::class)
+    ->middleware(['auth', 'verified'])->except(['edit', 'create']);

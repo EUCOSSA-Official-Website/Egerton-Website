@@ -64,4 +64,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Speaker::class);
     }
+
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return 'App.Models.User.'.$this->id;
+    }
+
 }

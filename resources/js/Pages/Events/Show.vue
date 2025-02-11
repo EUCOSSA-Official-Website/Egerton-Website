@@ -102,7 +102,7 @@
     const phoneInput = ref(null);
     const phoneNumber = ref(user.value?.mobile || '');
     const preferedName = ref(user.value?.name);
-    const email = ref(user.value.email)
+    const email = ref(user.value?.email)
 
     const form = useForm({
         event: props.event.id,

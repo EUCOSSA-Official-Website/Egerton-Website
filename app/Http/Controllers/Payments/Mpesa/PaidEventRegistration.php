@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Payments\Mpesa;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventRegistration;
+use App\Notifications\EventPaymentSuccess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -84,11 +85,17 @@ class PaidEventRegistration extends Controller
                 }
             }
 
-            // Update the registration record
-            EventRegistration::where('mpesa_callback', $mpesaCheckoutID)->update([
-                'receipt_number' => $receiptNumber,
-                'amount_paid' => $amount
-            ]);
+            $registration = EventRegistration::where('mpesa_callback', $mpesaCheckoutID)->first();
+
+            if ($registration) {
+                $registration->update([
+                    'receipt_number' => $receiptNumber,
+                    'amount_paid' => $amount
+                ]);
+
+                // Send notification to the user
+                $registration->user->notify(new EventPaymentSuccess($amount, $receiptNumber));
+            }
 
             return response()->json(['message' => 'Payment Processed'], 200);
         }
