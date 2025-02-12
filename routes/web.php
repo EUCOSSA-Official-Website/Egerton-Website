@@ -272,4 +272,7 @@ Route::post('/mpesa/events/register/{event}', [PaidEventRegistration::class, 'in
 Route::post('/mpesa/events/register', [PaidEventRegistration::class, 'processEventPayment'])->name('event-payment-process');
 
 Route::resource('/notifications', NotificationsController::class)
-    ->middleware(['auth', 'verified'])->except(['edit', 'create']);
+    ->except(['edit', 'create']);
+
+
+Route::put('notifications/{notification}/seen', [NotificationsController::class, 'markAsRead'])->name('notifications.seen');

@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
                 'unreadMessages' => ContactForm::unreadNotifications()->count(),
                 'allMessages' => ContactForm::all()->count(),
                 'pendingSpeakerApproval' => Speaker::speakerApproval()->count(),
+                'notificationCount' => $request->user()?->unreadNotifications()->count() ?? null,
             ],
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
