@@ -1,6 +1,6 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { Head, Link, usePage } from '@inertiajs/vue3';
+    import { Head, Link, usePage, router } from '@inertiajs/vue3';
     import EventCard from '@/Components/EventCard.vue';
     import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
     import ImageCarousel from '@/Pages/Home-Page-Items/ImageCarousel.vue'
@@ -18,7 +18,8 @@
     const handleClick = (e) => {
         if (user.value) {
             e.preventDefault();
-            alert('You are already registered!🎉');
+            //alert('You are already registered!🎉');
+            router.visit('/payments');
         }
     };
 
