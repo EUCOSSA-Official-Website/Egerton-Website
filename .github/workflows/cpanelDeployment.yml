@@ -23,7 +23,12 @@ jobs:
           php-version: '8.2' # Match your app's PHP version
           tools: composer
 
-      # Step 3: Disable Pusher autodiscovery in composer.json
+      # Step 3: Temporarily set broadcaster to log
+      - name: Disable Pusher Temporarily
+        run: |
+          sed -i "s/'pusher'/'log'/" config/broadcasting.php
+
+      # Step 4: Disable Pusher autodiscovery in composer.json
       - name: Disable Pusher Autodiscovery
         run: |
           if grep -q '"dont-discover"' composer.json; then
@@ -33,20 +38,25 @@ jobs:
           fi
           sed -i 's/, ]/]/' composer.json  # Remove any trailing commas
 
-      # Step 4: Install PHP dependencies
+      # Step 5: Install PHP dependencies
       - name: Install Composer Dependencies
         run: |
           composer install --no-dev --optimize-autoloader
           composer require tightenco/ziggy
 
-      # Step 5: Cache and clear configuration (Important for env variables to apply)
+      # Step 6: Restore original broadcaster
+      - name: Restore Pusher Configuration
+        run: |
+          sed -i "s/'log'/'pusher'/" config/broadcasting.php
+
+      # Step 7: Cache and clear configuration (Important for env variables to apply)
       - name: Cache and Clear Config
         run: |
           php artisan config:clear
           php artisan cache:clear
           php artisan config:cache
 
-      # Step 6: Set up Node.js and build assets (Frontend)
+      # Step 8: Set up Node.js and build assets (Frontend)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -58,7 +68,7 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      # Step 7: Deploy to cPanel using FTP
+      # Step 9: Deploy to cPanel using FTP
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
