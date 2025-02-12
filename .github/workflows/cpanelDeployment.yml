@@ -23,21 +23,25 @@ jobs:
           php-version: '8.2' # Match your app's PHP version
           tools: composer
 
-      # Step 3: Install PHP dependencies (Disable autodiscovery to prevent errors)
+      # Step 3: Disable Pusher autodiscovery in composer.json
+      - name: Disable Pusher Autodiscovery
+        run: |
+          jq '.extra.laravel.dont-discover += ["pusher/pusher-php-server"]' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
+
+      # Step 4: Install PHP dependencies
       - name: Install Composer Dependencies
         run: |
-          export COMPOSER_DISABLE_AUTODISCOVERY=1
           composer install --no-dev --optimize-autoloader
           composer require tightenco/ziggy
 
-      # Step 4: Cache and clear configuration (Important for env variables to apply)
+      # Step 5: Cache and clear configuration (Important for env variables to apply)
       - name: Cache and Clear Config
         run: |
           php artisan config:clear
           php artisan cache:clear
           php artisan config:cache
 
-      # Step 5: Set up Node.js and build assets (Frontend)
+      # Step 6: Set up Node.js and build assets (Frontend)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -49,7 +53,7 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      # Step 6: Deploy to cPanel using FTP
+      # Step 7: Deploy to cPanel using FTP
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
