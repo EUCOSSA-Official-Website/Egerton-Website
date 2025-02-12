@@ -26,7 +26,7 @@ jobs:
       # Step 3: Disable Pusher autodiscovery in composer.json
       - name: Disable Pusher Autodiscovery
         run: |
-          jq '.extra.laravel.dont-discover += ["pusher/pusher-php-server"]' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
+          jq 'if has("extra") then .extra.laravel.dont-discover += ["pusher/pusher-php-server"] else . + {"extra": {"laravel": {"dont-discover": ["pusher/pusher-php-server"]}}} end' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
 
       # Step 4: Install PHP dependencies
       - name: Install Composer Dependencies
