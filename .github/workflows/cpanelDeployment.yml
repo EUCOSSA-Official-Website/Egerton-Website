@@ -27,10 +27,11 @@ jobs:
       - name: Disable Pusher Autodiscovery
         run: |
           if grep -q '"dont-discover"' composer.json; then
-            sed -i 's/"dont-discover": \[\([^]]*\)\]/"dont-discover": [\1, "pusher\/pusher-php-server"]/' composer.json
+            sed -i 's/"dont-discover": \[\([^]]*[^,]\)\]/"dont-discover": [\1, "pusher\/pusher-php-server"]/' composer.json
           else
             sed -i 's/"extra": {/"extra": {"laravel": {"dont-discover": ["pusher\/pusher-php-server"]}, /' composer.json
           fi
+          sed -i 's/, ]/]/' composer.json  # Remove any trailing commas
 
       # Step 4: Install PHP dependencies
       - name: Install Composer Dependencies
