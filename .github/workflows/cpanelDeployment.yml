@@ -50,11 +50,11 @@ jobs:
           sed -i "s/'log'/'pusher'/" config/broadcasting.php
 
       # Step 7: Cache and clear configuration (Important for env variables to apply)
-      - name: Cache and Clear Config
-        run: |
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan config:cache
+      # - name: Cache and Clear Config
+      #   run: |
+      #     php artisan config:clear
+      #     php artisan cache:clear
+      #     php artisan config:cache
 
       # Step 8: Set up Node.js and build assets (Frontend)
       - name: Set up Node.js
