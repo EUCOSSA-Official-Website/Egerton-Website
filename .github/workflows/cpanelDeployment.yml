@@ -23,28 +23,21 @@ jobs:
           php-version: '8.2' # Match your app's PHP version
           tools: composer
 
-      # Step 3: Install PHP dependencies (including tightenco/ziggy)
+      # Step 3: Install PHP dependencies (Disable autodiscovery to prevent errors)
       - name: Install Composer Dependencies
         run: |
+          export COMPOSER_DISABLE_AUTODISCOVERY=1
           composer install --no-dev --optimize-autoloader
           composer require tightenco/ziggy
 
-      # Step 4: Set up Pusher environment variables
-      - name: Configure Environment Variables
-        run: |
-          echo "PUSHER_APP_ID=${{ secrets.PUSHER_APP_ID }}" >> .env
-          echo "PUSHER_APP_KEY=${{ secrets.PUSHER_APP_KEY }}" >> .env
-          echo "PUSHER_APP_SECRET=${{ secrets.PUSHER_APP_SECRET }}" >> .env
-          echo "PUSHER_APP_CLUSTER=${{ secrets.PUSHER_APP_CLUSTER }}" >> .env
-
-      # Step 5: Cache and clear configuration (Important for env variables to apply)
+      # Step 4: Cache and clear configuration (Important for env variables to apply)
       - name: Cache and Clear Config
         run: |
           php artisan config:clear
           php artisan cache:clear
           php artisan config:cache
 
-      # Step 6: Set up Node.js and build assets (Frontend)
+      # Step 5: Set up Node.js and build assets (Frontend)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -56,7 +49,7 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      # Step 7: Deploy to cPanel using FTP
+      # Step 6: Deploy to cPanel using FTP
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
