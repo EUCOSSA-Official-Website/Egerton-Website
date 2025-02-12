@@ -10,7 +10,6 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class EventPaymentSuccess extends Notification
 {
-    use Queueable;
 
     protected $amount;
     protected $receiptNumber;
@@ -66,7 +65,7 @@ class EventPaymentSuccess extends Notification
     // Broadcast in real-time
     public function toBroadcast($notifiable)
     {
-        return new BroadcastMessage($this->toArray($notifiable));
+        return (new BroadcastMessage($this->toArray($notifiable)))->onConnection('sync');
     }
 
 }
