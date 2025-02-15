@@ -17,4 +17,5 @@ export default defineConfig({
             },
         }),
     ],
+    base: './', // 👈 This ensures correct paths for assets in production
 });
