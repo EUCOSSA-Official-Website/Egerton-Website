@@ -102,8 +102,7 @@
                                 computer science organization at Egerton University dedicated to 
                                 fostering a vibrant and growing tech community on campus.
                             </p>
-                            <Link 
-                                :href="user ? null : route('register')" 
+                            <Link                                 
                                 @click="handleClick"  
                                 class="inline-block bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2">
                                 Join EUCOSSA
