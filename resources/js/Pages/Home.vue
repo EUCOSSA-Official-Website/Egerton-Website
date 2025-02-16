@@ -14,15 +14,6 @@
         events: Array,
     });
 
-    // Notification for when a User is already Registered
-    const handleClick = (e) => {
-        if (user.value) {
-            e.preventDefault();
-            //alert('You are already registered!🎉');
-            router.visit('/payments');
-        }
-    };
-
     // Carousel state and quotes array
     const currentIndex = ref(0);
     const quotes = ref([
@@ -102,8 +93,8 @@
                                 computer science organization at Egerton University dedicated to 
                                 fostering a vibrant and growing tech community on campus.
                             </p>
-                            <Link                                 
-                                @click="handleClick"  
+                            <Link 
+                                :href="route('payments')" 
                                 class="inline-block bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2">
                                 Join EUCOSSA
                             </Link>
