@@ -82,8 +82,7 @@ class MpesaBalanceController extends Controller
             'message' => 'Balance saved successfully.',
             'data' => [
                 'currency' => $currency,
-                //'balance' => $currentBalance,
-                'balance' => 1896.09,
+                'balance' => $currentBalance,
                 'retrieved_at' => $retrievedAt->toDateTimeString(),
             ],
         ], 200);
