@@ -12,6 +12,7 @@
     // Props for events array
     defineProps({
         events: Array,
+        hImages: Array,
     });
 
     // Carousel state and quotes array
@@ -113,7 +114,7 @@
             </div>
         </section>
 
-        <ImageCarousel />
+        <ImageCarousel :hImages="hImages"/>
         
         <!-- The Quotes Carousel Section -->
         <div class="py-5 bg-gray-100">

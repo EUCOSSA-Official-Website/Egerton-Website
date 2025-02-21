@@ -5,6 +5,7 @@ use App\Http\Controllers\CallForSpeakersController;
 use App\Http\Controllers\EventReactionController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\FaqsEmailController;
+use App\Http\Controllers\HackathonImages;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Payments\FinancesController;
 use App\Http\Controllers\Payments\Mpesa\MpesaBalanceController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpeakersController;
 use App\Models\ContactForm;
 use App\Models\Event;
+use App\Models\HackathonImage;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,7 +36,9 @@ Route::get('/home', function (EventsController $eventsController) {
     // Fetch the 7 most recent events from the EventsController Class. 
     $events = $eventsController->index(7);
 
-    return Inertia::render('Home', ['events' => $events]);
+    $hackathonImages = HackathonImage::get();
+
+    return Inertia::render('Home', ['events' => $events, 'hImages' => $hackathonImages]);
 
 })->name('home');
 
@@ -188,7 +192,10 @@ Route::prefix('dashboard')
 
         // The Creating An Event Route
         Route::get('/event/create', function (){
-            return inertia('Dashboard/EventCreation');
+
+            $images = HackathonImage::withTrashed()->get();
+
+            return inertia('Dashboard/EventCreation', ['images' => $images]);
         })->name('.events.create');
 
         // Analytics Route
@@ -276,3 +283,8 @@ Route::resource('/notifications', NotificationsController::class)
 
 
 Route::put('notifications/{notification}/seen', [NotificationsController::class, 'markAsRead'])->name('notifications.seen');
+
+Route::resource('/hackathon-winner', HackathonImages::class)->middleware(['auth']);
+
+Route::post('/hackathon-winner/{hackathon_winner}/restore', [HackathonImages::class, 'restore'])->middleware(['auth'])->name('hackathon-winner.restore');
+
