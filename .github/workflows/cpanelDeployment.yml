@@ -3,7 +3,7 @@ name: Deploy Inertia App to cPanel
 on:
   push:
     branches:
-      - main
+      - FixingGithubActions
 
 jobs:
   deploy:

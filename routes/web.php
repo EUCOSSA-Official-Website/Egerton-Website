@@ -184,6 +184,7 @@ Route::prefix('dashboard')
         // The Speakers for dashboard
         Route::get('/speakers', function (SpeakersController $speakersController)
         {
+            Gate::allowIf(fn($user) => $user->role === 'admin');
 
             $speakers = $speakersController->index();
             
@@ -193,6 +194,8 @@ Route::prefix('dashboard')
         // The Creating An Event Route
         Route::get('/event/create', function (){
 
+            // Admin Authorization. 
+            Gate::allowIf(fn($user) => $user->role === 'admin');
             $images = HackathonImage::withTrashed()->get();
 
             return inertia('Dashboard/EventCreation', ['images' => $images]);
@@ -201,6 +204,10 @@ Route::prefix('dashboard')
         // Analytics Route
         Route::get('/analytics', function ()
         {
+
+            // Authorization Check
+            Gate::allowIf(fn($user) => $user->role === 'admin');
+
             $feedback = ContactForm::orderBy('created_at', 'desc')->get();
 
             $users = User::get();
@@ -273,6 +280,18 @@ Route::post('/donate1', [MpesaController::class, 'donate1'])->name('donate1');
 // The Check Balance API
 Route::post('/balance', [MpesaBalanceController::class, 'checkMpesaBalance'])->name('balance');
 Route::post('/balance-result', [MpesaBalanceController::class, 'receiveMpesaBalance'])->name('balance-result');
+
+Route::get('/latest-balance', function () {
+
+    Gate::allowIf(fn($user) => $user->role === 'admin');
+
+    $latestBalance = \App\Models\FinanceBalance::latest()->first();
+    
+    return response()->json([
+        'balance' => $latestBalance->balance ?? null,
+    ]);
+})->middleware(['auth']);
+
 
 // The Registering for Events Route
 Route::post('/mpesa/events/register/{event}', [PaidEventRegistration::class, 'initiateEventPayment'])->name('event-payment')->middleware(['auth']);
