@@ -47,6 +47,7 @@ return [
         'app_id' => "1939729",
         'cluster' => "mt1",
         'useTLS' => true,
+        'auth_key' => "dc7341bc673250f3fc36",
     ],
 
     // BROADCAST_CONNECTION=pusher
