@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules;
 
 Route::get('/', function () {
+    dd(config('services.pusher'));
+
     return redirect()->route('home');
 });
 

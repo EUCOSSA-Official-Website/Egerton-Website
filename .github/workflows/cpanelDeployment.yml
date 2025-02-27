@@ -41,10 +41,27 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      # Step 5: Deploy to cPanel using FTP
+      # Step 5: Create .env file with hardcoded Pusher credentials
+      - name: Set up environment file
+        run: |
+          echo "APP_ENV=production" >> .env
+          echo "PUSHER_APP_ID=1939729" >> .env
+          echo "PUSHER_APP_KEY=dc7341bc673250f3fc36" >> .env
+          echo "PUSHER_APP_SECRET=25f43953d99c2d5da7ed" >> .env
+          echo "PUSHER_APP_CLUSTER=mt1" >> .env
+          echo "PUSHER_USE_TLS=true" >> .env
+
+      # Step 6: Clear and cache Laravel config
+      - name: Clear and cache Laravel config
+        run: |
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan config:cache
+
+      # Step 7: Deploy to cPanel using FTP
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ${{ secrets.SERVER }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          server: "your-server.com"
+          username: "your-ftp-username"
+          password: "your-ftp-password"
