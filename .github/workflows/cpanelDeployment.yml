@@ -26,25 +26,23 @@ jobs:
           echo "PUSHER_APP_CLUSTER=mt1" >> .env
           echo "PUSHER_USE_TLS=true" >> .env
 
-      # Step 3: Clear and cache Laravel config
-      - name: Clear and cache Laravel config
-        run: |
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan config:cache
-
-      # Step 4: Set up PHP and Composer first (backend dependencies)
+      # Step 3: Set up PHP and Composer first (backend dependencies)
       - name: Set up PHP and Composer
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2' # Match your app's PHP version
           tools: composer
 
-      # Step 5: Install PHP dependencies (including tightenco/ziggy)
+      # Step 4: Install PHP dependencies (including tightenco/ziggy)
       - name: Install Composer Dependencies
         run: |
           composer install --no-dev --optimize-autoloader
           composer require tightenco/ziggy # Ensure Ziggy is installed
+
+      # Step 5: Cache Laravel configuration after installing dependencies
+      - name: Cache Laravel config
+        run: |
+          php artisan config:cache
 
       # Step 6: Set up Node.js and build assets (frontend)
       - name: Set up Node.js
