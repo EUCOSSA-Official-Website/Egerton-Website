@@ -41,4 +41,22 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URL'),
     ],
 
+    'pusher' => [
+        'key' => "dc7341bc673250f3fc36",
+        'secret' => "25f43953d99c2d5da7ed",
+        'app_id' => "1939729",
+        'cluster' => "mt1",
+        'useTLS' => true,
+        'auth_key' => "dc7341bc673250f3fc36",
+    ],
+
+    // BROADCAST_CONNECTION=pusher
+    // PUSHER_APP_ID="1939729"
+    // PUSHER_APP_KEY="dc7341bc673250f3fc36"
+    // PUSHER_APP_SECRET="25f43953d99c2d5da7ed"
+    // PUSHER_SCHEME="https"
+    // PUSHER_PORT=443
+    // PUSHER_HOST=
+    // PUSHER_APP_CLUSTER="mt1"
+
 ];

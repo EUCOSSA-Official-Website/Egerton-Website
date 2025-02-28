@@ -16,20 +16,36 @@ jobs:
         with:
           fetch-depth: 2
 
-      # Step 2: Set up PHP and Composer first (backend dependencies)
+      # Step 2: Set up environment file
+      - name: Set up environment file
+        run: |
+          echo "APP_ENV=production" >> .env
+          echo "PUSHER_APP_ID=${{ secrets.PUSHER_APP_ID }}" >> .env
+          echo "PUSHER_APP_KEY=${{ secrets.PUSHER_APP_KEY }}" >> .env
+          echo "PUSHER_APP_SECRET=${{ secrets.PUSHER_APP_SECRET }}" >> .env
+          echo "PUSHER_APP_CLUSTER=${{ secrets.PUSHER_APP_CLUSTER }}" >> .env
+          echo "PUSHER_USE_TLS=${{ secrets.PUSHER_USE_TLS }}" >> .env
+
+
+      # Step 3: Set up PHP and Composer first (backend dependencies)
       - name: Set up PHP and Composer
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2' # Match your app's PHP version
           tools: composer
 
-      # Step 3: Install PHP dependencies (including tightenco/ziggy)
+      # Step 4: Install PHP dependencies (including tightenco/ziggy)
       - name: Install Composer Dependencies
         run: |
           composer install --no-dev --optimize-autoloader
           composer require tightenco/ziggy # Ensure Ziggy is installed
 
-      # Step 4: Set up Node.js and build assets (frontend)
+      # Step 5: Cache Laravel configuration after installing dependencies
+      - name: Cache Laravel config
+        run: |
+          php artisan config:cache
+
+      # Step 6: Set up Node.js and build assets (frontend)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -41,7 +57,7 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      # Step 5: Deploy to cPanel using FTP
+      # Step 7: Deploy to cPanel using FTP
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
