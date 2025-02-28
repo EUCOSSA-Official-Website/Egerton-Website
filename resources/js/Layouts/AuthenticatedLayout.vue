@@ -306,7 +306,7 @@
                             FAQs
                         </ResponsiveNavLink>
 
-                        <div class="relative inline-flex w-full">
+                        <div v-if="user?.role === 'admin'" class="relative inline-flex w-full">
                             <ResponsiveNavLink :href="route('dashboard')" :active="route().current().startsWith('dashboard')">
                                 Dashboard
                             </ResponsiveNavLink>
