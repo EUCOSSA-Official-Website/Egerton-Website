@@ -45,6 +45,10 @@ jobs:
         run: |
           php artisan config:cache
 
+      # Step 5.5: Delete .env File
+      - name: Remove .env File
+        run: rm -f .env
+
       # Step 6: Set up Node.js and build assets (frontend)
       - name: Set up Node.js
         uses: actions/setup-node@v3
