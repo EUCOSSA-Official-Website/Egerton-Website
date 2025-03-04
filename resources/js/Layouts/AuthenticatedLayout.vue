@@ -321,7 +321,7 @@
                     </div>
 
                     <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200 ">
+                    <div class="pt-4 pb-1 border-t border-gray-200 "> 
                         <div class="px-4">
                             <div class="inline-flex font-medium text-base text-gray-800  items-center">
                                 {{ user?.name || 'Login / Register?' }}
