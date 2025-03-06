@@ -40,10 +40,10 @@ jobs:
           composer install --no-dev --optimize-autoloader
           composer require tightenco/ziggy # Ensure Ziggy is installed
 
-      # Step 5: Cache Laravel configuration after installing dependencies
+      # Step 5: Remove Cache in Laravel configuration after installing dependencies
       - name: Cache Laravel config
         run: |
-          php artisan config:cache
+          php artisan config:clear
 
       # Step 5.5: Delete .env File
       - name: Remove .env File
