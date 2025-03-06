@@ -84,6 +84,8 @@
 
     onMounted(() => {
 
+        if (!page.props.auth.user) return; // Prevents subscribing if user is not authenticated
+
         if (window.Echo) {
 
             window.Echo.private(`App.Models.User.${page.props.auth.user.id}`)
