@@ -1,7 +1,7 @@
 <script setup>
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
-    import { ref } from 'vue';
-    import { Link, useForm } from '@inertiajs/vue3';
+    import { ref, onMounted } from 'vue';
+    import { router } from '@inertiajs/vue3';
     import DataTable from 'datatables.net-vue3';
     import DataTablesLib from 'datatables.net';
     import 'datatables.net-dt';
@@ -64,11 +64,16 @@
             data: "read_at",
             orderable: false,
             render: (data, type, row) => {
-                return `
-                    <button @click.prevent="() => markAsRead(${row.id})" 
-                            class="text-white font-bold bg-blue-500 px-2 py-1 rounded hover:bg-blue-700">
-                        ${!data ? "Mark as Read" : "Read"}
-                    </button>`;
+                if (data) {
+                    return `<span class="text-green-600 font-bold">Read</span>`;
+                } else {
+                    return `
+                        <button 
+                            class="mark-as-read-btn bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700"
+                            data-id="${row.id}">
+                            Mark as Read
+                        </button>`;
+                }
             }
         }
     ];
@@ -81,6 +86,24 @@
         lengthChange: true,
         dom: "lfrtip",
     };
+
+    onMounted(() => {
+        document.addEventListener('click', function (event) {
+            const target = event.target;
+            if (target && target.classList.contains('mark-as-read-btn')) {
+                const feedbackId = target.getAttribute('data-id');
+                if (feedbackId) {
+                    router.put(route('dashboard.analytics.seen', feedbackId), {}, {
+                        preserveScroll: true,
+                        onSuccess: () => {
+                            // Optional: add toast or visual feedback
+                            console.log(`Feedback ${feedbackId} marked as read.`);
+                        }
+                    });
+                }
+            }
+        });
+    });
 </script>
 
 <template>
