@@ -5,6 +5,7 @@
     import DataTable from 'datatables.net-vue3';
     import DataTablesCore from 'datatables.net-bs5';
     import 'datatables.net-bs5/css/dataTables.bootstrap5.css'; // ✅ Theming
+    import UserAnalytics from '@/Components/Charts/UserAnalytics.vue';
 
 
     DataTable.use(DataTablesCore);
@@ -124,7 +125,7 @@
             <!-- Header -->
             <button
                 @click="showFeedback = !showFeedback"
-                class="w-full bg-blue-600 text-white text-left px-6 py-4 text-2xl tracking-wide font-bold hover:bg-blue-700 transition duration-200 rounded-t flex items-center gap-3"
+                class="w-full bg-blue-500 text-white text-left px-6 py-4 text-2xl tracking-wide font-bold hover:bg-blue-600 transition duration-200 rounded-t flex items-center gap-3"
             >
                 <i :class="showFeedback ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
                 <span>User Feedback</span>
@@ -146,7 +147,7 @@
             <!-- Header -->
             <button
                 @click="showUsers = !showUsers"
-                class="w-full bg-blue-600 text-white text-left px-6 py-4 text-2xl tracking-wide font-bold hover:bg-blue-700 transition duration-200 rounded-t flex items-center gap-3"
+                class="w-full bg-blue-500 text-white text-left px-6 py-4 text-2xl tracking-wide font-bold hover:bg-blue-600 transition duration-200 rounded-t flex items-center gap-3"
             >
                 <i :class="showUsers ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
                 <span>Site Users</span>
@@ -180,6 +181,10 @@
                 />
             </div>
         </div>
+
+        <!-- Graph Analytics -->
+        <UserAnalytics :users="users" />
+
 
     </Dashboard>
 </template>

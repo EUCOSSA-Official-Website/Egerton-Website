@@ -20,6 +20,7 @@
     "dependencies": {
         "@inertiajs/vue3": "^1.2.0",
         "bootstrap": "^5.3.3",
+        "chart.js": "^4.4.8",
         "datatables.net": "^2.2.1",
         "datatables.net-bs5": "^2.2.2",
         "datatables.net-dt": "^2.2.2",
@@ -27,6 +28,7 @@
         "laravel-echo": "^1.19.0",
         "pusher-js": "^8.4.0",
         "sweetalert2": "^11.16.0",
+        "vue-chartjs": "^5.3.2",
         "vue-router": "^4.4.5"
     }
 }
