@@ -1,5 +1,6 @@
 <script setup>
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
+    import { ref } from 'vue';
     import { Link, useForm } from '@inertiajs/vue3';
     import DataTable from 'datatables.net-vue3';
     import DataTablesLib from 'datatables.net';
@@ -12,8 +13,15 @@
         users: Array
     });
 
+    // Dropdown visibility state
+    const showDropdown = ref(false);
+
+    // Function to generate export URLs dynamically
+    const exportUrl = (type) => route('dashboard.analytics.export-users', { type });
+
+    // Format the date column
     const formatDate = (dateString) => {
-        if(dateString === null){
+        if (dateString === null) {
             return `<div class="text-red-500 text-bold">unregistered</div>`;
         }
         const date = new Date(dateString);
@@ -24,27 +32,20 @@
         return `${day}-${month}-${year}`;
     };
 
-    const markAsRead = (id) => {
-        const form = useForm({});
-        form.put(route('dashboard.analytics.seen', { id }), {
-            preserveScroll: true,
-            onSuccess: () => {
-                // Optional: Add a success callback if needed
-            }
-        });
-    };
-
+    // DataTable columns for users
     const columns2 = [
         {
-            title: "#", // Number column title
-            data: null, // We don't bind it to any data, this will be handled by render
-            render: (data, type, row, meta) => meta.row + 1, // Row numbering (starts from 1)
+            title: "#",
+            data: null,
+            render: (data, type, row, meta) => meta.row + 1,
         },
         { title: "Name", data: "name" },
         { title: "Email", data: "email" },
-        { title: "mobile", data: "mobile" },
+        { title: "Mobile", data: "mobile" },
         { title: "Registration Status", data: "registered", render: (data) => formatDate(data) },
     ];
+
+    // DataTable columns for feedback
     const columns = [
         { title: "Name", data: "name" },
         { title: "Email", data: "email" },
@@ -84,6 +85,7 @@
 
 <template>
     <Dashboard>
+        <!-- Feedback Table -->
         <div>
             <h1 class="mx-auto text-3xl text-start mb-4">User Feedback</h1>
             <DataTable
@@ -94,8 +96,27 @@
             />
         </div>
 
-        <div>
-            <h1 class="mx-auto text-3xl text-start mb-4">Sites Users</h1>
+        <!-- Users Table with Export Buttons -->
+        <div class="relative">
+            <h1 class="mx-auto text-3xl text-start mb-4">Site Users</h1>
+            
+            <!-- Export Button -->
+            <div class="relative inline-block text-left mb-4">
+                <button @click="showDropdown = !showDropdown"
+                    class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 flex items-center">
+                    <i class="fas fa-download mr-1"></i> Export
+                    <i :class="showDropdown ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas ml-2"></i>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div v-if="showDropdown" class="absolute left-0 mt-2 w-32 bg-white border rounded shadow-md">
+                    <a :href="exportUrl('csv')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">CSV</a>
+                    <a :href="exportUrl('pdf')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">PDF</a>
+                    <a :href="exportUrl('xlsx')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Excel</a>
+                </div>
+            </div>
+
+            <!-- Users Table -->
             <DataTable
                 :data="users"
                 :columns="columns2"

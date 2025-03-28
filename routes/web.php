@@ -25,6 +25,8 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/', function () {
     
@@ -220,6 +222,19 @@ Route::prefix('dashboard')
                 'users' => $users,
             ]);
         })->name('.analytics');
+
+        Route::get('/analytics/export-users/{type}', function ($type) {
+            // Authorization Check
+            Gate::allowIf(fn($user) => $user->role === 'admin');
+        
+            $fileName = time() . "_users.{$type}";
+        
+            try {
+                return Excel::download(new UsersExport, $fileName);
+            } catch (\Exception $e) {
+                return back()->with('error', 'An error occurred: ' . $e->getMessage());
+            }
+        })->whereIn('type', ['csv', 'pdf', 'xlsx'])->name('.analytics.export-users');
 
         // Marking the User Feedback As Read
         Route::put('/analytics/{id}', function($id)
