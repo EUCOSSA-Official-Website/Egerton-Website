@@ -181,6 +181,8 @@ Route::prefix('dashboard')
 
         // The Event Attendees Controller
         Route::get('/attendees', [AttendeesController::class, 'index'])->name('.attendees');
+        Route::get('/event/{eventId}/export/{type}', [AttendeesController::class, 'exportEventAttendees'])
+            ->name('event.attendees.export')->middleware('auth'); // Ensure the user is logged in
 
         // The Speakers for dashboard
         Route::get('/speakers', function (SpeakersController $speakersController)

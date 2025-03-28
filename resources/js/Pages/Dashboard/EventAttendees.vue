@@ -8,18 +8,12 @@
     DataTable.use(DataTablesLib);
 
     const props = defineProps({
-        events: Object, // Events are grouped by event_id (passed as an object)
+        events: Object, // Events are grouped by event_id
     });
 
-    const selectedEventId = ref(null); // Holds selected event_id
+    const showDropdown = ref(false);
 
-    // Compute event names dynamically for buttons
-    // const eventNames = computed(() =>
-    //     Object.keys(props.events).map(eventId => ({
-    //         id: eventId,
-    //         name: props.events[eventId][0]?.event?.title || `Event ${eventId}`, // Fallback name
-    //     }))
-    // );
+    const selectedEventId = ref(null);
 
     // Compute event names dynamically for buttons in reverse order (latest first)
     const eventNames = computed(() =>
@@ -42,6 +36,11 @@
     const filteredEvents = computed(() => 
         selectedEventId.value ? props.events[selectedEventId.value] : []
     );
+
+    // Generate Export URLs dynamically
+    const exportUrl = (format) => {
+        return `/dashboard/event/${selectedEventId.value}/export/${format}`;
+    };
 
     const columns = [
         {
@@ -90,6 +89,24 @@
             <h2 v-if="selectedEventId" class="text-lg font-semibold">
                 Attendees for: {{ eventNames.find(e => e.id == selectedEventId)?.name }}
             </h2>
+
+            <!-- Export Button Group -->
+            <div v-if="selectedEventId" class="relative inline-block text-left">
+                <button @click="showDropdown = !showDropdown" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 flex items-center"
+                >
+                    <i class="fas fa-download mr-1"></i> Export
+                    <i :class="showDropdown ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas ml-2"></i>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div v-if="showDropdown" class="absolute left-0 mt-2 w-32 bg-white border rounded shadow-md"
+                >
+                    <a :href="exportUrl('csv')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">CSV</a>
+                    <a :href="exportUrl('pdf')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">PDF</a>
+                    <a :href="exportUrl('xlsx')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Excel</a>
+                </div>
+            </div>
+
 
             <!-- Attendees Table -->
             <DataTable
