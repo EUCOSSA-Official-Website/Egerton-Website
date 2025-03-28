@@ -17,6 +17,10 @@
     // Dropdown visibility state
     const showDropdown = ref(false);
 
+    const showFeedback = ref(false);
+    const showUsers = ref(false);
+
+
     // Function to generate export URLs dynamically
     const exportUrl = (type) => route('dashboard.analytics.export-users', { type });
 
@@ -115,45 +119,68 @@
 
 <template>
     <Dashboard>
-        <!-- Feedback Table -->
-        <div>
-            <h1 class="mx-auto text-3xl text-start mb-4">User Feedback</h1>
-            <DataTable
-                :data="feedback"
-                :columns="columns"
-                :options="tableOptions"
-                class="table-auto border-collapse border border-gray-300 w-full text-left"
-            />
-        </div>
+        <!-- Feedback Section -->
+        <div class="mb-6 border border-gray-300 rounded">
+            <!-- Header -->
+            <button
+                @click="showFeedback = !showFeedback"
+                class="w-full bg-blue-600 text-white text-left px-6 py-4 text-2xl tracking-wide font-bold hover:bg-blue-700 transition duration-200 rounded-t flex items-center gap-3"
+            >
+                <i :class="showFeedback ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
+                <span>User Feedback</span>
+            </button>
 
-        <!-- Users Table with Export Buttons -->
-        <div class="relative">
-            <h1 class="mx-auto text-3xl text-start mb-4">Site Users</h1>
-            
-            <!-- Export Button -->
-            <div class="relative inline-block text-left mb-4 z-30">
-                <button @click="showDropdown = !showDropdown"
-                    class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 flex items-center">
-                    <i class="fas fa-download mr-1"></i> Export
-                    <i :class="showDropdown ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas ml-2"></i>
-                </button>
-
-                <!-- Dropdown Menu -->
-                <div v-if="showDropdown" class="absolute left-0 mt-2 w-32 bg-white border rounded shadow-md z-50">
-                    <a :href="exportUrl('csv')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">CSV</a>
-                    <a :href="exportUrl('pdf')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">PDF</a>
-                    <a :href="exportUrl('xlsx')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Excel</a>
-                </div>
+            <!-- Content -->
+            <div v-show="showFeedback" class="p-4">
+                <DataTable
+                    :data="feedback"
+                    :columns="columns"
+                    :options="tableOptions"
+                    class="table-auto border-collapse border border-gray-300 w-full text-left"
+                />
             </div>
-
-            <!-- Users Table -->
-            <DataTable
-                :data="users"
-                :columns="columns2"
-                :options="tableOptions"
-                class="table-auto border-collapse border border-gray-300 w-full text-left"
-            />
         </div>
+
+        <!-- Users Section -->
+        <div class="mb-6 border border-gray-300 rounded">
+            <!-- Header -->
+            <button
+                @click="showUsers = !showUsers"
+                class="w-full bg-blue-600 text-white text-left px-6 py-4 text-2xl tracking-wide font-bold hover:bg-blue-700 transition duration-200 rounded-t flex items-center gap-3"
+            >
+                <i :class="showUsers ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
+                <span>Site Users</span>
+            </button>
+
+
+            <!-- Content -->
+            <div v-show="showUsers" class="p-4">
+                <!-- Export Button -->
+                <div class="relative inline-block text-left mb-4 z-30">
+                    <button @click="showDropdown = !showDropdown"
+                        class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 flex items-center">
+                        <i class="fas fa-download mr-1"></i> Export
+                        <i :class="showDropdown ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas ml-2"></i>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div v-if="showDropdown" class="absolute left-0 mt-2 w-32 bg-white border rounded shadow-md z-50">
+                        <a :href="exportUrl('csv')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">CSV</a>
+                        <a :href="exportUrl('pdf')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">PDF</a>
+                        <a :href="exportUrl('xlsx')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Excel</a>
+                    </div>
+                </div>
+
+                <!-- Users Table -->
+                <DataTable
+                    :data="users"
+                    :columns="columns2"
+                    :options="tableOptions"
+                    class="table-auto border-collapse border border-gray-300 w-full text-left"
+                />
+            </div>
+        </div>
+
     </Dashboard>
 </template>
 
