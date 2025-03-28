@@ -27,7 +27,7 @@
                 :options="{
                     paging: true,
                     searching: true,
-                    ordering: false,
+                    ordering: true,
                     pageLength: 10,
                     lengthChange: true,
                     dom: 'lfrtip',
@@ -43,10 +43,11 @@
     import axios from 'axios';
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
     import DataTable from 'datatables.net-vue3';
-    import DataTablesLib from 'datatables.net';
-    import 'datatables.net-dt'; // Optional styling for DataTables
+    import DataTablesCore from 'datatables.net-bs5';
+    import 'datatables.net-bs5/css/dataTables.bootstrap5.css'; // ✅ Theming
 
-    DataTable.use(DataTablesLib);
+
+    DataTable.use(DataTablesCore);
 
     // Latest balance state
     const latestBalance = ref('Fetching balance...');
@@ -87,7 +88,7 @@
             console.error("Error initiating balance check:", error);
             latestBalance.value = 'Error fetching balance';
         }
-}
+    }
 
 
     // Poll for balance on page load every 5 seconds
@@ -113,7 +114,10 @@
         {
             title: "Time",
             data: "retrieved_at",
-            render: (data) => formattedDate(data),
+            render: {
+                display: (data) => formattedDate(data), // what shows in the UI
+                sort: (data) => new Date(data).getTime(), // what DataTables uses to sort
+            }
         },
         { title: "Balance", data: "balance" },
     ];
@@ -132,3 +136,30 @@
         })}`;
     };
 </script>
+
+<style>
+    /* ✅ Tailwind overrides to control Bootstrap pagination */
+    .pagination {
+    all: unset;
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    }
+
+    .pagination li {
+    list-style: none;
+    }
+
+    .pagination .page-item {
+    display: inline-block;
+    }
+
+    .pagination .page-link {
+    @apply px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-100;
+    }
+
+    /* Active page */
+    .pagination .active .page-link {
+    @apply bg-blue-500 text-white border-blue-500;
+    }
+</style>

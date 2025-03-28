@@ -74,38 +74,53 @@
     <Dashboard>
         <div class="space-y-4">
             <!-- Event Filter Buttons -->
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 my-4">
                 <button
                     v-for="event in eventNames"
                     :key="event.id"
                     @click="selectedEventId = event.id"
-                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                    :class="[
+                        'px-4 py-2 rounded transition-all duration-200',
+                        selectedEventId === event.id
+                            ? 'bg-blue-700 text-white font-bold shadow'
+                            : 'bg-blue-100 text-blue-800 hover:bg-blue-200'
+                    ]"
                 >
                     {{ event.name }}
                 </button>
             </div>
 
             <!-- Display selected event name -->
-            <h2 v-if="selectedEventId" class="text-lg font-semibold">
-                Attendees for: {{ eventNames.find(e => e.id == selectedEventId)?.name }}
+            <h2
+                v-if="selectedEventId"
+                class="text-xl font-semibold text-gray-800 mb-4 border-l-4 border-blue-500 pl-4"
+            >
+                Attendees for: <span class="text-blue-700 italic font-medium">
+                    {{ eventNames.find(e => e.id == selectedEventId)?.name }}
+                </span>
             </h2>
 
             <!-- Export Button Group -->
-            <div v-if="selectedEventId" class="relative inline-block text-left">
-                <button @click="showDropdown = !showDropdown" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 flex items-center"
+            <div v-if="selectedEventId" class="relative inline-block text-left z-30">
+                <button
+                    @click="showDropdown = !showDropdown"
+                    class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 flex items-center"
                 >
                     <i class="fas fa-download mr-1"></i> Export
                     <i :class="showDropdown ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas ml-2"></i>
                 </button>
 
                 <!-- Dropdown Menu -->
-                <div v-if="showDropdown" class="absolute left-0 mt-2 w-32 bg-white border rounded shadow-md"
+                <div
+                    v-if="showDropdown"
+                    class="absolute left-0 mt-2 w-32 bg-white border rounded shadow-md z-50"
                 >
                     <a :href="exportUrl('csv')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">CSV</a>
                     <a :href="exportUrl('pdf')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">PDF</a>
                     <a :href="exportUrl('xlsx')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Excel</a>
                 </div>
             </div>
+
 
 
             <!-- Attendees Table -->

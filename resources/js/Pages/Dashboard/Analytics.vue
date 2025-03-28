@@ -3,10 +3,11 @@
     import { ref, onMounted } from 'vue';
     import { router } from '@inertiajs/vue3';
     import DataTable from 'datatables.net-vue3';
-    import DataTablesLib from 'datatables.net';
-    import 'datatables.net-dt';
+    import DataTablesCore from 'datatables.net-bs5';
+    import 'datatables.net-bs5/css/dataTables.bootstrap5.css'; // ✅ Theming
 
-    DataTable.use(DataTablesLib);
+
+    DataTable.use(DataTablesCore);
 
     const props = defineProps({
         feedback: Array,
@@ -85,6 +86,12 @@
         pageLength: 10,
         lengthChange: true,
         dom: "lfrtip",
+        headerCallback: function (thead) {
+            thead.querySelectorAll('th').forEach(th => {
+                th.classList.add('cursor-pointer');
+            });
+        }
+
     };
 
     onMounted(() => {
@@ -124,7 +131,7 @@
             <h1 class="mx-auto text-3xl text-start mb-4">Site Users</h1>
             
             <!-- Export Button -->
-            <div class="relative inline-block text-left mb-4">
+            <div class="relative inline-block text-left mb-4 z-30">
                 <button @click="showDropdown = !showDropdown"
                     class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 flex items-center">
                     <i class="fas fa-download mr-1"></i> Export
@@ -132,7 +139,7 @@
                 </button>
 
                 <!-- Dropdown Menu -->
-                <div v-if="showDropdown" class="absolute left-0 mt-2 w-32 bg-white border rounded shadow-md">
+                <div v-if="showDropdown" class="absolute left-0 mt-2 w-32 bg-white border rounded shadow-md z-50">
                     <a :href="exportUrl('csv')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">CSV</a>
                     <a :href="exportUrl('pdf')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">PDF</a>
                     <a :href="exportUrl('xlsx')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Excel</a>
@@ -149,3 +156,31 @@
         </div>
     </Dashboard>
 </template>
+
+
+<style>
+    /* ✅ Tailwind overrides to control Bootstrap pagination */
+    .pagination {
+    all: unset;
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    }
+
+    .pagination li {
+    list-style: none;
+    }
+
+    .pagination .page-item {
+    display: inline-block;
+    }
+
+    .pagination .page-link {
+    @apply px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-100;
+    }
+
+    /* Active page */
+    .pagination .active .page-link {
+    @apply bg-blue-500 text-white border-blue-500;
+    }
+</style>
