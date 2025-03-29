@@ -184,21 +184,26 @@
         </div>
 
         <!-- Socials -->
-         <section class="bg-white py-16 mx-auto">
-            <div class="text-center my-">
-                <div class="text-xl font-semibold mb-3">Follow US!</div>
-                <a class="text-2xl text-gray-700 mx-2" href="https://x.com/eucossake" target="_blank">
+        <section class="bg-white py-16 mx-auto pb-4">
+            <div class="text-center">
+                <div class="text-xl font-semibold mb-3">Follow Us!</div>
+                <a class="text-2xl mx-2 bg-blue-500 text-white rounded-full w-12 h-12 inline-flex items-center justify-center shadow-lg" href="https://x.com/eucossake" target="_blank">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <a class="text-2xl text-gray-700 mx-2" href="https://www.instagram.com/eucossake?igsh=MTEwaGx2NzF2d3B6ZA%3D%3D" target="_blank">
+                <a class="text-2xl mx-2 bg-blue-500 text-white rounded-full w-12 h-12 inline-flex items-center justify-center shadow-lg" href="https://www.instagram.com/eucossake?igsh=MTEwaGx2NzF2d3B6ZA%3D%3D" target="_blank">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a class="text-2xl text-gray-700 mx-2" href="https://www.youtube.com/@eucossake2200" target="_blank">
+                <a class="text-2xl mx-2 bg-blue-500 text-white rounded-full w-12 h-12 inline-flex items-center justify-center shadow-lg" href="https://www.youtube.com/@eucossake2200" target="_blank">
                     <i class="fab fa-youtube"></i>
                 </a>
-                <a class="text-2xl text-gray-700 mx-2" href="mailto:eucossake@gmail.com" target="_blank">
+                <a class="text-2xl mx-2 bg-blue-500 text-white rounded-full w-12 h-12 inline-flex items-center justify-center shadow-lg" href="mailto:eucossake@gmail.com" target="_blank">
                     <i class="fas fa-envelope"></i>
                 </a>
+                <a class="text-2xl mx-2 bg-blue-500 text-white rounded-full w-12 h-12 inline-flex items-center justify-center shadow-lg" href="https://github.com/EUCOSSA-Official-Website/Egerton-Website" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                <div class="py-4 my-4 text-xs italic text-gray-600">Follow us and be part of our growing community!</div>
             </div>
         </section>
 
