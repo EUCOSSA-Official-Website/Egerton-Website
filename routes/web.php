@@ -28,6 +28,7 @@ use Illuminate\Validation\Rules;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\UserRoleController;
+use App\Models\Faq;
 
 Route::get('/', function () {
     
@@ -272,7 +273,16 @@ Route::post('register2', [MpesaController::class, 'register2'])
 // The FAQ's Page
 Route::get('/faqs', function()
 {
-    return inertia('Faqs');
+    //return inertia('Faqs');
+
+    return Inertia::render('Faqs', [
+        'faqs' => [
+            'Payment Issues' => Faq::where('category', 'Payment Issues')->get(),
+            'Registration' => Faq::where('category', 'Registration')->get(),
+            'Club Constitution' => Faq::where('category', 'Club Constitution')->get(),
+            'Other' => Faq::where('category', 'Other')->get(),
+        ]
+    ]);
 })->name('faqs');
 
 // The Message from the FAQS page

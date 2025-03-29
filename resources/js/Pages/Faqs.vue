@@ -10,111 +10,50 @@
         
         <div class="grid grid-cols-12">
 
-            <div class="col-span-11 lg:col-span-6 ml-10">
+        <div class="col-span-11 lg:col-span-6 ml-10">
+        <div v-for="(category, i) in categories" :key="category">
+            <h2 class="font-bold mb-4 mt-8 text-2xl text-gray-800 border-b pb-1">{{ category }}</h2>
 
-                <h2 class="font-bold mb-3 text-2xl">Payment Issues</h2>
+            <!-- Check if there are FAQs under this category -->
+            <div v-if="props.faqs[category]?.length">
+            <div
+                v-for="(faq, j) in props.faqs[category]"
+                :key="faq.id"
+                class="rounded-lg border border-gray-200 mb-4 shadow-sm overflow-hidden transition-all duration-200"
+                :class="{
+                'border-l-4 border-blue-600 shadow-md': isOpen(`${i}-${j}`),
+                'hover:shadow-md': !isOpen(`${i}-${j}`)
+                }"
+            >
+                <h3
+                @click="toggleAccordion(`${i}-${j}`)"
+                class="flex justify-between items-center cursor-pointer px-4 py-3 bg-white hover:bg-gray-100 font-medium text-gray-900"
+                >
+                <span>{{ faq.question }}</span>
+                <i
+                    class="fas fa-chevron-down text-gray-600 transition-transform duration-300"
+                    :class="{ 'rotate-180': isOpen(`${i}-${j}`) }"
+                ></i>
+                </h3>
 
-                
-                <!-- Accordion Item 1 -->
-                <div class="border rounded-lg">
-                    <h3 @click="toggleAccordion(1)" class="flex justify-between items-center cursor-pointer px-4 py-3 bg-white hover:bg-gray-200">
-                    Accordion Item #1
-                    <svg class="w-5 h-5" :class="isOpen(1) ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                    </h3>
-                    <div v-if="isOpen(1)" class="px-4 py-3">
-                        <div class="accordion-body bg-white">
-                            <strong>This is the first item's accordion body.</strong>
-                            It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element.
-                            These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
-                            You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just
-                            about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div>
-                    </div>
+                <div
+                v-if="isOpen(`${i}-${j}`)"
+                class="px-4 py-3 bg-gray-50 border-t border-gray-200 text-sm text-gray-700 whitespace-pre-line"
+                >
+                {{ faq.answer }}
                 </div>
-
-                <!-- Accordion Item 2 -->
-                <div class="border rounded-lg">
-                    <h3 @click="toggleAccordion(2)" class="flex justify-between items-center cursor-pointer px-4 py-3 bg-white hover:bg-gray-200">
-                    Accordion Item #2
-                    <svg class="w-5 h-5" :class="isOpen(2) ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                    </h3>
-                    <div v-if="isOpen(2)" class="px-4 py-3">
-                        <div class="accordion-body bg-white">
-                            <strong>This is the second item's accordion body.</strong>
-                            It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
-                            These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
-                            You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just
-                            about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div>
-                    </div>
-                </div>
-
-                <h2 class="font-bold mb-3 mt-6 text-2xl">Registration</h2>
-
-                <!-- Accordion Item 3 -->
-                <div class="border rounded-lg">
-                    <h3 @click="toggleAccordion(3)" class="flex justify-between items-center cursor-pointer px-4 py-3 bg-white hover:bg-gray-200">
-                    Accordion Item #3
-                    <svg class="w-5 h-5" :class="isOpen(3) ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                    </h3>
-                    <div v-if="isOpen(3)" class="px-4 py-3">
-                        <div class="accordion-body bg-white">
-                            <strong>This is the second item's accordion body.</strong>
-                            It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
-                            These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
-                            You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just
-                            about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Accordion Item 4 -->
-                <div class="border rounded-lg">
-                    <h3 @click="toggleAccordion(4)" class="flex justify-between items-center cursor-pointer px-4 py-3 bg-white hover:bg-gray-200">
-                    Accordion Item #4
-                    <svg class="w-5 h-5" :class="isOpen(4) ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                    </h3>
-                    <div v-if="isOpen(4)" class="px-4 py-3">
-                        <div class="accordion-body bg-white">
-                            <strong>This is the second item's accordion body.</strong>
-                            It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
-                            These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
-                            You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just
-                            about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div>
-                    </div>
-                </div>
-
-                <h2 class="font-bold mb-3 mt-6 text-2xl">Club's Constitution</h2>
-
-                <!-- Accordion Item 5 -->
-                <div class="border rounded-lg">
-                    <h3 @click="toggleAccordion(5)" class="flex justify-between items-center cursor-pointer px-4 py-3 bg-white hover:bg-gray-200">
-                    Accordion Item #5
-                    <svg class="w-5 h-5" :class="isOpen(5) ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                    </h3>
-                    <div v-if="isOpen(5)" class="px-4 py-3">
-                        <div class="accordion-body bg-white">
-                            <strong>This is the second item's accordion body.</strong>
-                            It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
-                            These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
-                            You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just
-                            about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div>
-                    </div>
-                </div>
-                
             </div>
+            </div>
+
+            <!-- No content fallback -->
+            <div
+            v-else
+            class="text-gray-500 italic px-4 py-3 border border-gray-200 rounded-lg bg-white shadow-sm mt-2"
+            >
+            No content available.
+            </div>
+        </div>
+        </div>
 
             <div class="col-span-10 mx-auto ml-4 mt-8 lg:col-span- lg:col-start-7 lg:mr-10 lg:mt-0 lg:mb-3">
 
@@ -177,6 +116,9 @@
     import { Head, useForm } from '@inertiajs/vue3';
     import { ref } from 'vue';
 
+    const props = defineProps({
+        faqs: Object
+    });
     const openAccordion = ref(null);
 
     const toggleAccordion = (index) => {
@@ -202,6 +144,14 @@
             }
         });
     };
+
+    // ✅ This was missing
+    const categories = [
+        'Payment Issues',
+        'Registration',
+        'Club Constitution',
+        'Other'
+    ];
 </script>
 
 <style scoped>
