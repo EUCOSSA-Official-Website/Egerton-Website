@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faq;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -48,5 +49,18 @@ class UserRoleController extends Controller
         Artisan::call('optimize:clear');
         
         return back()->with('success', 'Application cache cleared successfully.');
+    }
+
+    public function storeFaq(Request $request)
+    {
+        $validated = $request->validate([
+            'category' => 'required|in:Payment Issues,Registration,Club Constitution,Other',
+            'question' => 'required|string|max:255',
+            'answer'   => 'required|string',
+        ]);
+
+        Faq::create($validated);
+
+        return redirect()->back()->with('success', 'FAQ added successfully.');
     }
 }

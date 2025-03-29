@@ -189,6 +189,9 @@ Route::prefix('dashboard')
         // The Finances Controller
         Route::get('/finances', [FinancesController::class, 'index'])->name('.finances');
 
+        //Saving The Faqs To DB
+        Route::post('/faqs', [UserRoleController::class, 'storeFaq'])->name('.faqs.store');
+
         // The Event Attendees Controller
         Route::get('/attendees', [AttendeesController::class, 'index'])->name('.attendees');
         Route::get('/event/{eventId}/export/{type}', [AttendeesController::class, 'exportEventAttendees'])

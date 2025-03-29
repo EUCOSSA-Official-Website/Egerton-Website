@@ -53,7 +53,7 @@
                     </div>
 
                     <Link :href="route('dashboard.events.create')" :class="{ 'active-class': route().current('dashboard.events.create'), 'inactive-class': !route().current('dashboard.events.create') }">
-                        Post An Event
+                        Post Event/ Hackathon/ Faq
                     </Link>
 
                     <Link :href="route('dashboard.finances')" :class="{ 'active-class': route().current('dashboard.finances'), 'inactive-class': !route().current('dashboard.finances') }">
