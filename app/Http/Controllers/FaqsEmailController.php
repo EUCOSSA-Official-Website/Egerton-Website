@@ -33,6 +33,6 @@ class FaqsEmailController extends Controller
             $validated['message']
         ));
 
-        return response()->json(['message' => 'Email sent successfully.']);
+        return redirect()->back()->with('success', 'Email sent successfully.');
     }
 }
