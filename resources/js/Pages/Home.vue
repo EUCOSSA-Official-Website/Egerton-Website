@@ -117,8 +117,8 @@
         <ImageCarousel :hImages="hImages"/>
         
         <!-- The Quotes Carousel Section -->
-        <div class="py-5 bg-gray-100">
-            <div class="container mx-auto px-5 py-40">
+        <div class="bg-gray-100">
+            <div class="container mx-auto px-5 py-20">
                 <div class="relative">
                     <!-- Quote Slides -->
                     <div
@@ -182,6 +182,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- Socials -->
+         <section class="bg-white py-16 mx-auto">
+            <div class="text-center my-">
+                <div class="text-xl font-semibold mb-3">Follow US!</div>
+                <a class="text-2xl text-gray-700 mx-2" href="https://x.com/eucossake" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a class="text-2xl text-gray-700 mx-2" href="https://www.instagram.com/eucossake?igsh=MTEwaGx2NzF2d3B6ZA%3D%3D" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a class="text-2xl text-gray-700 mx-2" href="https://www.youtube.com/@eucossake2200" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a class="text-2xl text-gray-700 mx-2" href="mailto:eucossake@gmail.com" target="_blank">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </section>
 
     </AuthenticatedLayout>
 </template>
