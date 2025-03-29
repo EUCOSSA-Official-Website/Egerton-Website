@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\UserRoleController;
 
 Route::get('/', function () {
     
@@ -182,6 +183,9 @@ Route::prefix('dashboard')
             return inertia('Dashboard/Dashboard');
         })->middleware(['auth'])->name('');
 
+        // ✅ Cache clearing route
+        Route::get('/clear-cache', [UserRoleController::class, 'clearCache'])->name('.clear.cache');
+
         // The Finances Controller
         Route::get('/finances', [FinancesController::class, 'index'])->name('.finances');
 
@@ -330,8 +334,6 @@ Route::put('notifications/{notification}/seen', [NotificationsController::class,
 Route::resource('/hackathon-winner', HackathonImages::class)->middleware(['auth']);
 
 Route::post('/hackathon-winner/{hackathon_winner}/restore', [HackathonImages::class, 'restore'])->middleware(['auth'])->name('hackathon-winner.restore');
-
-use App\Http\Controllers\UserRoleController;
 
 Route::middleware(['auth', 'ensure.superadmin'])->group(function () {
     Route::put('/users/{user}/role', [UserRoleController::class, 'updateRole'])->name('users.role.update');

@@ -5,11 +5,18 @@
 
         <section>
 
-            <header class="text-center py-5 bg-blue-700 text-white">
+            <header class="text-center py-5 bg-blue-700 text-white relative">
                 <Link :href="route('dashboard')"><h1 class="font-bold text-4xl">Dashboard</h1></Link>
                 <p class="text-2xl font-normal mb-0">
                     All Admin Functions Are Here!
                 </p>
+
+                <Link :href="route('dashboard.clear.cache')"
+                    class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white text-blue-600 font-bold text-xs px-2 py-1 rounded shadow hover:bg-gray-100 transition flex items-center gap-2">
+                    <i class="fas fa-sync-alt"></i> Clear Cache
+                </Link>
+
+
             </header>
 
             <div class="grid grid-cols-12 min-h-[60vh] py-5">                
