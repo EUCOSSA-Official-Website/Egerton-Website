@@ -26,13 +26,17 @@ class FaqsEmailController extends Controller
        // Store the message in the database
        ContactForm::create($validated);
 
-       // Send the Markdown email using ContactFormMail
-       Mail::to('eucossake@gmail.com')->send(new ContactFormMail(
-            $validated['name'],
-            $validated['email'],
-            $validated['message']
-        ));
+       // Get all admin users
+        $admins = User::where('role', 'admin')->get();
 
-        return redirect()->back()->with('success', 'Email sent successfully.');
+        foreach ($admins as $admin) {
+            Mail::to($admin->email)->send(new ContactFormMail(
+                $validated['name'],
+                $validated['email'],
+                $validated['message']
+            ));
+        }
+
+        return redirect()->back()->with('success', 'Email sent to all admins successfully.');
     }
 }
