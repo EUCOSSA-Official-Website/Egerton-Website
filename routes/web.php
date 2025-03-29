@@ -153,7 +153,11 @@ Route::get('/call-4-speakers/create', [SpeakersController::class, 'create'])
 
 
 // The Events Controller
-Route::resource('/events', EventsController::class)->except(['index', 'create']);
+Route::resource('/events', EventsController::class)->except(['index', 'create', 'destroy']);
+
+Route::delete('/events/{event}', [EventsController::class, 'destroy'])
+    ->name('events.destroy')
+    ->middleware(['auth', 'ensure.superadmin']);
 
 // The Events page
 Route::get('/events', function (EventsController $eventsController) {
@@ -184,7 +188,8 @@ Route::prefix('dashboard')
         // The Event Attendees Controller
         Route::get('/attendees', [AttendeesController::class, 'index'])->name('.attendees');
         Route::get('/event/{eventId}/export/{type}', [AttendeesController::class, 'exportEventAttendees'])
-            ->name('event.attendees.export')->middleware('auth'); // Ensure the user is logged in
+            ->name('event.attendees.export')
+            ->middleware(['auth', 'ensure.superadmin']); // Now only super admins can access
 
         // The Speakers for dashboard
         Route::get('/speakers', function (SpeakersController $speakersController)
@@ -234,7 +239,8 @@ Route::prefix('dashboard')
             } catch (\Exception $e) {
                 return back()->with('error', 'An error occurred: ' . $e->getMessage());
             }
-        })->whereIn('type', ['csv', 'pdf', 'xlsx'])->name('.analytics.export-users');
+        })->whereIn('type', ['csv', 'pdf', 'xlsx'])->name('.analytics.export-users')
+        ->middleware(['auth', 'ensure.superadmin']); // Now only super admins can access
 
         // Marking the User Feedback As Read
         Route::put('/analytics/{id}', function($id)
@@ -324,4 +330,12 @@ Route::put('notifications/{notification}/seen', [NotificationsController::class,
 Route::resource('/hackathon-winner', HackathonImages::class)->middleware(['auth']);
 
 Route::post('/hackathon-winner/{hackathon_winner}/restore', [HackathonImages::class, 'restore'])->middleware(['auth'])->name('hackathon-winner.restore');
+
+use App\Http\Controllers\UserRoleController;
+
+Route::middleware(['auth', 'ensure.superadmin'])->group(function () {
+    Route::put('/users/{user}/role', [UserRoleController::class, 'updateRole'])->name('users.role.update');
+    Route::put('/users/{user}/super-admin', [UserRoleController::class, 'updateSuperAdmin'])->name('users.super.update');
+});
+
 

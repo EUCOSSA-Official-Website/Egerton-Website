@@ -27,6 +27,7 @@ class User extends Authenticatable
         'registered',
         'mpesa_checkout_id',
         'reg_number',
+        'is_super_admin,'
     ];
 
     /**

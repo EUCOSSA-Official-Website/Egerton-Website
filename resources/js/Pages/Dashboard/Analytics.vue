@@ -1,7 +1,7 @@
 <script setup>
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
     import { ref, onMounted } from 'vue';
-    import { router } from '@inertiajs/vue3';
+    import { router, usePage } from '@inertiajs/vue3';
     import DataTable from 'datatables.net-vue3';
     import DataTablesCore from 'datatables.net-bs5';
     import 'datatables.net-bs5/css/dataTables.bootstrap5.css'; // ✅ Theming
@@ -14,6 +14,9 @@
         feedback: Array,
         users: Array
     });
+
+    const page = usePage();
+    const user = page.props.auth.user;
 
     // Dropdown visibility state
     const showDropdown = ref(false);
@@ -47,9 +50,56 @@
         },
         { title: "Name", data: "name" },
         { title: "Email", data: "email" },
-        { title: "Mobile", data: "mobile" },
-        { title: "Registration Status", data: "registered", render: (data) => formatDate(data) },
+        { 
+            title: "Reg", 
+            data: "reg_number",
+            render: function(data, type, row) {
+                return data ? data : 'unavailed';
+            }
+        },
+        { 
+            title: "Registration Status", 
+            data: "registered", 
+            render: (data) => formatDate(data) 
+        },
+        {title: "Role", data: "role" },
     ];
+
+    // ✅ Conditionally add the Role Change column
+    if (user?.is_super_admin) {
+        columns2.push({
+            title: "Role Change",
+            data: null,
+            orderable: false,
+            searchable: false,
+            render: function (data, type, row) {
+                return `
+                    <div class="relative inline-block text-left">
+                        <button class="action-btn flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-all"
+                            data-id="${row.id}">
+                            <i class="fas fa-cog"></i> Action
+                        </button>
+
+                        <ul class="action-dropdown hidden absolute right-0 bg-white border rounded-lg p-2 shadow-lg text-sm z-50 w-48 inline-block">
+                            <li>
+                                <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded transition change-role"
+                                    data-id="${row.id}" data-role="${row.role === 'admin' ? 'user' : 'admin'}">
+                                    Make ${row.role === 'admin' ? 'User' : 'Admin'}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded transition change-super"
+                                    data-id="${row.id}" data-status="${row.is_super_admin ? 'false' : 'true'}">
+                                    Set Super Admin: ${!row.is_super_admin}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                `;
+            }
+        });
+    }
+
 
     // DataTable columns for feedback
     const columns = [
@@ -116,6 +166,67 @@
             }
         });
     });
+
+    onMounted(() => {
+        document.addEventListener('click', function (event) {
+            const target = event.target.closest('.action-btn');
+
+            // Handle toggle
+            if (target) {
+                event.preventDefault();
+
+                const userId = target.dataset.id;
+
+                // Close all others first
+                document.querySelectorAll('.action-dropdown').forEach(dropdown => {
+                    if (!dropdown.classList.contains('hidden')) dropdown.classList.add('hidden');
+                });
+
+                // Toggle the clicked one
+                const dropdown = target.parentElement.querySelector('.action-dropdown');
+                if (dropdown) {
+                    dropdown.classList.toggle('hidden');
+                }
+
+                return;
+            }
+
+            // Handle role change
+            if (event.target.classList.contains('change-role')) {
+                event.preventDefault();
+                const userId = event.target.dataset.id;
+                const newRole = event.target.dataset.role;
+
+                router.put(route('users.role.update', userId), { role: newRole }, {
+                    preserveScroll: true,
+                    onSuccess: () => console.log(`User ${userId} role updated to ${newRole}`)
+                });
+
+                return;
+            }
+
+            // Handle super admin toggle
+            if (event.target.classList.contains('change-super')) {
+                event.preventDefault();
+                const userId = event.target.dataset.id;
+                const newStatus = event.target.dataset.status === 'true';
+
+                router.put(route('users.super.update', userId), { is_super_admin: newStatus }, {
+                    preserveScroll: true,
+                    onSuccess: () => console.log(`User ${userId} super admin set to ${newStatus}`)
+                });
+
+                return;
+            }
+
+            // If clicked outside, close all dropdowns
+            if (!event.target.closest('.relative')) {
+                document.querySelectorAll('.action-dropdown').forEach(el => el.classList.add('hidden'));
+            }
+        });
+    });
+
+
 </script>
 
 <template>
