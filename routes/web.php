@@ -155,10 +155,18 @@ Route::get('/call-4-speakers/create', [SpeakersController::class, 'create'])
 
 
 // The Events Controller
-Route::resource('/events', EventsController::class)->except(['index', 'create', 'destroy']);
+Route::resource('/events', EventsController::class)
+    ->except(['index', 'create', 'destroy', 'update']);
 
 Route::delete('/events/{event}', [EventsController::class, 'destroy'])
     ->name('events.destroy')
+    ->middleware(['auth', 'ensure.superadmin']);
+
+Route::put('/events/{event}', [EventsController::class, 'update'])
+    ->name('events.update')
+    ->middleware(['auth', 'ensure.superadmin']);
+
+Route::patch('/events/{event}', [EventsController::class, 'update'])
     ->middleware(['auth', 'ensure.superadmin']);
 
 // The Events page
