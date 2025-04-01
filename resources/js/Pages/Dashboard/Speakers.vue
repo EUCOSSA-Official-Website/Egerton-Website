@@ -64,6 +64,7 @@
         pageLength: 10,
         lengthChange: true,
         dom: "lfrtip",
+        order: [] // Disables default sorting
     };
 </script>
 

@@ -145,8 +145,8 @@
             thead.querySelectorAll('th').forEach(th => {
                 th.classList.add('cursor-pointer');
             });
-        }
-
+        },
+        order: [] // Disables default sorting
     };
 
     onMounted(() => {
