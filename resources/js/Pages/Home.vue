@@ -96,7 +96,7 @@
                             </p>
                             <Link 
                                 :href="route('payments')" 
-                                class="inline-block bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2">
+                                class="inline-block bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2  animate-bounce">
                                 Join EUCOSSA!
                             </Link>
                         </div>
@@ -107,7 +107,10 @@
 
         <!-- Event Section -->
         <section class="events-section">
-            <h1 class="text-2xl font-bold mb-6">Upcoming Events</h1>
+            <button class="wiggle bg-blue-600 text-white text-xl font-semibold px-6 py-2 rounded-md shadow-md hover:bg-blue-700 transition">
+                Upcoming Events
+            </button>
+
 
             <div class="flex overflow-x-auto space-x-4">
                 <EventCard v-for="event in events" :key="event.id" :event="event" class="flex-shrink-0 w-64" />
@@ -214,4 +217,14 @@
     .bluish {
         color: #1d4ed8 ;
     }
+
+    @keyframes wiggle {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    }
+    .wiggle {
+    animation: wiggle 1s ease-in-out infinite;
+    }
+
 </style>
