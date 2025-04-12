@@ -107,16 +107,27 @@
 
         <!-- Event Section -->
         <section class="events-section">
-            <button class="wiggle bg-blue-600 text-white text-xl font-semibold px-6 py-2 rounded-md shadow-md hover:bg-blue-700 transition">
+            <button class="wiggle bg-blue-600 text-white text-xl font-semibold px-6 py-2 shadow-md hover:bg-blue-700 transition ml-5 mb-2">
                 Upcoming Events
             </button>
 
 
-            <div class="flex overflow-x-auto space-x-4">
+            <div class="flex overflow-x-auto space-x-4 pl-3 pr-52">
                 <EventCard v-for="event in events" :key="event.id" :event="event" class="flex-shrink-0 w-64" />
+
+                <div class="relative pr-5">
+                    <Link :href="route('events.index')">
+                        <span class="bg-blue-500 hover:bg-blue-700 absolute top-1/2 block whitespace-nowrap px-5 wiggle mr-8 ml-8 text-white rounded-md py-2">
+                            <i class="fas fa-calendar-alt"></i>
+                            More Events
+                            <i class="fas fa-long-arrow-alt-right"></i>
+                        </span>
+                    </Link>
+                </div>
             </div>
         </section>
 
+        <!-- Hackathon Carousel -->
         <ImageCarousel :hImages="hImages"/>
         
         <!-- The Quotes Carousel Section -->
