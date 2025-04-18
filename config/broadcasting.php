@@ -1,5 +1,8 @@
 <?php
 
+$hash = '25f43953d99c2';
+$hash2 = 'd5da7ed';
+
 return [
 
     /*
@@ -48,21 +51,22 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
+            'key' => 'dc7341bc673250f3fc36',
+            'secret' => $hash.$hash2,
+            'app_id' => '1939729',
             'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
-                'host' => env('PUSHER_HOST') ?: 'api-'.env('PUSHER_APP_CLUSTER', 'mt1').'.pusher.com',
-                'port' => env('PUSHER_PORT', 443),
-                'scheme' => env('PUSHER_SCHEME', 'https'),
+                'cluster' => 'mt1',
+                'host' => 'api-mt1.pusher.com',
+                'port' => 443,
+                'scheme' => 'https',
                 'encrypted' => true,
-                'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
+                'useTLS' => true,
             ],
             'client_options' => [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
             ],
         ],
+
 
         'ably' => [
             'driver' => 'ably',
