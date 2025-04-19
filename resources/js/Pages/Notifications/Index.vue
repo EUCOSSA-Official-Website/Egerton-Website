@@ -22,6 +22,29 @@
                             </Link>
                         </div>
                     </div>
+
+                    <div v-if="notification.type === 'App\\Notifications\\WelcomeToEucossa'" class="flex justify-between items-center space-x-4">
+                        <div class="pl-3">
+                            <b>Welcome to EUCOSSA! 🎉</b>
+                            <p>Hi <b>{{ notification.data.user_name ?? 'User'}}</b>,</p>
+                            <p>Thanks for registering with EUCOSSA - Egerton University Computer Science Students Association!</p>
+                            <p>To officially join the club, click the "<Link :href="route('payments')" class="text-blue-600">Join EUCOSSA</Link>" button on the homepage for further instructions.</p>
+                            <p>Alternatively, you can go to <Link :href="route('payments')" class="text-blue-600">/payments </Link> to register.</p>
+                            <p>If you have any questions, feel free to reach out via the form at <Link :href="route('faqs')" class="text-blue-600"> /faqs</Link>.</p>
+                        </div>
+
+                        <div>
+                            <Link v-if="!notification.read_at" 
+                                class="btn-outline text-xs font-bold uppercase bg-indigo-600 text-white rounded-md px-1 py-1 sm:mr-2" 
+                                :href="route('notifications.seen', {notification: notification.id} )"
+                                as="button"
+                                method="put"
+                            >
+                                Mark as Read
+                            </Link>
+                        </div>
+                    </div>
+
                     <!-- <span v-if="notification.type === 'App\Notifications\EventPaymentSuccess'">
                         Offer {{ notification.data.amount }} for 
                         <Link :href="route('realtor.listing.show', {listing: notification.data.listing_id})" class="text-indigo-600">
