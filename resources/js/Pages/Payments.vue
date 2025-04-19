@@ -136,29 +136,6 @@
                             </button>
                         </form>
                     </div>
-                    <div class="sm:min-w-[450px]">
-                        <h3 class="text-2xl text-blue-500 font-semibold mb-5">VISA / MASTERCARD</h3>
-                        <form  class="max-w-lg p-4 bg-slate-100 shadow-xl rounded sm:my-5 mb-6 border">
-                            <!-- Phone Number -->
-                            <div class="mb-4">
-                                <label for="phone" class="block font-medium text-gray-700">Phone Number</label>
-                                <input type="text" id="phone" v-model="formDeleted" class="form-input" placeholder="Enter Your Phone Number" />
-                                <div v-if="form.errors.phone" class="input-error"> {{ form.errors.phone }} </div>
-                            </div>
-
-                            <!-- Amount -->
-                            <div class="mb-4">
-                                <label for="amount" class="block font-medium text-gray-700">Enter Amount</label>
-                                <input type="text" id="amount" v-model="form.amount" class="form-input" placeholder="Enter The Amount" />
-                                <div v-if="form.errors.amount" class="input-error"> {{ form.errors.amount }} </div>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <button type="submit" class="bg-red-500 hover:bg-red-700 submit-button">
-                                Make Donation
-                            </button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </section>
