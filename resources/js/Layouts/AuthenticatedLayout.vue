@@ -95,7 +95,7 @@
                     // Trigger SweetAlert when a new payment notification is received
                     Swal.fire({
                         title: "Payment Succeeded",
-                        text: `Your payment of KSH ${notification.amount} was successful. Ticket Number: ${notification.receipt_number}. The Ticket will soon be sent to your email.`,
+                        text: `Your payment of KSH ${notification.amount} was successful. Ticket Number: ${notification.receipt_number}. Download ticket under the notification bell or email.`,
                         icon: "success",
                         confirmButtonText: "OK",
                     });

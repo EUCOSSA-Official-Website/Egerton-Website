@@ -26,6 +26,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules;
 use App\Exports\UsersExport;
+use App\Http\Controllers\EventTicketController;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\UserRoleController;
 use App\Models\Faq;
@@ -361,4 +362,6 @@ Route::middleware(['auth', 'ensure.superadmin'])->group(function () {
     Route::put('/users/{user}/super-admin', [UserRoleController::class, 'updateSuperAdmin'])->name('users.super.update');
 });
 
+//Downloading the EventTicket
+Route::get('/ticket/download/{receipt}', [EventTicketController::class, 'download'])->name('ticket.download');
 

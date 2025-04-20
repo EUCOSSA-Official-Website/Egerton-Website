@@ -7,14 +7,27 @@
                 <div>
 
                     <div v-if="notification.type === 'App\\Notifications\\EventPaymentSuccess'" class="flex justify-between items-center space-x-4">
-                        <div>
-                            Payment of Ksh {{notification.data.amount}} has been registered. Your ticket number is {{ notification.data.receipt_number }}.
+                        <div class="pl-2">
+                            Payment of Ksh {{ notification.data.amount }} has been registered. Your ticket number is {{ notification.data.receipt_number }}.
                         </div>
 
-                        <div>
-                            <Link v-if="!notification.read_at" 
-                                class="btn-outline text-xs font-bold uppercase bg-indigo-600 text-white rounded-md px-1 py-1 sm:mr-2" 
-                                :href="route('notifications.seen', {notification: notification.id} )"
+                        <div class="flex items-center space-x-2">
+                            <!-- Download Ticket Icon -->
+                            <Link
+                                :href="route('ticket.download', { receipt: notification.data.receipt_number })"
+                                class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1 rounded-md shadow-sm"
+                                title="Download Ticket"
+                            >
+                                <i class="fas fa-download text-white mr-2"></i>
+                                Download Ticket
+                            </Link>
+
+
+                            <!-- Mark as Read Button -->
+                            <Link
+                                v-if="!notification.read_at"
+                                class="btn-outline text-xs font-bold md:uppercase bg-indigo-600 text-white rounded-md px-1 py-1 sm:mr-2"
+                                :href="route('notifications.seen', { notification: notification.id })"
                                 as="button"
                                 method="put"
                             >

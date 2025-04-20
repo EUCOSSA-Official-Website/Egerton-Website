@@ -194,7 +194,7 @@
                 </div>
 
 
-                <div class="flex row justify-between w-3/4">
+                <div class="flex flex-col md:flex-row justify-between md:w-3/4">
                     <div class="mt-6">
                         <InputLabel for="preferedName" value="Pefered Name" />
 

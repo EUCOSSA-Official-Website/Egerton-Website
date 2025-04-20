@@ -30,22 +30,22 @@ class EventPaymentSuccess extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database', 'broadcast'];
+        return ['database', 'broadcast', 'mail'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    // public function toMail(object $notifiable): MailMessage
-    // {
-    //     // return (new MailMessage)
-    //     //     ->subject('Payment Successful')
-    //     //     ->line("Your payment of KSH {$this->amount} was successful.")
-    //     //     ->line("Receipt Number: {$this->receiptNumber}")
-    //     //     ->line('The Ticket is in your email.')
-    //     //     ->action('View Ticket', url('/tickets'))
-    //     //     ->line('Thank you for your payment!');
-    // }
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->subject('🎟️ Event Ticket Payment Successful')
+            ->greeting("Hi {$notifiable->name},")
+            ->line("Your payment of KSH {$this->amount} has been successfully received.")
+            ->line("Your receipt number is: {$this->receiptNumber}")
+            ->action('Download Your Ticket', url(route('ticket.download', ['receipt' => $this->receiptNumber])))
+            ->line('Please present the ticket at the event venue. Thank you for registering!');
+    }
 
     /**
      * Get the array representation of the notification.
