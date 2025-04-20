@@ -85,6 +85,7 @@ let carouselInterval;
 
 // Start auto-slide
 const startCarousel = () => {
+  stopCarousel(); // <— ADD THIS LINE
   if (props.hImages.length > 1) {
     carouselInterval = setInterval(() => {
       nextImage();
