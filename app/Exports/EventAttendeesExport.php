@@ -23,6 +23,7 @@ class EventAttendeesExport implements FromCollection, WithHeadings, WithStyles
             ->with('user:id,mobile') // Eager load user relation with only the phone field
             ->select('id', 'user_id', 'prefered_name', 'email', 'receipt_number', 'amount_paid', 'created_at')
             ->orderBy('created_at', 'asc')
+            ->where('amount_paid', '!=', null)
             ->get();
 
         // Add user phone number to each row
