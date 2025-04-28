@@ -15,6 +15,7 @@ class FaqsEmailController extends Controller
 {
     public function sendEmail(Request $request)
     {
+        // Sending out the faqs email. 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',

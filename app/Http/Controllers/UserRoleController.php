@@ -51,6 +51,8 @@ class UserRoleController extends Controller
         return back()->with('success', 'Application cache cleared successfully.');
     }
 
+
+    // Storing the FAQ in DB
     public function storeFaq(Request $request)
     {
         $validated = $request->validate([

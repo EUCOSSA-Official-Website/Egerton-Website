@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EventTicketController extends Controller
 {
+    // Generatge the pdf ticket of the platform. 
     public function download($receipt)
     {
         $registration = EventRegistration::where('receipt_number', $receipt)->where('user_id', Auth::id())->firstOrFail();
