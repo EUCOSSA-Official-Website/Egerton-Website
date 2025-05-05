@@ -97,7 +97,7 @@
                             <Link 
                                 :href="route('payments')" 
                                 class="inline-block bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2  animate-bounce">
-                                Join EUCOSSA!
+                                Join EUCOSSA Today!
                             </Link>
                         </div>
                     </div>
