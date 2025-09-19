@@ -74,8 +74,10 @@ Route::get('/auth/google/callback', function () {
     $user = User::where('email', $googleUser->email)->first();
 
     if ($user) {
+
+        $remember = true;
         // If the user exists, log them in directly
-        Auth::login($user);
+        Auth::login($user, $remember);
         return redirect('/home');
     }
 
