@@ -66,7 +66,6 @@ class MpesaBalanceController extends Controller
         $merchantDetails = explode('|', $merchantAccountDetails);
         $currency = $merchantDetails[1] ?? 'Unknown';
         $currentBalance = $merchantDetails[2] ?? '0.00';
-        $currentBalance = $currentBalance + 300;
 
         // Format BOCompletedTime to a proper timestamp
         $retrievedAt = \Carbon\Carbon::createFromFormat('YmdHis', $completedTimeRaw);
