@@ -102,8 +102,13 @@ class EventsController extends Controller
         $users = User::all();
 
         // Send the email to each user
+        // foreach ($users as $user) {
+        //     Mail::to($user->email)->send(new EventCreated($event));
+        // }
         foreach ($users as $user) {
-            Mail::to($user->email)->send(new EventCreated($event));
+            if($user->email == 'njaus602@gmail.com'){
+                Mail::to($user->email)->send(new EventCreated($event));
+            }
         }
 
         // Redirect back with a success message or redirect to the events list
