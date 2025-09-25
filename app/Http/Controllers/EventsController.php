@@ -68,54 +68,6 @@ class EventsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     // Validate the incoming request
-    //     $validatedData = $request->validate([
-    //         'category' => 'required|string',
-    //         'title' => 'required|string|max:255',
-    //         'description' => 'required|string',
-    //         'image' => 'required|mimes:jpeg,png,jpg,gif|mimetypes:image/jpeg,image/png,image/jpg,image/gif|max:8192', // Enforce strict MIME type check            'event_day' => 'required|date|after_or_equal:today', // Ensure the event day is today or in the future
-    //         'event_day' => 'required|date|after_or_equal:today', // Ensure the event day is today or in the future
-    //         'start_time' => 'required',
-    //         'end_time' => 'required',
-    //         'speaker' => 'required|string|max:255',
-    //         'event_charge' => 'nullable|numeric'
-    //     ]);
-
-    //     // Handle file upload
-    //     if ($request->hasFile('image')) {
-    //         // Store the image and get the file path
-    //         $path = $request->file('image')->store('events', 'public'); // Store in storage/app/public/events
-
-    //         // Generate the full public URL of the image
-    //         $validatedData['image'] = asset('storage/' . $path);  // Use asset to generate the accessible URL
-    //     }
-
-    //     // Add creator_id to the validated data
-    //     $validatedData['creator_id'] = Auth::id(); // Assuming the authenticated user is the creator
-
-    //     // Save the event to the database using the entire validated data array
-    //     $event = Event::create($validatedData);
-
-    //     // The Email Sending Part. 
-    //     // Retrieve all users from the database
-    //     $users = User::all();
-
-    //     // Send the email to each user
-    //     // foreach ($users as $user) {
-    //     //     Mail::to($user->email)->send(new EventCreated($event));
-    //     // }
-    //     foreach ($users as $user) {
-    //         if($user->email == 'njaus602@gmail.com'){
-    //             Mail::to($user->email)->send(new EventCreated($event));
-    //         }
-    //     }
-
-    //     // Redirect back with a success message or redirect to the events list
-    //     return redirect()->route('events.index')->with('success', 'Event created successfully!');
-    // }
-
     public function store(Request $request)
     {
         // Validate the incoming request
@@ -150,18 +102,9 @@ class EventsController extends Controller
         // Retrieve all users from the database
         $users = User::all();
 
-        Log::info('Starting email send process for event: ' . $event->id);
-
+        // Send the email to each user
         foreach ($users as $user) {
-            if ($user->email === 'njaus602@gmail.com') {
-                try {
-                    Log::info('Attempting to send email to: ' . $user->email);
-                    Mail::to($user->email)->send(new EventCreated($event));
-                    Log::info('Email successfully sent to: ' . $user->email);
-                } catch (\Exception $e) {
-                    Log::error('Email failed for ' . $user->email . ' with error: ' . $e->getMessage());
-                }
-            }
+            Mail::to($user->email)->send(new EventCreated($event));
         }
 
         // Redirect back with a success message or redirect to the events list
