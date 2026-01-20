@@ -50,6 +50,16 @@
         },
         { title: "User ID", data: "user_id" },
         { title: "Preferred Name", data: "prefered_name" },
+        {
+            title: "Mobile",
+            data: null,
+            render: (data) => data.mobile ?? data.user?.mobile ?? '',
+        },
+        {
+            title: "Email",
+            data: null,
+            render: (data) => data.email ?? data.user?.email ?? '',
+        },
         { title: "Event ID", data: "event_id" },
         { title: "Receipt Number", data: "receipt_number" },
         { title: "Amount Paid", data: "amount_paid" },

@@ -14,9 +14,12 @@ class AttendeesController extends Controller
         // Authorize using Gate
         Gate::allowIf(fn($user) => $user->role === 'admin');
 
-        // Get attendees grouped by event_id and include event names
+        // Get attendees grouped by event_id and include event + user contact info
         $events = EventRegistration::where('amount_paid', '>', 0)
-            ->with('event:id,title') // Load only 'id' and 'title' from Event
+            ->with([
+                'event:id,title',          // Load only 'id' and 'title' from Event
+                'user:id,name,email,mobile', // Load minimal user fields needed for contact
+            ])
             ->orderBy('created_at', 'desc')
             ->get()
             ->groupBy('event_id'); // Group results by event_id
