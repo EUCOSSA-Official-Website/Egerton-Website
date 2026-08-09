@@ -49,6 +49,8 @@ return Application::configure(basePath: dirname(__DIR__))
             '/balance-result', // For the result of the balance accrued.
             '/payments/c2b/validate',
             '/payments/c2b/confirm',
+            '/api/confirmation',
+            '/api/validation',
             '/mpesa/events/register',  //Processing a paid event
             'broadcasting/auth',  // Allow Pusher authentication without CSRF
             '/broadcasting/auth', // Sometimes the leading slash matters
