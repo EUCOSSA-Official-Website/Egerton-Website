@@ -21,10 +21,12 @@ class MpesaC2B extends Controller
             : env('MPESA_PRODUCTION_URL');
 
         $body = [
-            'ShortCode' => env('MPESA_SHORTCODE'),
+            // c2b.md: ShortCode is the org paybill/till that receives payments
+            'ShortCode' => env('MPESA_TILL'),
             'ResponseType' => 'Completed',
-            'ConfirmationURL' => $baseUrl . '/payments/c2b/confirm',
-            'ValidationURL' => $baseUrl . '/payments/c2b/validate',
+            // Match URLs already used in Daraja / live callbacks
+            'ConfirmationURL' => $baseUrl . '/api/confirmation',
+            'ValidationURL' => $baseUrl . '/api/validation',
         ];
 
         $url = 'https://api.safaricom.co.ke/mpesa/c2b/v2/registerurl';
