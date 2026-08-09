@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Payments\Mpesa;
 
 use App\Http\Controllers\Controller;
-use App\Models\FinanceBalance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 // The Purpose of This Controller is To Check The Account Balance from MPESA
 class MpesaBalanceController extends Controller
 {
     public function checkMpesaBalance()
     {
+        // Clear so the UI polls until the fresh Account Balance callback arrives
+        Cache::forget('mpesa_latest_balance');
+        Cache::forget('mpesa_latest_balance_retrieved_at');
+
         $mpesaController = new MpesaController();
 
         $url = 'https://api.safaricom.co.ke/mpesa/accountbalance/v1/query';
@@ -70,15 +74,11 @@ class MpesaBalanceController extends Controller
         // Format BOCompletedTime to a proper timestamp
         $retrievedAt = \Carbon\Carbon::createFromFormat('YmdHis', $completedTimeRaw);
 
-        // Save to Balance model
-        $balance = new FinanceBalance();
-        $balance->gateway = 'MPESA';
-        $balance->balance = $currentBalance;
-        $balance->retrieved_at = $retrievedAt;
-        $balance->save();
+        Cache::put('mpesa_latest_balance', $currentBalance, now()->addHours(6));
+        Cache::put('mpesa_latest_balance_retrieved_at', $retrievedAt->toDateTimeString(), now()->addHours(6));
 
         return response()->json([
-            'message' => 'Balance saved successfully.',
+            'message' => 'Balance cached successfully.',
             'data' => [
                 'currency' => $currency,
                 'balance' => $currentBalance,
@@ -86,6 +86,4 @@ class MpesaBalanceController extends Controller
             ],
         ], 200);
     }
-
-
 }

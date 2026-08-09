@@ -20,9 +20,9 @@
                 Check Latest Balance
             </button>
 
-            <!-- Transaction History Table -->
+            <!-- C2B Transaction History Table -->
             <DataTable
-                :data="balances"
+                :data="transactions"
                 :columns="columns"
                 :options="{
                     paging: true,
@@ -31,7 +31,7 @@
                     pageLength: 10,
                     lengthChange: true,
                     dom: 'lfrtip',
-                    order: [] // Disables default sorting
+                    order: []
                 }"
                 class="table-auto border-collapse border border-gray-300 w-full text-left"
             />
@@ -45,85 +45,94 @@
     import Dashboard from '@/Pages/Dashboard/Dashboard.vue';
     import DataTable from 'datatables.net-vue3';
     import DataTablesCore from 'datatables.net-bs5';
-    import 'datatables.net-bs5/css/dataTables.bootstrap5.css'; // ✅ Theming
-
+    import 'datatables.net-bs5/css/dataTables.bootstrap5.css';
 
     DataTable.use(DataTablesCore);
 
-    // Latest balance state
     const latestBalance = ref('Fetching balance...');
-    let attempts = 0;
-    let interval = null;
+    let pollInterval = null;
 
-    // Function to fetch the latest balance
     async function getLatestBalance() {
         try {
             const response = await axios.get('/latest-balance');
-            if (response.data.balance) {
+            if (response.data.balance !== null && response.data.balance !== undefined) {
                 latestBalance.value = response.data.balance;
-                return true; // Indicates that balance is found
+                return true;
             }
         } catch (error) {
-            console.error("Error fetching balance:", error);
+            console.error('Error fetching balance:', error);
         }
-        return false; // Indicates that balance is not yet available
+        return false;
     }
 
-    // Function to trigger balance check and poll for 5 times
+    function startBalancePolling() {
+        if (pollInterval) {
+            clearInterval(pollInterval);
+        }
+
+        let attempts = 0;
+        pollInterval = setInterval(async () => {
+            attempts++;
+            const found = await getLatestBalance();
+            if (found || attempts >= 5) {
+                clearInterval(pollInterval);
+                pollInterval = null;
+                if (!found) {
+                    latestBalance.value = 'Balance not available';
+                }
+            }
+        }, 5000);
+    }
+
     async function fetchLatestBalance() {
         try {
-            await axios.post('/balance'); // Trigger MPESA balance check
+            await axios.post('/balance');
             latestBalance.value = 'Fetching balance...';
-
-            let attempts = 0;
-        
-            const interval = setInterval(async () => {
-                attempts++; // Increment first to avoid extra loop
-
-                const found = await getLatestBalance();
-                if (found || attempts >= 5) {
-                    clearInterval(interval); // Stop polling if balance is found or after 5 attempts
-                }
-            }, 5000);
+            startBalancePolling();
         } catch (error) {
-            console.error("Error initiating balance check:", error);
+            console.error('Error initiating balance check:', error);
             latestBalance.value = 'Error fetching balance';
         }
     }
 
-
-    // Poll for balance on page load every 5 seconds
     onMounted(() => {
-        interval = setInterval(async () => {
-            attempts++;
-            const found = await getLatestBalance();
-            if (found || attempts >= 5) {
-                clearInterval(interval); // Stop polling if balance is found or after 5 attempts
-            }
-        }, 5000);
+        fetchLatestBalance();
     });
 
-    // Receiving The Balances Object
     defineProps({
-        balances: Array,
+        transactions: Array,
     });
 
-    // Define DataTable columns
     const columns = [
-        { title: "ID", data: "id" },
-        { title: "Channel", data: "gateway" },
         {
-            title: "Time",
-            data: "retrieved_at",
-            render: {
-                display: (data) => formattedDate(data), // what shows in the UI
-                sort: (data) => new Date(data).getTime(), // what DataTables uses to sort
-            }
+            title: 'Name',
+            data: 'full_name',
+            defaultContent: 'Unknown',
         },
-        { title: "Balance", data: "balance" },
+        {
+            title: 'MSISDN',
+            data: 'msisdn',
+            defaultContent: '—',
+        },
+        {
+            title: 'Amount',
+            data: 'trans_amount',
+        },
+        {
+            title: 'Balance',
+            data: 'org_account_balance',
+            defaultContent: '—',
+        },
+        {
+            title: 'Time',
+            data: 'trans_time',
+            render: {
+                display: (data) => (data ? formattedDate(data) : '—'),
+                sort: (data) => (data ? new Date(data).getTime() : 0),
+            },
+        },
     ];
 
-    // Format Date
     const formattedDate = (transactionDate) => {
         const date = new Date(transactionDate);
         return `${date.toLocaleDateString('en-US', {
@@ -139,7 +148,6 @@
 </script>
 
 <style>
-    /* ✅ Tailwind overrides to control Bootstrap pagination */
     .pagination {
     all: unset;
     display: flex;
@@ -159,7 +167,6 @@
     @apply px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-100;
     }
 
-    /* Active page */
     .pagination .active .page-link {
     @apply bg-blue-500 text-white border-blue-500;
     }

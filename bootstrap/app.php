@@ -46,7 +46,9 @@ return Application::configure(basePath: dirname(__DIR__))
             '/subscribe50',
             '/donate1',
             '/balance', //For the balance api
-            '/balance-result', // For the result of the balance accrued. 
+            '/balance-result', // For the result of the balance accrued.
+            '/payments/c2b/validate',
+            '/payments/c2b/confirm',
             '/mpesa/events/register',  //Processing a paid event
             'broadcasting/auth',  // Allow Pusher authentication without CSRF
             '/broadcasting/auth', // Sometimes the leading slash matters

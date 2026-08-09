@@ -9,8 +9,10 @@ use App\Http\Controllers\HackathonImages;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Payments\FinancesController;
 use App\Http\Controllers\Payments\Mpesa\MpesaBalanceController;
+use App\Http\Controllers\Payments\Mpesa\MpesaC2B;
 use App\Http\Controllers\Payments\Mpesa\MpesaController;
 use App\Http\Controllers\Payments\Mpesa\PaidEventRegistration;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpeakersController;
 use App\Models\ContactForm;
@@ -270,9 +272,6 @@ Route::prefix('dashboard')
         })->name('.analytics.seen');
 });
 
-// The Callback from fake MPESA
-Route::post('/api/confirmation', [MpesaController::class, 'handleLocalCallback']);
-
 // The STK Push URL For Initiating Payment. 
 Route::post('/stkpush', [MpesaController::class, 'stkPush'])
     ->name('stkpush');
@@ -334,16 +333,20 @@ Route::post('/balance', [MpesaBalanceController::class, 'checkMpesaBalance'])->n
 Route::post('/balance-result', [MpesaBalanceController::class, 'receiveMpesaBalance'])->name('balance-result');
 
 Route::get('/latest-balance', function () {
-
     Gate::allowIf(fn($user) => $user->role === 'admin');
 
-    $latestBalance = \App\Models\FinanceBalance::latest()->first();
-    
     return response()->json([
-        'balance' => $latestBalance->balance ?? null,
+        'balance' => Cache::get('mpesa_latest_balance'),
+        'retrieved_at' => Cache::get('mpesa_latest_balance_retrieved_at'),
     ]);
 })->middleware(['auth']);
 
+// C2B Register URL + validation/confirmation callbacks
+Route::post('/payments/c2b/register', [MpesaC2B::class, 'registerUrls'])
+    ->middleware(['auth'])
+    ->name('payments.c2b.register');
+Route::post('/payments/c2b/validate', [MpesaC2B::class, 'validation'])->name('payments.c2b.validate');
+Route::post('/payments/c2b/confirm', [MpesaC2B::class, 'confirmation'])->name('payments.c2b.confirm');
 
 // The Registering for Events Route
 Route::post('/mpesa/events/register/{event}', [PaidEventRegistration::class, 'initiateEventPayment'])->name('event-payment')->middleware(['auth']);
