@@ -20,9 +20,10 @@ class MpesaC2B extends Controller
             ? env('MPESA_TEST_URL')
             : env('MPESA_PRODUCTION_URL');
 
+        // Same split as up_saas: Business Short Code for C2B register; till is STK PartyB only.
+        // Production register is one-time — delete URLs in Daraja URL Management, then re-register from production.
         $body = [
-            // c2b.md: ShortCode is the org paybill/till that receives payments
-            'ShortCode' => env('MPESA_TILL'),
+            'ShortCode' => env('MPESA_SHORTCODE'),
             'ResponseType' => 'Completed',
             // Match URLs already used in Daraja / live callbacks
             'ConfirmationURL' => $baseUrl . '/api/confirmation',
@@ -40,7 +41,7 @@ class MpesaC2B extends Controller
         Log::info('C2B validation request', ['payload' => $request->all()]);
 
         return response()->json([
-            'ResultCode' => '0',
+            'ResultCode' => 0,
             'ResultDesc' => 'Accepted',
         ]);
     }
@@ -51,45 +52,53 @@ class MpesaC2B extends Controller
 
         Log::info('C2B confirmation request', ['payload' => $payload]);
 
-        $transId = $payload['TransID'] ?? null;
+        try {
+            $transId = $payload['TransID'] ?? null;
 
-        if (!$transId) {
-            return response()->json(['message' => 'Missing TransID'], 400);
-        }
+            if (!$transId) {
+                Log::warning('C2B confirmation missing TransID', ['payload' => $payload]);
+            } else {
+                $transTime = null;
+                if (!empty($payload['TransTime'])) {
+                    try {
+                        $transTime = Carbon::createFromFormat('YmdHis', $payload['TransTime']);
+                    } catch (\Exception $e) {
+                        Log::warning('Unable to parse C2B TransTime', [
+                            'TransTime' => $payload['TransTime'],
+                            'error' => $e->getMessage(),
+                        ]);
+                    }
+                }
 
-        $transTime = null;
-        if (!empty($payload['TransTime'])) {
-            try {
-                $transTime = Carbon::createFromFormat('YmdHis', $payload['TransTime']);
-            } catch (\Exception $e) {
-                Log::warning('Unable to parse C2B TransTime', [
-                    'TransTime' => $payload['TransTime'],
-                    'error' => $e->getMessage(),
-                ]);
+                MpesaC2BTransaction::updateOrCreate(
+                    ['trans_id' => $transId],
+                    [
+                        'transaction_type' => $payload['TransactionType'] ?? null,
+                        'trans_time' => $transTime,
+                        'trans_amount' => $payload['TransAmount'] ?? 0,
+                        'business_short_code' => $payload['BusinessShortCode'] ?? null,
+                        'bill_ref_number' => $payload['BillRefNumber'] ?? null,
+                        'org_account_balance' => $payload['OrgAccountBalance'] !== '' && isset($payload['OrgAccountBalance'])
+                            ? $payload['OrgAccountBalance']
+                            : null,
+                        'msisdn' => $payload['MSISDN'] ?? null,
+                        'first_name' => $payload['FirstName'] ?? null,
+                        'middle_name' => $payload['MiddleName'] ?? null,
+                        'last_name' => $payload['LastName'] ?? null,
+                    ]
+                );
             }
+        } catch (\Exception $e) {
+            Log::error('C2B confirmation processing failed', [
+                'error' => $e->getMessage(),
+                'payload' => $payload,
+            ]);
         }
 
-        MpesaC2BTransaction::updateOrCreate(
-            ['trans_id' => $transId],
-            [
-                'transaction_type' => $payload['TransactionType'] ?? null,
-                'trans_time' => $transTime,
-                'trans_amount' => $payload['TransAmount'] ?? 0,
-                'business_short_code' => $payload['BusinessShortCode'] ?? null,
-                'bill_ref_number' => $payload['BillRefNumber'] ?? null,
-                'org_account_balance' => $payload['OrgAccountBalance'] !== '' && isset($payload['OrgAccountBalance'])
-                    ? $payload['OrgAccountBalance']
-                    : null,
-                'msisdn' => $payload['MSISDN'] ?? null,
-                'first_name' => $payload['FirstName'] ?? null,
-                'middle_name' => $payload['MiddleName'] ?? null,
-                'last_name' => $payload['LastName'] ?? null,
-            ]
-        );
-
+        // Always ack like up_saas — never fail the HTTP response to Safaricom
         return response()->json([
-            'ResultCode' => '0',
-            'ResultDesc' => 'Success',
+            'ResultCode' => 0,
+            'ResultDesc' => 'Accepted',
         ]);
     }
 }
