@@ -11,6 +11,15 @@ use Illuminate\Support\Facades\Log;
 
 class MpesaC2B extends Controller
 {
+    /**
+     * Post-deploy C2B verification:
+     * 1. Make one live till payment.
+     * 2. Check storage/logs/c2b-callbacks.log for "C2B confirmation endpoint hit".
+     * 3. Check cPanel Apache access logs for POST /api/confirmation at payment time.
+     *    - Access hit + log hit + no DB row → inspect exceptions in c2b-callbacks.log
+     *    - Access hit + no log → request died before controller (middleware/PHP fatal)
+     *    - No access hit → Safaricom never reached eucossa.com (Daraja shortcode/support)
+     */
     public function registerUrls()
     {
         Gate::allowIf(fn($user) => $user->role === 'admin');
@@ -38,7 +47,7 @@ class MpesaC2B extends Controller
 
     public function validation(Request $request)
     {
-        Log::info('C2B validation request', ['payload' => $request->all()]);
+        $this->logCallbackHit('C2B validation endpoint hit', $request);
 
         return response()->json([
             'ResultCode' => 0,
@@ -48,22 +57,24 @@ class MpesaC2B extends Controller
 
     public function confirmation(Request $request)
     {
-        $payload = $request->all();
+        $this->logCallbackHit('C2B confirmation endpoint hit', $request);
 
-        Log::info('C2B confirmation request', ['payload' => $payload]);
+        $payload = $request->all();
 
         try {
             $transId = $payload['TransID'] ?? null;
 
             if (!$transId) {
-                Log::warning('C2B confirmation missing TransID', ['payload' => $payload]);
+                Log::channel('c2b-callbacks')->warning('C2B confirmation missing TransID', [
+                    'payload' => $payload,
+                ]);
             } else {
                 $transTime = null;
                 if (!empty($payload['TransTime'])) {
                     try {
                         $transTime = Carbon::createFromFormat('YmdHis', $payload['TransTime']);
                     } catch (\Exception $e) {
-                        Log::warning('Unable to parse C2B TransTime', [
+                        Log::channel('c2b-callbacks')->warning('Unable to parse C2B TransTime', [
                             'TransTime' => $payload['TransTime'],
                             'error' => $e->getMessage(),
                         ]);
@@ -87,9 +98,13 @@ class MpesaC2B extends Controller
                         'last_name' => $payload['LastName'] ?? null,
                     ]
                 );
+
+                Log::channel('c2b-callbacks')->info('C2B confirmation saved', [
+                    'trans_id' => $transId,
+                ]);
             }
         } catch (\Exception $e) {
-            Log::error('C2B confirmation processing failed', [
+            Log::channel('c2b-callbacks')->error('C2B confirmation processing failed', [
                 'error' => $e->getMessage(),
                 'payload' => $payload,
             ]);
@@ -99,6 +114,23 @@ class MpesaC2B extends Controller
         return response()->json([
             'ResultCode' => 0,
             'ResultDesc' => 'Accepted',
+        ]);
+    }
+
+    private function logCallbackHit(string $message, Request $request): void
+    {
+        Log::channel('c2b-callbacks')->info($message, [
+            'ip' => $request->ip(),
+            'method' => $request->method(),
+            'fullUrl' => $request->fullUrl(),
+            'content_type' => $request->header('Content-Type'),
+            'headers' => [
+                'user-agent' => $request->header('User-Agent'),
+                'content-type' => $request->header('Content-Type'),
+                'content-length' => $request->header('Content-Length'),
+            ],
+            'raw' => $request->getContent(),
+            'payload' => $request->all(),
         ]);
     }
 }
