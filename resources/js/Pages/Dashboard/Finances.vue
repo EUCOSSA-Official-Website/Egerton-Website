@@ -20,6 +20,19 @@
                 Check Latest Balance
             </button>
 
+            <!-- TEMP: remove after successful child-store C2B URL registration -->
+            <button
+                @click="registerC2bUrls"
+                :disabled="registeringC2b"
+                class="block bg-blue-700 text-white rounded-sm px-3 py-1 my-4 disabled:opacity-50"
+            >
+                {{ registeringC2b ? 'Registering…' : 'Register C2B URLs (temp)' }}
+            </button>
+            <pre
+                v-if="c2bRegisterResponse"
+                class="mb-4 overflow-x-auto whitespace-pre-wrap rounded border border-gray-300 bg-gray-50 p-3 text-sm"
+            >{{ c2bRegisterResponse }}</pre>
+
             <!-- C2B Transaction History Table -->
             <DataTable
                 :data="transactions"
@@ -50,7 +63,27 @@
     DataTable.use(DataTablesCore);
 
     const latestBalance = ref('Fetching balance...');
+    const registeringC2b = ref(false);
+    const c2bRegisterResponse = ref('');
     let pollInterval = null;
+
+    async function registerC2bUrls() {
+        registeringC2b.value = true;
+        c2bRegisterResponse.value = '';
+
+        try {
+            const response = await axios.post(route('payments.c2b.register'));
+            c2bRegisterResponse.value = JSON.stringify(response.data, null, 2);
+        } catch (error) {
+            c2bRegisterResponse.value = JSON.stringify(
+                error.response?.data ?? { message: error.message },
+                null,
+                2
+            );
+        } finally {
+            registeringC2b.value = false;
+        }
+    }
 
     async function getLatestBalance() {
         try {
