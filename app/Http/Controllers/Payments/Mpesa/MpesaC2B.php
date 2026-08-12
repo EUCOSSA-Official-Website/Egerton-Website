@@ -13,9 +13,9 @@ class MpesaC2B extends Controller
 {
     /**
      * Post-deploy C2B verification:
-     * 1. Make one live till payment.
+     * 1. Make one live till payment to child store 5124736.
      * 2. Check storage/logs/c2b-callbacks.log for "C2B confirmation endpoint hit".
-     * 3. Check cPanel Apache access logs for POST /api/confirmation at payment time.
+     * 3. Check cPanel Apache access logs for POST /payments/c2b/confirm at payment time.
      *    - Access hit + log hit + no DB row → inspect exceptions in c2b-callbacks.log
      *    - Access hit + no log → request died before controller (middleware/PHP fatal)
      *    - No access hit → Safaricom never reached eucossa.com (Daraja shortcode/support)
@@ -29,14 +29,13 @@ class MpesaC2B extends Controller
             ? env('MPESA_TEST_URL')
             : env('MPESA_PRODUCTION_URL');
 
-        // Same split as up_saas: Business Short Code for C2B register; till is STK PartyB only.
+        // Child store shortcode (5124736), not HO — per Safaricom API Support.
         // Production register is one-time — delete URLs in Daraja URL Management, then re-register from production.
         $body = [
-            'ShortCode' => env('MPESA_SHORTCODE'),
+            'ShortCode' => env('MPESA_APP_STORE_CODE'),
             'ResponseType' => 'Completed',
-            // Match URLs already used in Daraja / live callbacks
-            'ConfirmationURL' => $baseUrl . '/api/confirmation',
-            'ValidationURL' => $baseUrl . '/api/validation',
+            'ConfirmationURL' => $baseUrl . '/payments/c2b/confirm',
+            'ValidationURL' => $baseUrl . '/payments/c2b/validate',
         ];
 
         $url = 'https://api.safaricom.co.ke/mpesa/c2b/v2/registerurl';

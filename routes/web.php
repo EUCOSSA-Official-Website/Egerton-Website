@@ -345,12 +345,9 @@ Route::get('/latest-balance', function () {
 Route::post('/payments/c2b/register', [MpesaC2B::class, 'registerUrls'])
     ->middleware(['auth'])
     ->name('payments.c2b.register');
-Route::post('/payments/c2b/validate', [MpesaC2B::class, 'validation'])->name('payments.c2b.validate');
-Route::post('/payments/c2b/confirm', [MpesaC2B::class, 'confirmation'])->name('payments.c2b.confirm');
-
-// Daraja-registered C2B URLs (Route::any like up_saas — Safaricom may use POST or GET probe)
-Route::any('/api/confirmation', [MpesaC2B::class, 'confirmation'])->name('api.confirmation');
-Route::any('/api/validation', [MpesaC2B::class, 'validation'])->name('api.validation');
+// Route::any — Safaricom may use POST or GET probe
+Route::any('/payments/c2b/validate', [MpesaC2B::class, 'validation'])->name('payments.c2b.validate');
+Route::any('/payments/c2b/confirm', [MpesaC2B::class, 'confirmation'])->name('payments.c2b.confirm');
 
 // The Registering for Events Route
 Route::post('/mpesa/events/register/{event}', [PaidEventRegistration::class, 'initiateEventPayment'])->name('event-payment')->middleware(['auth']);
