@@ -12,13 +12,8 @@ use Illuminate\Support\Facades\Log;
 class MpesaC2B extends Controller
 {
     /**
-     * Post-deploy C2B verification:
-     * 1. Make one live till payment to child store 5124736.
-     * 2. Check storage/logs/c2b-callbacks.log for "C2B confirmation endpoint hit".
-     * 3. Check cPanel Apache access logs for POST /payments/c2b/confirm at payment time.
-     *    - Access hit + log hit + no DB row → inspect exceptions in c2b-callbacks.log
-     *    - Access hit + no log → request died before controller (middleware/PHP fatal)
-     *    - No access hit → Safaricom never reached eucossa.com (Daraja shortcode/support)
+     * C2B troubleshooting: check cPanel access logs for POST /payments/c2b/confirm;
+     * c2b-callbacks.log only records warnings and errors.
      */
     public function registerUrls()
     {
@@ -46,8 +41,6 @@ class MpesaC2B extends Controller
 
     public function validation(Request $request)
     {
-        $this->logCallbackHit('C2B validation endpoint hit', $request);
-
         return response()->json([
             'ResultCode' => 0,
             'ResultDesc' => 'Accepted',
@@ -56,8 +49,6 @@ class MpesaC2B extends Controller
 
     public function confirmation(Request $request)
     {
-        $this->logCallbackHit('C2B confirmation endpoint hit', $request);
-
         $payload = $request->all();
 
         try {
@@ -98,9 +89,6 @@ class MpesaC2B extends Controller
                     ]
                 );
 
-                Log::channel('c2b-callbacks')->info('C2B confirmation saved', [
-                    'trans_id' => $transId,
-                ]);
             }
         } catch (\Exception $e) {
             Log::channel('c2b-callbacks')->error('C2B confirmation processing failed', [
@@ -113,23 +101,6 @@ class MpesaC2B extends Controller
         return response()->json([
             'ResultCode' => 0,
             'ResultDesc' => 'Accepted',
-        ]);
-    }
-
-    private function logCallbackHit(string $message, Request $request): void
-    {
-        Log::channel('c2b-callbacks')->info($message, [
-            'ip' => $request->ip(),
-            'method' => $request->method(),
-            'fullUrl' => $request->fullUrl(),
-            'content_type' => $request->header('Content-Type'),
-            'headers' => [
-                'user-agent' => $request->header('User-Agent'),
-                'content-type' => $request->header('Content-Type'),
-                'content-length' => $request->header('Content-Length'),
-            ],
-            'raw' => $request->getContent(),
-            'payload' => $request->all(),
         ]);
     }
 }
